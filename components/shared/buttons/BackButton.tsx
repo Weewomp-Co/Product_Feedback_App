@@ -2,6 +2,7 @@ import { styled } from "../../../stitches.config";
 // import backArrow1 from './backArrow1.svg'
 // import backArrow2 from './backArrow2.svg'
 // import arrow0 from './arrow0.png'
+import {backArrow1, backArrow2} from '../../../assets/assets'
 
 const BackButton1 = styled('button', {
   width: "9.875em",

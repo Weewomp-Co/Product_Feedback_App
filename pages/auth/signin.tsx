@@ -2,7 +2,8 @@ import type { NextPage } from "next";
 import { styled } from '@stitches/react';
 import {Button1, Button2, Button3, Button4} from '../../components/shared/buttons/Button.tsx'
 import { BackButton1, BackButton2 } from "@/components/shared/buttons/BackButton";
-import {backArrow1, backArrow2} from '../../assets/assets'
+import { backArrow1, backArrow2 } from "../../assets/assets";
+import Image from "next/image";
 
 // const Button0 = styled('button', {
 // 	backgroundColor:  
@@ -33,14 +34,15 @@ const Page: NextPage = () => {
 			<Button4>Button 4</Button4>
 			</div>
 
+			
 			<div className="backButtonShowcase" style={{
 				display: "flex",
 				justifyContent: "center",
 				alignItems: "center",
 				gap: "2em"
 			}}>
-				<BackButton1><img src={backArrow1} alt="" /> Go Back</BackButton1>
-				<BackButton2><img src={backArrow2} alt="" />Go Back</BackButton2>
+				<BackButton1><Image src={backArrow1}/> Go Back</BackButton1>
+				<BackButton2><Image src={backArrow2}/> Go Back</BackButton2>
 			</div>
 		</div>
 	</div>;
