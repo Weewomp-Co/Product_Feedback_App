@@ -51,6 +51,8 @@ const Input = ({value, setValue, isError, errorMessage, type, placeHolder}) => {
                 fontFamily: "jost",
                 fontWeight: "300",
                 margin: "0em",
+                wordBreak: "keep-all",
+                minWidth: "8rem"
               }}>{errorMessage}</h4>
             </div>    
           )

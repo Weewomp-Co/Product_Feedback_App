@@ -11,6 +11,7 @@ export const InputStyle = styled('input', {
   minHeight: "2.9725em",
   minWidth: "15.925em",
   borderRadius: "0.3125em",
+  color: "$grey600",
   '&:focus': {
     outline: "none",
     border: "1px solid #4661E6"
@@ -28,6 +29,7 @@ export const InputErrorStyle = styled('input', {
   minHeight: "2.9725em",
   minWidth: "15.925em",
   borderRadius: "0.3125em",
+  color: "$grey600",
   '&:focus': {
     outline: "none"
   }
