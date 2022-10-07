@@ -1,14 +1,28 @@
 import React from 'react'
-import upArrow1 from './upArrow1.png'
-import { VotesStyledInactive } from './VotesStyle'
+import {useState, useEffect} from 'react'
+import upArrow1 from '/public/upArrow.svg'
+import upArrow2 from '/public/upArrowActive.svg'
+import { VotesStyledInactive, VotesStyledActive} from './VotesStyle'
 import Image from 'next/image'
 
-const Votes = () => {
+const Votes = ({votes, active}) => {
+
+  const [Active, setActive] = useState(active);
+
+
+
   return (
-    <VotesStyledInactive>
-      <Image src={upArrow1} alt={""} width={100} height={100}/>
-      <h3>99</h3>
+
+    (!Active) ? (
+    <VotesStyledInactive onClick={() => setActive(!Active)}>
+      <Image src={upArrow1} alt={""}/>
+      <div>{votes}</div>
     </VotesStyledInactive>
+    )
+    : (<VotesStyledActive onClick={() => setActive(!Active)}>
+      <Image src={upArrow1} alt={""}/>
+      <div>{votes+1}</div>
+    </VotesStyledActive>)
   )
 }
 
