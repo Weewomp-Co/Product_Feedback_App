@@ -8,7 +8,7 @@ const Page: NextPage = () => {
 
 	return <div>
 		{/* <h1>Hello world</h1> */}
-		<Input value={value} setValue={setValue} isError={isError} errorMessage={"Invalid Password."} type="password" placeHolder={"Password"}/>
+		<Input value={value} setValue={setValue} isError={isError} errorMessage={"Invalid Password."} type="password" placeHolder=""/>
 
 		<button onClick={() => console.log(value)}></button>
 	</div>;
