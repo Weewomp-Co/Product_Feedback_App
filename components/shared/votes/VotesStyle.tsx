@@ -10,6 +10,7 @@ export const VotesStyledInactive = styled('div', {
   fontFamily: 'jost',
   fontSize: "$body3",
   fontWeight: 'bold',
+  minWidth: "2.5em",
   maxWidth: "2.5em",
   maxHeight: "3.3125em",
   width: '2.5em',
