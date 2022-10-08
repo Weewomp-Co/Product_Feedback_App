@@ -30,11 +30,4 @@ First, run the docker-compose:
 docker-compose up
 ```
 
-then run the local development server
-```bash
-npm run dev
-# or
-pnpm dev
-```
-
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
