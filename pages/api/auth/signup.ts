@@ -1,4 +1,4 @@
-import { createUser, handlePrismaUserError, santizeUser } from "@/lib/user.module";
+import { createUser, handlePrismaUserError, sanitizeUser } from "@/lib/user.module";
 import { withSessionRoute } from "@/lib/withSession.module";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler } from "next";
@@ -20,7 +20,7 @@ const POST: NextApiHandler<any> = async (req, res) => {
   if (valBody.success) {
     try {
       const user = await createUser(valBody.data)
-      req.session.user = santizeUser(user)
+      req.session.user = sanitizeUser(user)
       await req.session.save()
 
       return res.json(req.session.user)

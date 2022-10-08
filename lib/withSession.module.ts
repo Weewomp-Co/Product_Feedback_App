@@ -1,10 +1,10 @@
 import { withIronSessionApiRoute, withIronSessionSsr } from "iron-session/next";
 import { NextApiHandler } from "next";
-import { santizeUser } from "@/lib/user.module";
+import { sanitizeUser } from "@/lib/user.module";
 
 declare module "iron-session" {
   interface IronSessionData {
-    user?: ReturnType<typeof santizeUser>;
+    user?: ReturnType<typeof sanitizeUser>;
   }
 }
 

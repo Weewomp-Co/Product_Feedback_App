@@ -3,7 +3,7 @@ import { client } from "@/prisma/client"
 import { hash } from "argon2"
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
-export const santizeUser = (user: User) => {
+export const sanitizeUser = (user: User) => {
   return {
     id: user.id,
     email: user.email,

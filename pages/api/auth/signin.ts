@@ -3,7 +3,7 @@ import { NextApiHandler } from "next";
 import { z } from "zod"
 import { client } from "@/prisma/client"
 import { verify } from "argon2"
-import { santizeUser } from "@/lib/user.module";
+import { sanitizeUser } from "@/lib/user.module";
 
 const ValidatePostInput = z.object({
   email: z.string().email(),
@@ -41,7 +41,7 @@ const POST: NextApiHandler<any> = async (req, res) => {
   const user = await ValidatePostInput.safeParseAsync(req.body)
 
   if (user.success) {
-    req.session.user = santizeUser(user.data)
+    req.session.user = sanitizeUser(user.data)
     await req.session.save()
 
     return res.json(req.session.user)
