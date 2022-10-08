@@ -10,38 +10,46 @@ const Votes = ({votes, active}) => {
   const [Active, setActive] = useState(active);
 
   function createVotesString(votes){
-    if (votes > 999 && votes < 10000) {
-      let newStr = votes.toLocaleString();
-      let mag = "k"
+    // if (votes > 999 && votes < 10000) {
+    //   let newStr = votes.toLocaleString();
+    //   let mag = "k"
 
 
-      newStr = newStr.split("")
+    //   newStr = newStr.split("")
 
-      for(let i = 0; i < newStr.length; i++){
-        if (newStr[i] === ','){
-          let localizedString =  newStr;
-          localizedString = localizedString.splice(0, i+2)
+    //   for(let i = 0; i < newStr.length; i++){
+    //     if (newStr[i] === ','){
+    //       let localizedString =  newStr;
+    //       localizedString = localizedString.splice(0, i+2)
 
-          localizedString.push('K')
+    //       localizedString.push('K')
 
-          localizedString = localizedString.join("")
+    //       localizedString = localizedString.join("")
 
-          localizedString.split("")
+    //       localizedString.split("")
           
 
 
-          localizedString = localizedString.replace(',', '.')
+    //       localizedString = localizedString.replace(',', '.')
 
-          return localizedString
-        }
-      }
+    //       return localizedString
+    //     }
+    //   }
 
 
-    }
+    // }
 
-    if (votes < 1000){
-      return votes.toString();
-    }
+    // if (votes < 1000){
+    //   return votes.toString();
+    // }
+
+    let newStr = new Intl.NumberFormat('en-US', { 
+      notation: 'compact' 
+    }).format(votes);
+
+    
+
+    return newStr
   }
 
   return (

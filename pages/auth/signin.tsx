@@ -4,7 +4,7 @@ import Votes from "@/components/shared/votes/Votes";
 const Page: NextPage = () => {
 	return <div>
 		<h1>Hello world</h1>
-		<Votes votes={221} active={false}/>
+		<Votes votes={999000000} active={false}/>
 	</div>;
 };
 
