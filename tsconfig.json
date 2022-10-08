@@ -14,9 +14,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-	"paths": {
-		"@/components/*": ["components/*"]
-	}
+	  "paths": {
+		  "@/components/*": ["components/*"],
+      "@/lib/*": ["lib/*"],
+      "@/prisma/*": ["prisma/*"]
+	  }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
