@@ -19,11 +19,18 @@ const Votes = ({votes, active}) => {
 
       for(let i = 0; i < newStr.length; i++){
         if (newStr[i] === ','){
-          let localizedString =  newStr.join("")
-          
-          localizedString.split("")
+          let localizedString =  newStr;
+          localizedString = localizedString.splice(0, i+2)
 
-          // localizedString = localizedString.replace(',', '.')
+          localizedString.push('K')
+
+          localizedString = localizedString.join("")
+
+          localizedString.split("")
+          
+
+
+          localizedString = localizedString.replace(',', '.')
 
           return localizedString
         }
@@ -46,8 +53,8 @@ const Votes = ({votes, active}) => {
     </VotesStyledInactive>
     )
     : (<VotesStyledActive onClick={() => setActive(!Active)}>
-      <Image src={upArrow1} alt={""}/>
-      <div>{createVotesString(votes)}</div>
+      <Image src={upArrow2} alt={""}/>
+      <div>{createVotesString(votes+1)}</div>
     </VotesStyledActive>)
   )
 }

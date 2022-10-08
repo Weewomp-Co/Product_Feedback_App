@@ -13,8 +13,6 @@ export const VotesStyledInactive = styled('div', {
   minWidth: "2.5em",
   maxWidth: "2.5em",
   maxHeight: "3.3125em",
-  width: '2.5em',
-  height: '3.3125em',
   // overflow: "hidden",
   borderRadius: "0.625em",
   userSelect: 'none',
@@ -22,7 +20,9 @@ export const VotesStyledInactive = styled('div', {
   '&:hover': {
     backgroundColor: '#CFD7FF'
   },
-  transition: 'all 120ms ease-out'
+  transition: 'all 120ms ease-out',
+  paddingTop: '0.71875em',
+  paddingBottom: '0.71875em'
 })
 
 //'#4661E6'
@@ -38,10 +38,9 @@ export const VotesStyledActive = styled('div', {
   fontFamily: 'jost',
   fontSize: "$body3",
   fontWeight: 'bold',
+  minWidth: "2.5em",
   maxWidth: "2.5em",
   maxHeight: "3.3125em",
-  width: '2.5em',
-  height: '3.3125em',
   // overflow: "hidden",
   borderRadius: "0.625em",
   userSelect: 'none',
@@ -49,5 +48,7 @@ export const VotesStyledActive = styled('div', {
   '&:hover': {
     backgroundColor: '#CFD7FF'
   },
-  transition: 'all 120ms ease-out'
+  transition: 'all 120ms ease-out',
+  paddingTop: '0.71875em',
+  paddingBottom: '0.71875em'
 })
