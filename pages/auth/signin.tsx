@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
+import { client } from "../../prisma/client"
 
 const Page: NextPage = () => {
 	return <div>
-		<h1>boooopp</h1>
+		<h1>{client.user.count.name}</h1>
 	</div>;
 };
 
