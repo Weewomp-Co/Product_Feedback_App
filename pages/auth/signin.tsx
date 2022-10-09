@@ -1,13 +1,23 @@
-import Buttons from "@/components/shared/buttons";
 import type { NextPage } from "next";
+import Input from "../../components/shared/input/Input";
+import { useState } from "react";
 
 const Page: NextPage = () => {
-	return (
-		<div>
-			<h1>Hello world</h1>
-      <Buttons type="four">boop</Buttons>
-		</div>
-	);
+  const [value, setValue] = useState("");
+
+  return (
+    <div>
+      <h1>Hello world</h1>
+      <Input
+        isError={false}
+        setValue={setValue}
+        value={value}
+        errorMessage={"Invalid input"}
+        type="text"
+        placeHolder="username"
+      />
+    </div>
+  );
 };
 
 export default Page;
