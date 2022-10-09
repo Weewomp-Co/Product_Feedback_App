@@ -16,6 +16,7 @@ model User {
   username  String
   password String
   feeback Feedback[]
+  votes Vote[]
 }
 
 enum Status {
@@ -42,4 +43,14 @@ model Feedback {
 
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  votes Vote[]
+}
+
+model Vote {
+  id String @id @default(uuid())
+  
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  feedbackId String 
+  feedback Feedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
 }
