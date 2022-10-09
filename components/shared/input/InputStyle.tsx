@@ -11,8 +11,7 @@ export const InputStyle = styled('input', {
   borderRadius: "0.3125em",
   color: "$grey600",
   '&:focus': {
-    outline: "none",
-    border: "1px solid $grey900"
+    outline: "1px solid $grey900"
   },
 
   variants : {
