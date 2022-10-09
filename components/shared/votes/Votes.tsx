@@ -1,44 +1,43 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
-import upArrow1 from '/public/upArrow.svg'
-import upArrow2 from '/public/upArrowActive.svg'
-import { VotesStyledInactive, VotesStyledActive, VotesStyledWrapper} from './VotesStyle'
-import Image from 'next/image'
+import React, { Dispatch, useCallback } from "react";
+import { VotesButton } from "./VotesStyle";
+import { UpArrow } from "@/assets/upArrow"
 
-const Votes = ({
+type VotesProps = {
+  votes: number;
+  setVotes: Dispatch<number>;
+  active: boolean;
+  setActive: Dispatch<boolean>;
+  onClick?: (vote: number) => void
+};
+
+const Votes: React.FC<VotesProps> = ({
   votes,
-  active
+  setVotes,
+  active,
+  setActive,
+  onClick
 }) => {
+  const formatedVotes = new Intl.NumberFormat("en-US", {
+    notation: "compact",
+  }).format(votes);
 
-  const [Active, setActive] = useState(active);
+  const onVoteClick = useCallback(() => {
+    if (!active) {
+      setVotes(votes + 1);
+      setActive(true);
+      onClick && onClick(votes + 1)
+    } else {
+      setVotes(votes - 1);
+      setActive(false);
+      onClick && onClick(votes - 1)
+    }
+    
+  }, [votes, active, setActive, setVotes, onClick]);
 
-  function createVotesString(votes){
+  return <VotesButton active={active} onClick={onVoteClick}>
+    <UpArrow />
+    <div>{formatedVotes}</div>
+  </VotesButton>
+};
 
-    let newStr = new Intl.NumberFormat('en-US', { 
-      notation: 'compact' 
-    }).format(votes);
-
-    return newStr
-  }
-
-  return (
-
-    (!Active) ? (
-    <VotesStyledInactive onClick={() => setActive(!Active)}>
-      <VotesStyledWrapper>
-        <Image src={upArrow1} alt={""}/>
-        <div>{createVotesString(votes)}</div>
-      </VotesStyledWrapper>
-    </VotesStyledInactive>
-    )
-    : (
-    <VotesStyledActive onClick={() => setActive(!Active)}>
-      <VotesStyledWrapper>
-        <Image src={upArrow2} alt={""}/>
-        <div>{createVotesString(votes+1)}</div>
-      </VotesStyledWrapper>
-    </VotesStyledActive>)
-  )
-}
-
-export default Votes
+export default Votes;

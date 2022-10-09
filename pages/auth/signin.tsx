@@ -5,6 +5,8 @@ import { useState } from "react";
 
 const Page: NextPage = () => {
   const [value, setValue] = useState("");
+  const [votes, setVotes] = useState(0);
+  const [hasClicked, setHasClicked] = useState(false);
 
   return (
     <div>
@@ -17,7 +19,12 @@ const Page: NextPage = () => {
         type="text"
         placeHolder="username"
       />
-      <Votes votes={999000000} active={false}/>
+      <Votes 
+        votes={votes} 
+        setVotes={setVotes}
+        active={hasClicked} 
+        setActive={setHasClicked}
+      />
     </div>
   );
 };

@@ -1,61 +1,34 @@
-import { styled } from '../../../stiches.config';
+import { styled } from '../../../stitches.config';
 
-export const VotesStyledInactive = styled('div', {
-  backgroundColor: '#f2f4fe',
+export const VotesButton = styled('button', {
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
   alignItems: 'center',
-  fontFamily: 'jost',
+  gap: ".5rem",
+  fontFamily: "$jost",
   fontSize: "$body3",
-  fontWeight: 'bold',
-  minWidth: "3.1em",
-  width: 'fit-content',
-  height: "4em",
-  borderRadius: "10px",
-  userSelect: 'none',
-  cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: '#CFD7FF'
+  fontWeight: "$bold",
+  padding: "0.875rem 0.6875rem .5rem 0.6875rem",
+  borderRadius: '10px',
+  outline: 'none',
+  border: 'none',
+  minWidth: 'calc(3ch + 22px)',
+  background: '#F2F4FE',
+  color: 'Black',
+  "&:hover, &:focus": {
+    background: '#CFD7FF',
+    border: 'none',
+    outline: 'none',
   },
-  transition: 'all 120ms ease-out',
-  paddingTop: '0.71875em',
-  paddingBottom: '0.5em',
-  paddingRight: '0.6875em',
-  paddingLeft: '0.6875em',
-})
-
-export const VotesStyledActive = styled('div', {
-  backgroundColor: '$grey900',
-  display: 'flex',
-  color: 'white',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  fontFamily: 'jost',
-  fontSize: "$body3",
-  fontWeight: 'bold',
-  minWidth: "3.1em",
-  width: 'fit-content',
-  height: "4em",
-  borderRadius: "10px",
-  userSelect: 'none',
-  cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: '#CFD7FF'
-  },
-  transition: 'all 120ms ease-out',
-  paddingTop: '0.71875em',
-  paddingBottom: '0.5em',
-  paddingRight: '0.6875em',
-  paddingLeft: '0.6875em',
-})
-
-export const VotesStyledWrapper = styled('div', {
-  height: "2.4em",
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  alignContent: 'center',
-  lineHeight: '9px'
+  variants: {
+    active: {
+      true: {
+        background: '$grey900',
+        color: '$white900',
+        "&:hover, &:focus": {
+          background: '$grey900',
+        }
+      }
+    }
+  }
 })
