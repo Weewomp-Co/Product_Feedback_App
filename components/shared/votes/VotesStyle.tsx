@@ -1,7 +1,6 @@
-import { styled } from "@stitches/react";
+import { styled } from '../../../stiches.config';
 
 export const VotesStyledInactive = styled('div', {
-  // padding: "2em",
   backgroundColor: '#f2f4fe',
   display: 'flex',
   flexDirection: 'column',
@@ -10,11 +9,10 @@ export const VotesStyledInactive = styled('div', {
   fontFamily: 'jost',
   fontSize: "$body3",
   fontWeight: 'bold',
-  minWidth: "2.5em",
-  maxWidth: "2.5em",
-  maxHeight: "3.3125em",
-  // overflow: "hidden",
-  borderRadius: "0.625em",
+  minWidth: "3.1em",
+  width: 'fit-content',
+  height: "4em",
+  borderRadius: "10px",
   userSelect: 'none',
   cursor: 'pointer',
   '&:hover': {
@@ -22,14 +20,13 @@ export const VotesStyledInactive = styled('div', {
   },
   transition: 'all 120ms ease-out',
   paddingTop: '0.71875em',
-  paddingBottom: '0.71875em'
+  paddingBottom: '0.5em',
+  paddingRight: '0.6875em',
+  paddingLeft: '0.6875em',
 })
 
-//'#4661E6'
-
 export const VotesStyledActive = styled('div', {
-  // padding: "2em",
-  backgroundColor: '#4661E6',
+  backgroundColor: '$grey900',
   display: 'flex',
   color: 'white',
   flexDirection: 'column',
@@ -38,11 +35,10 @@ export const VotesStyledActive = styled('div', {
   fontFamily: 'jost',
   fontSize: "$body3",
   fontWeight: 'bold',
-  minWidth: "2.5em",
-  maxWidth: "2.5em",
-  maxHeight: "3.3125em",
-  // overflow: "hidden",
-  borderRadius: "0.625em",
+  minWidth: "3.1em",
+  width: 'fit-content',
+  height: "4em",
+  borderRadius: "10px",
   userSelect: 'none',
   cursor: 'pointer',
   '&:hover': {
@@ -50,5 +46,16 @@ export const VotesStyledActive = styled('div', {
   },
   transition: 'all 120ms ease-out',
   paddingTop: '0.71875em',
-  paddingBottom: '0.71875em'
+  paddingBottom: '0.5em',
+  paddingRight: '0.6875em',
+  paddingLeft: '0.6875em',
+})
+
+export const VotesStyledWrapper = styled('div', {
+  height: "2.4em",
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignContent: 'center',
+  lineHeight: '9px'
 })
