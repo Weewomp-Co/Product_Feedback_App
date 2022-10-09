@@ -22,6 +22,11 @@ const POST: NextApiHandler<any> = async (req, res) => {
             email: true,
             username: true,
           }
+        },
+        _count: {
+          select: {
+            votes: true
+          }
         }
       }
     })
@@ -40,6 +45,11 @@ const GET: NextApiHandler<any> = async (_, res) => {
           username: true,
           email: true,
           id: true
+        },
+      },
+      _count: {
+        select: {
+          votes: true
         }
       }
     }

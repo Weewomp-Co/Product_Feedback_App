@@ -8,6 +8,20 @@ export const GetOneFeedback = async (req: NextApiRequest) => {
     where: {
       id: req.query.uuid as string,
     },
+    include: {
+      user: {
+        select: {
+          id: true,
+          email: true,
+          username: true
+        }
+      },
+      _count: {
+        select: {
+          votes: true
+        }
+      }
+    }
   });
 
   if (!result) {

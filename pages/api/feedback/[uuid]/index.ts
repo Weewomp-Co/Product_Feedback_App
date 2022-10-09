@@ -33,6 +33,11 @@ const PUT: NextApiHandler<any> = async (req, res) => {
             email: true,
             username: true,
           }
+        },
+        _count: {
+          select: {
+            votes: true
+          }
         }
       }
     })
