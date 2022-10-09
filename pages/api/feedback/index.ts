@@ -1,11 +1,38 @@
 import { withSessionRoute } from "@/lib/withSession.module";
 import { NextApiHandler } from "next";
+import { Status } from "@prisma/client";
 import { client } from "@/prisma/client"
+import { ValidateFeedbackBody } from "@/lib/feedback.module";
 
-const POST: NextApiHandler<any> = (req, res) => {
+const POST: NextApiHandler<any> = async (req, res) => {
+  const parsedBody = ValidateFeedbackBody.safeParse(req.body)
+  if (parsedBody.success) {
+    const result = await client.feedback.create({
+      data: {
+        title: parsedBody.data.title,
+        details: parsedBody.data.details,
+        status: parsedBody.data.status ?? Status.Suggestion,
+        category: parsedBody.data.category,
+        userId: req.session.user?.id as string
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            username: true,
+          }
+        }
+      }
+    })
+
+    return res.status(201).json(result)
+  } else {
+    return res.json(parsedBody.error.format())
+  }
 }
 
-const GET: NextApiHandler<any> = async (req, res) => {
+const GET: NextApiHandler<any> = async (_, res) => {
   const results = await client.feedback.findMany({
     include: {
       user: {
@@ -22,6 +49,7 @@ const GET: NextApiHandler<any> = async (req, res) => {
 }
 
 export default withSessionRoute((req, res) => {
+  if (!req.session.user) return res.status(401).json({ unauthorized: false })
   if (req.method === "POST") return POST(req, res) 
   if (req.method === "GET") return GET(req, res)
 })
