@@ -5,8 +5,8 @@ export const AuthContainerStyle = styled('div', {
   width: '100%',
   padding: '1.5em',
   borderRadius: '0px 0px 10px 10px',
-  backgroundColor: '$grey300',
-  fontFamily: 'jost'
+  backgroundColor: 'white',
+  fontFamily: 'jost',
 })
 
 export const TitleSection = styled('div', {
