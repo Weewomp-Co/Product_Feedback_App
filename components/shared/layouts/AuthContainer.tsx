@@ -1,69 +1,60 @@
 import { AuthContainerStyle, TitleSection } from "./AuthContainerStyle";
-import { styled, css } from '../../../stitches.config';
-import Button from '@/components/shared/buttons'
-import Image from "next/image";
+import { css, styled } from "../../../stitches.config";
+import Button from "@/components/shared/buttons";
 import { BackArrow } from "@/assets/backArrow";
 
 const Title = css({
-  marginTop: 'auto'
+  marginTop: "auto",
 });
 
-const Container = css({
-  width: '30.9375em',
-  minHeight: '33.4375em'
+const Container = styled('div', {
+  width: '100%',
+  maxWidth: "30.9375rem",
+  minHeight: "33.4375rem",
 });
 
 const TopContainer = css({
-  display: 'flex',
-  justifyContent: 'flex-start',
-  alignItems: 'flex-start',
-  gap: '4.375em',
+  display: "grid",
+  placeContent: 'center',
+  gridTemplateColumns: 'max-content minmax(0, 30.937rem)',
+  alignItems: 'start',
+  gap: "4.375em",
   flexDirection: "row",
-  width: 'fit-content'
-})
+  width: "100vw",
+  minHeight: "100vh",
+  background: '$white300',
+});
 
 const BackButton = css({
-  paddingTop: "16px",
-  paddingBottom: '16px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '1em',
-  minWidth: '163px'
-})
-
-const BackArrowStyle = css({
-  paddingLeft: '0.979375em'
-})
+  padding: '1rem 0',
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "1rem",
+  minWidth: "163px",
+});
 
 type AuthContainerProp = React.PropsWithChildren<{
-  title: string
+  title: string;
+  href: string;
 }>;
 
-const AuthContainer: React.FC<AuthContainerProp> = ({
-  title,
-  children
-}) => {
-
-
+const AuthContainer: React.FC<AuthContainerProp> = ({ title, href, children }) => {
   return (
-
-    <div className={TopContainer()}>
-      <Button type={'three'} className={BackButton()}><BackArrow /> Go Back</Button>
-      <div className={Container()}>
-
+    <main className={TopContainer()}>
+      <Button as="a" href={href} type={"three"} className={BackButton()}>
+        <BackArrow /> Go Back
+      </Button>
+      <Container>
         <TitleSection>
-
-        {
           <h2 className={Title()}>{title}</h2>
-        }
         </TitleSection>
 
         <AuthContainerStyle>
           {children}
         </AuthContainerStyle>
-      </div>
-    </div>
+      </Container>
+    </main>
   );
 };
 
