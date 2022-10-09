@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Input from "../../components/shared/input/Input";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const Page: NextPage = () => {
   const [value, setValue] = useState("");
