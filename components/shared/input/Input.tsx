@@ -1,7 +1,7 @@
 import React, { Dispatch } from "react";
 import { useEffect, useState } from "react";
 import { InputStyle, ErrorMessage } from "./InputStyle";
-import { styled, css } from "../../../stiches.config";
+import { styled, css } from '../../../stitches.config';
 
 let inputError = css({
   border: "1px solid #D73737",
