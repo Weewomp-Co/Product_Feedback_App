@@ -1,11 +1,25 @@
 import type { NextPage } from "next";
 import Votes from "@/components/shared/votes/Votes";
+import Input from "../../components/shared/input/Input";
+import { useState } from "react";
 
 const Page: NextPage = () => {
-	return <div>
-		<h1>Hello world</h1>
-		<Votes votes={999000000} active={false}/>
-	</div>;
+  const [value, setValue] = useState("");
+
+  return (
+    <div>
+      <h1>Hello world</h1>
+      <Input
+        isError={false}
+        setValue={setValue}
+        value={value}
+        errorMessage={"Invalid input"}
+        type="text"
+        placeHolder="username"
+      />
+      <Votes votes={999000000} active={false}/>
+    </div>
+  );
 };
 
 export default Page;
