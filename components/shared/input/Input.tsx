@@ -1,7 +1,8 @@
 import React, { Dispatch } from "react";
 import { useEffect, useState } from "react";
 import { InputStyle, ErrorMessage } from "./InputStyle";
-import { styled, css } from '../../../stitches.config';
+import { styled, css, config } from '../../../stitches.config';
+import {CSS} from '@stitches/react'
 
 const inputError = css({
   border: "1px solid #D73737",
@@ -15,6 +16,7 @@ type InputProp = {
   type: string
   placeHolder: string
   as?: 'input' | 'textarea'
+  css?: CSS<typeof config>
 }
 
 const Input: React.FC<InputProp> = ({
@@ -24,7 +26,8 @@ const Input: React.FC<InputProp> = ({
   errorMessage,
   type= 'text',
   placeHolder,
-  as= 'input'
+  as= 'input',
+  css= {}
 }) => {
 
 
@@ -38,6 +41,7 @@ const Input: React.FC<InputProp> = ({
         }}
         placeholder={placeHolder}
         isError={isError}
+        css={css}
       />
       {
         (isError) ? (<ErrorMessage>{errorMessage}</ErrorMessage>) : (<div></div>)
