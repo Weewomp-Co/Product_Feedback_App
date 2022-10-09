@@ -14,6 +14,7 @@ type InputProp = {
   errorMessage: string
   type: string
   placeHolder: string
+  as?: 'input' | 'textarea'
 }
 
 const Input: React.FC<InputProp> = ({
@@ -21,15 +22,16 @@ const Input: React.FC<InputProp> = ({
   value,
   setValue,
   errorMessage,
-  type,
-  placeHolder
+  type= 'text',
+  placeHolder,
+  as= 'input'
 }) => {
 
 
   return (
     <div>
-      <InputStyle
-        type="text"
+      <InputStyle as={as}
+        type={type}
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
