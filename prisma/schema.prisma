@@ -18,14 +18,27 @@ model User {
   feeback Feedback[]
 }
 
-enum boop {
+enum Status {
+  Suggestion
+  Planned
+  Progress
+  Live
+}
 
+enum Category {
+  Feature
+  UI
+  UX
+  Enchancement
+  Bug
 }
 
 model Feedback {
   id String @id @default(uuid())
   title String
   details String
+  status Status
+  category Category
 
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
