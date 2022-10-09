@@ -23,6 +23,7 @@ const TopContainer = css({
   width: "100vw",
   minHeight: "100vh",
   background: '$white300',
+  padding: '0 2rem'
 });
 
 const BackButton = css({
