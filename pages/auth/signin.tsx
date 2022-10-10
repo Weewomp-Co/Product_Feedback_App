@@ -39,6 +39,10 @@ const Page: NextPage = () => {
 
   const [responseErrors, setResponseErrors] = useState([])
 
+  const AuthContainerOverides = css({
+    display: 'grid',
+  })
+
   const SignInStyle = css({
     backgroundColor: 'blue'
   })
@@ -46,7 +50,7 @@ const Page: NextPage = () => {
   const ButtonsWrapper = css({
     display: 'flex',
     justifyContent: 'start',
-    alignItems: 'center',
+    alignItems: 'end',
     gap: '1em'
   })
 
@@ -57,8 +61,8 @@ const Page: NextPage = () => {
   })
 
   const FormStyle = css({
+    display: "grid",
     gridTemplateRows: 'repeat(4, max-content) 1fr',
-
   })
 
   const Container = css({
@@ -97,8 +101,7 @@ const Page: NextPage = () => {
   );
 
   return (
-    
-      <AuthContainer title="Sign up" href="/auth/signin">
+      <AuthContainer className={`${AuthContainerOverides()}`} title="Sign up" href="/auth/signin">
         <div className={Container()}>
         <form onSubmit={onValid} className={FormStyle()}>
           <InputLabel htmlFor={ids.email}>Email</InputLabel>
