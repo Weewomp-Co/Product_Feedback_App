@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 } from "uuid";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
+import { withSessionSsr } from "@/lib/withSession.module";
 
 const Validation = z
   .object({
@@ -123,5 +124,20 @@ const Page: NextPage = () => {
     </div>
   );
 };
+
+export const getServerSideProps = withSessionSsr(({ req }) => {
+  if (req.session.user) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: '/feedback'
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
+})
 
 export default Page;
