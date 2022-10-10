@@ -6,7 +6,7 @@ export const inputStyle = {
 
 export const Container = css({
   width: "100vw",
-  height: "100vh",
+  minHeight: "100vh",
   backgroundColor: "#F7F8FD",
   display: "flex",
   justifyContent: "center",
@@ -28,4 +28,15 @@ export const InputLabel = styled("label", {
 
 export const ButtonsWrapper = css({
   marginTop: "3.5em",
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '1rem',
+  justifyContent: 'center',
+  "@sm": {
+    justifyContent: 'start'
+  }
 });
+
+export const ForgotPassword = css({
+  padding: '1rem',
+})
