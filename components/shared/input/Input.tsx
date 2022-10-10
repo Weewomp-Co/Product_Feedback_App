@@ -1,51 +1,42 @@
-import React, { Dispatch } from "react";
-import { useEffect, useState } from "react";
+import React from "react";
 import { InputStyle, ErrorMessage } from "./InputStyle";
-import { styled, css, config } from '../../../stitches.config';
-import {CSS} from '@stitches/react'
-
-const inputError = css({
-  border: "1px solid #D73737",
-});
+import { config } from '../../../stitches.config';
+import { CSS } from '@stitches/react'
+import { UseFormRegisterReturn } from "react-hook-form";
 
 type InputProp = {
+  id?: string
   isError: boolean
-  value: string
-  setValue: Dispatch<string>
   errorMessage: string
   type: string
-  placeHolder: string
+  placeHolder?: string
   as?: 'input' | 'textarea'
-  css?: CSS<typeof config>
+  css?: CSS<typeof config>,
+  register?: UseFormRegisterReturn<any>
 }
 
 const Input: React.FC<InputProp> = ({
+  id="",
   isError,
-  value,
-  setValue,
   errorMessage,
   type= 'text',
-  placeHolder,
-  as= 'input',
-  css= {}
+  register,
+  placeHolder="",
+  as='input',
+  css={},
 }) => {
-
-
   return (
     <div>
-      <InputStyle as={as}
+    <InputStyle 
+        id={id}
+        as={as}
         type={type}
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
         placeholder={placeHolder}
         isError={isError}
         css={css}
+        {...register}
       />
-      {
-        (isError) ? (<ErrorMessage>{errorMessage}</ErrorMessage>) : (<div></div>)
-      }
+      {isError && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>
   );
 };
