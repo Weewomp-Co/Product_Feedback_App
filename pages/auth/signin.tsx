@@ -1,66 +1,161 @@
 import type { NextPage } from "next";
-import AuthContainer from "@/components/shared/layouts/AuthContainer"
+import AuthContainer from "@/components/shared/layouts/AuthContainer";
 import Input from "@/components/shared/input/Input";
-import {css, styled} from '../../stitches.config'
 import Button from "@/components/shared/buttons";
+import { inputStyle, InputLabel, Container, ButtonsWrapper } from "@/styles/signup"
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { v4 } from "uuid";
+import { useEffect, useState } from "react";
+import { useRouter } from 'next/router'
+import { withSessionSsr } from "@/lib/withSession.module";
+import { css, styled } from "stitches.config";
 
-const inputStyle = {
-	width: '100%'
-}
-
-const Container = css({
-	width: '100vw',
-	height: '100vh',
-	backgroundColor: '#F7F8FD',
-	display: 'flex',
-	justifyContent: 'center',
-	alignItems: 'center'
-})
-
-const labelStyle = css({
-	color: '$grey600',
-	fontSize: '$h4',
-	letterSpacing: '$h4',
-	lineHeight: '$h4',
-	marginBottom: '1rem'
-})
-
-const ButtonsWrapper = css({
-	marginTop: '3.5em',
-  display: 'flex',
-  justifyContent: 'flex-start',
-  alignItems: 'flex-start',
-  gap: '1em'
-})
-
-const SignupButton = styled(Button, {
-  backgroundColor: '#28A7ED'
-})
+const Validation = z
+  .object({
+    email: z.string(),
+    password: z.string(),
+  })
 
 const Page: NextPage = () => {
-  return (
-    <AuthContainer title="Sign in" href="/">
-      <h4 className={labelStyle()}>Username</h4>
-			<Input isError={false} value={""} setValue={() => {}} errorMessage={"Invalid input"} type={"text"} placeHolder={""} css={inputStyle}/>
-			<h4 className={labelStyle()}>Email</h4>
-			<Input isError={false} value={""} setValue={() => {}} errorMessage={"Invalid input"} type={"text"} placeHolder={""} css={inputStyle}/>
+  const resolver = zodResolver(Validation);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<z.infer<typeof Validation>>({
+    resolver,
+  });
 
-      <div className={ButtonsWrapper()}>
-        <Button type="one" css={{
-          backgroundColor: '#28A7ED',
-          '&:hover': {
-            backgroundColor: '#84caff'
+  const [ids, setIds] = useState<Partial<z.infer<typeof Validation>>>({});
+  useEffect(() => {
+    setIds({
+      email: v4(),
+      password: v4(),
+    });
+  }, []);
+
+  const [responseErrors, setResponseErrors] = useState([])
+
+  const SignInStyle = css({
+    backgroundColor: 'blue'
+  })
+
+  const ButtonsWrapper = css({
+    display: 'flex',
+    justifyContent: 'start',
+    alignItems: 'center',
+    gap: '1em'
+  })
+
+  const ErrorText = css({
+    fontFamily: '$jost', 
+    fontSize: '$body2',
+    color: "$red"
+  })
+
+  const FormStyle = css({
+    gridTemplateRows: 'repeat(4, max-content) 1fr',
+
+  })
+
+  const Container = css({
+    height: '100%',
+    display: 'grid'
+  })
+
+  const router = useRouter()
+  const onValid = handleSubmit(
+    // on valid
+    async (data) => {
+      const response = await fetch("/api/auth/signin", {
+        method: "POST",
+        body: JSON.stringify({ ...data}),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (response.ok) {
+        router.push("/feedback")
+        console.log(response)
+      } 
+
+      
+
+      const result = await response.json()
+      if (result?.email?._errors)
+        setError("email", { message: result.email._errors?.[0] });
+      if (result?.username?._errors)
+        setError("password", { message: result.password._errors?.[0] });
+      
+      console.log(result._errors)
+      setResponseErrors(result._errors);
+    }
+  );
+
+  return (
+    
+      <AuthContainer title="Sign up" href="/auth/signin">
+        <div className={Container()}>
+        <form onSubmit={onValid} className={FormStyle()}>
+          <InputLabel htmlFor={ids.email}>Email</InputLabel>
+          <Input
+            id={ids.email}
+            isError={!!errors.email}
+            errorMessage={errors.email?.message ?? ""}
+            type={"text"}
+            css={inputStyle}
+            register={register("email")}
+          />
+          <InputLabel htmlFor={ids.password}>Password</InputLabel>
+          <Input
+            id={ids.password}
+            isError={!!errors.password}
+            errorMessage={errors.password?.message ?? ""}
+            type="password"
+            css={inputStyle}
+            register={register("password")}
+          />
+          {
+            (responseErrors?.map((error, index) => <h4 key={index} className={ErrorText()}>{error}</h4>))
           }
-        }}>Sign in</Button>
-        <Button as={'a'} href={'http://localhost:3000/auth/signup'} type="four" css={{
-          backgroundColor: '#E84D70',
-          '&:hover': {
-            backgroundColor: '#e8889e'
-          }
-        }}>Sign up</Button>
-      </div>
-    </AuthContainer>
+          <div className={ButtonsWrapper()}>
+            <Button type="four" css={{
+              backgroundColor: '#28A7ED',
+              '&:hover' :{
+                backgroundColor: '#86c8ed'
+              }
+            }}>Sign in</Button>
+            <Button type="four" as="a" href="/" css={{
+              backgroundColor: '#E84D70',
+              '&:hover': {
+                backgroundColor: '#e87891'
+              }
+            }}>Sign up</Button>
+          </div>
+        </form>
+        </div>
+      </AuthContainer>
+    
   );
 };
+
+export const getServerSideProps = withSessionSsr(({ req }) => {
+  if (req.session.user) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: '/feedback'
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
+})
 
 export default Page;
