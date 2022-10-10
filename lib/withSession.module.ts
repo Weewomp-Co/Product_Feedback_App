@@ -1,5 +1,5 @@
 import { withIronSessionApiRoute, withIronSessionSsr } from "iron-session/next";
-import { NextApiHandler } from "next";
+import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiHandler } from "next";
 import { sanitizeUser } from "@/lib/user.module";
 
 declare module "iron-session" {
@@ -21,6 +21,10 @@ export function withSessionRoute<T extends any>(handler: NextApiHandler<T>) {
   return withIronSessionApiRoute(handler, sessionOptions);
 }
 
-export function withSessionSsr(handler: any) {
+export function withSessionSsr<
+  P extends { [key: string]: unknown } = { [key: string]: unknown },
+>(handler: (
+    context: GetServerSidePropsContext,
+  ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>,) {
   return withIronSessionSsr(handler, sessionOptions);
 }
