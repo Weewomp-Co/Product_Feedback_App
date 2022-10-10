@@ -18,7 +18,8 @@
 		  "@/components/*": ["components/*"],
       "@/lib/*": ["lib/*"],
       "@/prisma/*": ["prisma/*"],
-		  "@/assets/*": ["assets/*"]
+		  "@/assets/*": ["assets/*"],
+      "@/styles/*": ["styles/*"]
 	  },
     "baseUrl": "./"
   },

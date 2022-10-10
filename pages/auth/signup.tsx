@@ -2,43 +2,13 @@ import type { NextPage } from "next";
 import AuthContainer from "@/components/shared/layouts/AuthContainer";
 import Input from "@/components/shared/input/Input";
 import Button from "@/components/shared/buttons";
-import { css, styled } from "../../stitches.config";
+import { inputStyle, InputLabel, Container, ButtonsWrapper } from "@/styles/signup"
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 } from "uuid";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
-
-const inputStyle = {
-  width: "100%",
-};
-
-const Container = css({
-  width: "100vw",
-  height: "100vh",
-  backgroundColor: "#F7F8FD",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-});
-
-const InputLabel = styled("label", {
-  color: "$grey600",
-  fontSize: "$h4",
-  fontWeight: "$bold",
-  letterSpacing: "$h4",
-  lineHeight: "$h4",
-  margin: "24px 0 1rem 0",
-  display: "inline-block",
-  "&:first-of-type": {
-    marginTop: "0px",
-  },
-});
-
-const ButtonsWrapper = css({
-  marginTop: "3.5em",
-});
 
 const Validation = z
   .object({
