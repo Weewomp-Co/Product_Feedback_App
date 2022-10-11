@@ -71,6 +71,7 @@ const GET: NextApiHandler = async (req, res) => {
   return res.json(comments)
 };
 
+
 export default withSessionRoute((req, res) => {
   if (!req.session.user?.id)
     return res.status(401).json({ unauthorized: true });

@@ -36,6 +36,15 @@ export const ValidateCommentPostInput = z.object({
   message: "replied user has not commented on parent comment"
 })
 
+export const ValidaitonCommentPutInput = z.object({
+  id: z.never(),
+  content: z.string().min(25),
+  parentId: z.never(),
+  replyToId: z.never(),
+  createdAt: z.never(),
+  userId: z.never(),
+}).partial()
+
 export const doesPostExist = async (postId?: string) => {
   if (!postId) return false
   return !!(await client.feedback.count({
