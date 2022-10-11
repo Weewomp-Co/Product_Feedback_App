@@ -7,6 +7,7 @@ import {
   HasSessionCreatedFeedback,
   ValidateFeedbackBody,
 } from "@/lib/feedback.module";
+import { CommentsInnerJonn } from "@/lib/comments.module";
 
 const GET: NextApiHandler<any> = async (req, res) => {
   return res.json(await GetOneFeedback(req));
@@ -19,11 +20,11 @@ const PUT: NextApiHandler<any> = async (req, res) => {
   }
 
   if (HasSessionCreatedFeedback(resultGet, req, res, "update")) return;
-  const parsedBody = ValidateFeedbackBody.partial().safeParse(req.body)
+  const parsedBody = ValidateFeedbackBody.partial().safeParse(req.body);
   if (parsedBody.success) {
     const resultUpdate = await client.feedback.update({
       where: {
-        id: resultGet.id
+        id: resultGet.id,
       },
       data: parsedBody.data,
       include: {
@@ -32,19 +33,25 @@ const PUT: NextApiHandler<any> = async (req, res) => {
             id: true,
             email: true,
             username: true,
-          }
+          },
+        },
+        comments: {
+          where: {
+            parentId: null,
+          },
+          include: CommentsInnerJonn,
         },
         _count: {
           select: {
-            votes: true
-          }
-        }
-      }
-    })
+            votes: true,
+          },
+        },
+      },
+    });
 
-    return res.json(resultUpdate)
+    return res.json(resultUpdate);
   } else {
-    return res.json(parsedBody.error.format())
+    return res.json(parsedBody.error.format());
   }
 };
 

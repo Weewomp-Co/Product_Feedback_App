@@ -2,6 +2,7 @@ import { client } from "@/prisma/client"
 import { Category, Feedback, Status } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
+import { CommentsInnerJonn } from "./comments.module";
 
 export const GetOneFeedback = async (req: NextApiRequest) => {
   const result = await client.feedback.findFirst({
@@ -15,6 +16,12 @@ export const GetOneFeedback = async (req: NextApiRequest) => {
           email: true,
           username: true
         }
+      },
+      comments: {
+        where: {
+          parentId: null,
+        },
+        include: CommentsInnerJonn,
       },
       _count: {
         select: {
@@ -51,4 +58,3 @@ export const ValidateFeedbackBody = z.object({
   status: z.enum([Status.Live, Status.Planned, Status.Progress, Status.Suggestion] as const).optional(),
   category: z.enum([Category.UI, Category.UX, Category.Bug, Category.Feature, Category.Enchancement] as const),
 })
-

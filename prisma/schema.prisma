@@ -17,6 +17,8 @@ model User {
   password String
   feeback Feedback[]
   votes Vote[]
+  comments Comment[]
+  replys Comment[] @relation("replyTo")
 }
 
 enum Status {
@@ -44,6 +46,7 @@ model Feedback {
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   votes Vote[]
+  comments Comment[]
 }
 
 model Vote {
@@ -53,4 +56,20 @@ model Vote {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   feedbackId String 
   feedback Feedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id String @id @default(uuid())
+  content String
+  createdAt DateTime @default(now())
+  children Comment[] @relation(name: "parent")
+
+  postId String
+  post Feedback @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parentId String? 
+  parent Comment? @relation(fields: [parentId], references: [id], onDelete: Cascade, name: "parent")
+  replyToId String?
+  replyTo User? @relation(fields: [replyToId], references: [id], onDelete: Cascade, name: "replyTo")
 }
