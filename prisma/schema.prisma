@@ -46,6 +46,7 @@ model Feedback {
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   votes Vote[]
+  comments Comment[]
 }
 
 model Vote {
@@ -63,6 +64,8 @@ model Comment {
   createdAt DateTime @default(now())
   children Comment[] @relation(name: "parent")
 
+  postId String
+  post Feedback @relation(fields: [postId], references: [id], onDelete: Cascade)
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   parentId String? 

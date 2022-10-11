@@ -19,11 +19,11 @@ const PUT: NextApiHandler<any> = async (req, res) => {
   }
 
   if (HasSessionCreatedFeedback(resultGet, req, res, "update")) return;
-  const parsedBody = ValidateFeedbackBody.partial().safeParse(req.body)
+  const parsedBody = ValidateFeedbackBody.partial().safeParse(req.body);
   if (parsedBody.success) {
     const resultUpdate = await client.feedback.update({
       where: {
-        id: resultGet.id
+        id: resultGet.id,
       },
       data: parsedBody.data,
       include: {
@@ -32,19 +32,44 @@ const PUT: NextApiHandler<any> = async (req, res) => {
             id: true,
             email: true,
             username: true,
-          }
+          },
+        },
+        comments: {
+          where: {
+            parentId: null,
+          },
+          include: {
+            children: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    username: true,
+                    email: true,
+                  },
+                },
+              },
+            },
+            user: {
+              select: {
+                id: true,
+                username: true,
+                email: true,
+              },
+            },
+          },
         },
         _count: {
           select: {
-            votes: true
-          }
-        }
-      }
-    })
+            votes: true,
+          },
+        },
+      },
+    });
 
-    return res.json(resultUpdate)
+    return res.json(resultUpdate);
   } else {
-    return res.json(parsedBody.error.format())
+    return res.json(parsedBody.error.format());
   }
 };
 

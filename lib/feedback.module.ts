@@ -16,6 +16,31 @@ export const GetOneFeedback = async (req: NextApiRequest) => {
           username: true
         }
       },
+      comments: {
+        where: {
+          parentId: null,
+        },
+        include: {
+          children: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  email: true
+                }
+              }
+            }
+          },
+          user: {
+            select: {
+              id: true,
+              username: true,
+              email: true
+            }
+          }
+        },
+      },
       _count: {
         select: {
           votes: true
@@ -51,4 +76,3 @@ export const ValidateFeedbackBody = z.object({
   status: z.enum([Status.Live, Status.Planned, Status.Progress, Status.Suggestion] as const).optional(),
   category: z.enum([Category.UI, Category.UX, Category.Bug, Category.Feature, Category.Enchancement] as const),
 })
-
