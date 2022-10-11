@@ -49,9 +49,15 @@ const Page: NextPage = () => {
 
   const ButtonsWrapper = css({
     display: 'flex',
+    gap: '1rem',
+    flexDirection: 'column',
     justifyContent: 'start',
-    alignItems: 'end',
-    gap: '1em'
+    alignItems: 'start',
+    '@md': {
+      flexDirection: 'row',
+    },
+    marginTop: '2rem' 
+
   })
 
   const ErrorText = css({
@@ -130,7 +136,8 @@ const Page: NextPage = () => {
               backgroundColor: '#28A7ED',
               '&:hover' :{
                 backgroundColor: '#86c8ed'
-              }
+              },
+              width: '137px'
             }}>Sign in</Button>
             <Button type="four" as="a" href="/" css={{
               backgroundColor: '#E84D70',
