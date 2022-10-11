@@ -2,10 +2,7 @@ import { withSessionRoute } from "@/lib/withSession.module";
 import { NextApiHandler } from "next";
 import { z } from "zod";
 import { client } from "@/prisma/client";
-import {
-  doesPostExist,
-  ValidaitonCommentPutInput,
-} from "@/lib/comments.module";
+import { CommentsInnerJonn, ValidationCommentPutInput } from "@/lib/comments.module";
 
 const DELETE: NextApiHandler<any> = async (req, res) => {
   const { count } = await client.comment.deleteMany({
@@ -25,7 +22,7 @@ const DELETE: NextApiHandler<any> = async (req, res) => {
 };
 
 const PUT: NextApiHandler = async (req, res) => {
-  const parsedBody = ValidaitonCommentPutInput.safeParse(req.body);
+  const parsedBody = ValidationCommentPutInput.safeParse(req.body);
 
   if (parsedBody.success) {
     const comment = await client.comment.update({
@@ -33,26 +30,7 @@ const PUT: NextApiHandler = async (req, res) => {
         id: req.query.commentId as string,
       },
       data: parsedBody.data,
-      include: {
-        children: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                email: true,
-                username: true,
-              },
-            },
-          },
-        },
-        user: {
-          select: {
-            id: true,
-            email: true,
-            username: true,
-          },
-        },
-      },
+      include: CommentsInnerJonn,
     });
 
     return res.json(comment);

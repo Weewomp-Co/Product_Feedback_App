@@ -7,6 +7,7 @@ import {
   HasSessionCreatedFeedback,
   ValidateFeedbackBody,
 } from "@/lib/feedback.module";
+import { CommentsInnerJonn } from "@/lib/comments.module";
 
 const GET: NextApiHandler<any> = async (req, res) => {
   return res.json(await GetOneFeedback(req));
@@ -38,26 +39,7 @@ const PUT: NextApiHandler<any> = async (req, res) => {
           where: {
             parentId: null,
           },
-          include: {
-            children: {
-              include: {
-                user: {
-                  select: {
-                    id: true,
-                    username: true,
-                    email: true,
-                  },
-                },
-              },
-            },
-            user: {
-              select: {
-                id: true,
-                username: true,
-                email: true,
-              },
-            },
-          },
+          include: CommentsInnerJonn,
         },
         _count: {
           select: {

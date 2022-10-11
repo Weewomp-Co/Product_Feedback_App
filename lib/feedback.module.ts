@@ -2,6 +2,7 @@ import { client } from "@/prisma/client"
 import { Category, Feedback, Status } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
+import { CommentsInnerJonn } from "./comments.module";
 
 export const GetOneFeedback = async (req: NextApiRequest) => {
   const result = await client.feedback.findFirst({
@@ -20,26 +21,7 @@ export const GetOneFeedback = async (req: NextApiRequest) => {
         where: {
           parentId: null,
         },
-        include: {
-          children: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  username: true,
-                  email: true
-                }
-              }
-            }
-          },
-          user: {
-            select: {
-              id: true,
-              username: true,
-              email: true
-            }
-          }
-        },
+        include: CommentsInnerJonn,
       },
       _count: {
         select: {

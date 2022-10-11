@@ -2,7 +2,7 @@ import { withSessionRoute } from "@/lib/withSession.module";
 import { NextApiHandler } from "next";
 import { client } from "@/prisma/client";
 import { z } from "zod";
-import { doesPostExist, ValidateCommentPostInput } from "@/lib/comments.module";
+import { CommentsInnerJonn, doesPostExist, ValidateCommentPostInput } from "@/lib/comments.module";
 
 const POST: NextApiHandler<any> = async (req, res) => {
   const parsedBody = await ValidateCommentPostInput.safeParseAsync(req.body);
@@ -42,26 +42,7 @@ const GET: NextApiHandler = async (req, res) => {
     where: {
       postId: req.query.uuid as string,
     },
-    include: {
-      children: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              username: true,
-              email: true,
-            },
-          },
-        },
-      },
-      user: {
-        select: {
-          id: true,
-          username: true,
-          email: true,
-        },
-      },
-    },
+    include: CommentsInnerJonn,
   });
 
   if (!comments) return res.status(400).json({
