@@ -15,7 +15,7 @@ const ValidatePostInput = z.object({
     }
   })
 
-  const INVALID_USER_ERROR = "Invalid email or passwword."
+  const INVALID_USER_ERROR = "Invalid email or password."
   if (user === null) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
@@ -46,7 +46,7 @@ const POST: NextApiHandler<any> = async (req, res) => {
 
     return res.json(req.session.user)
   } else {
-    return res.json(user.error.format())
+    return res.status(400).json(user.error.format())
   }
 }
 
