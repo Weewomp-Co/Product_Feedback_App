@@ -12,14 +12,28 @@ export const LinkStyle = css({
 })
 
 export const Value = css({
-  color: '$grey300'
+  color: '$grey300',
+  fontWeight: '$bold',
+  fontSize: '$body1',
+  marginLeft: 'auto'
+})
+
+export const itemWrapper = css({
+  display: 'flex',
+  justifyContent: 'start',
+  alignItems: 'center',
+  gap: '1rem',
+  height: '2rem',
+  width: '100%'
 })
 
 export const MainSection = css({
   display: 'flex',
-  justifyContent:'start',
+  flexDirection: 'column',
+  height: '1rem',
+  justifyContent: 'start',
   alignItems: 'start',
-  height: "5.313rem"
+  marginTop: '.75rem'
 })
 
 export const MarkerSection = css({
@@ -52,7 +66,7 @@ export const RoadmapContainer = styled('div', {
   width: 'min-content',
   minWidth: '15.938rem',
   minHeight: '11.125rem',
-  backgroundColor: 'red',
+  backgroundColor: 'white',
   borderRadius: '0.625rem',
   padding: '1.5rem',
   fontFamily: 'jost',
@@ -65,3 +79,9 @@ export const TitleSection = css({
   alignItems: 'center',
   width: '100%'
 })
+
+export const itemText = css({
+  color: '$grey300',
+  fontSize: '$body1'
+})
+

@@ -1,11 +1,9 @@
 import React from 'react'
-import {Title, Value, RoadmapContainer, LinkStyle, TitleSection, MainSection, MarkerSection, MarkerPlanned, MarkerInProgress, MarkerLive} from './RoadmapStyle'
-import { styled, css } from '@stitches/react'
-
+import {Title, Value, RoadmapContainer, LinkStyle, TitleSection, MainSection, MarkerPlanned, MarkerInProgress, MarkerLive, itemText, itemWrapper} from './RoadmapStyle'
+import Link from 'next/link'
 
 const Roadmap = ({Planned, InProgress, Live}) => {
   
-
   return (
     <RoadmapContainer>
       <div className={TitleSection()}>
@@ -13,45 +11,31 @@ const Roadmap = ({Planned, InProgress, Live}) => {
           Roadmap
         </div>
         <div className={LinkStyle()}>
-          View
+          <Link href="/feedback/roadmap">View</Link>
         </div>
       </div>
-      <div style={{
-        display: 'grid',
-        height: '100%',
-        gridTemplateAreas: `
-          'Dot Planned Value'
-          'Dot InProgress Value'
-          'Dot Live Value'
-        `
-      }}>
-          <div style={{
-            gridArea: 'Dot'
-          }}></div>
-          <div style={{
-            gridArea: 'Planned'
-          }}>Planned</div>
-          <div  style={{
-            gridArea: 'Value'
-          }}>{Planned}</div>
-          <div style={{
-            gridArea: 'Dot'
-          }}></div>
-          <div style={{
-            gridArea: 'InProgress'
-          }}>In-Progress</div>
-          <div style={{
-            gridArea: 'Value'
-          }}>{InProgress}</div>
-          <div style={{
-            gridArea: 'Dot'
-          }}></div>
-          <div style={{
-            gridArea: 'Live'
-          }}>Live</div>
-          <div style={{
-            gridArea: 'Value'
-          }}>{Live}</div>
+      <div className={MainSection()}>
+        <div className={itemWrapper()}>
+          <div className={MarkerPlanned()}></div>
+          <div className={itemText()}>Planned</div>
+          <h3 style={{
+            marginLeft: 'auto'
+          }} className={Value()}>{Planned}</h3>
+        </div>
+        <div  className={itemWrapper()}>
+          <div className={MarkerInProgress()}></div>
+          <div className={itemText()}>In-Progress</div>
+          <h3 style={{
+            marginLeft: 'auto'
+          }} className={Value()}>{InProgress}</h3>
+        </div>
+        <div className={itemWrapper()}>
+          <div className={MarkerLive()}></div>
+          <div className={itemText()}>Live</div>
+          <h3 style={{
+            marginLeft: 'auto'
+          }} className={Value()}>{Live}</h3>
+        </div>
       </div>
     </RoadmapContainer>
   )
