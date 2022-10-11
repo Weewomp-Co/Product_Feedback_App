@@ -61,7 +61,7 @@ const PUT: NextApiHandler = async (req, res) => {
   }
 };
 
-export default withSessionRoute((req, res) => {
+export default withSessionRoute(async (req, res) => {
   if (!req.session.user?.id)
     return res.status(401).json({ unauthorized: true });
   const queryID = z.string().uuid().safeParse(req.query.uuid);
@@ -69,6 +69,21 @@ export default withSessionRoute((req, res) => {
   const queryCommentID = z.string().uuid().safeParse(req.query.commentId);
   if (!queryCommentID.success)
     return res.status(400).json(queryCommentID.error.format());
+
+  const getComment = await client.comment.findFirst({
+    where: {
+      id: req.query.commentId as string,
+    }
+  })
+
+  if (!getComment) return res.status(400).json({
+    _errors: ["No Comment By that ID"]
+  })
+
+  if (getComment.userId !== req.session.user?.id) return res.status(401).json({
+    unauthorized: true
+  })
+
   if (req.method === "DELETE") return DELETE(req, res);
   if (req.method === "PUT") return PUT(req, res);
 });
