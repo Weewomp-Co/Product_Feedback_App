@@ -103,7 +103,7 @@ const Page: NextPage = () => {
               },
               width: '137px'
             }}>Sign in</Button>
-            <Button type="four" as="a" href="/" css={{
+            <Button type="four" as="a" href="/auth/signup" css={{
               backgroundColor: '#E84D70',
               '&:hover': {
                 backgroundColor: '#e87891'
