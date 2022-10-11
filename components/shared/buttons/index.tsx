@@ -5,7 +5,7 @@ export default styled('button', {
   fontFamily: '$jost',
   fontSize: '$h4',
   fontWeight: '$bold',
-  transition: 'all 120ms ease-out',
+  transition: 'background 120ms ease-out, color 120ms ease-out',
   cursor: 'pointer',
   border: 'none',
   borderRadius: '10px',

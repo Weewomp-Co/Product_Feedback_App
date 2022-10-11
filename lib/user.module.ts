@@ -26,6 +26,6 @@ export const handlePrismaUserError = (err: PrismaClientKnownRequestError) => {
   if (err.code === "P2002") {
     const target = err.meta?.target as string[] | undefined
     if (!target?.[0]) return { '_errors': ["Unknown unqiue field contraint error"] }
-    return { [target?.[0]]: `User with that ${target?.[0]} already exists` }
+    return { [target?.[0]]: { '_errors': [`User with that ${target?.[0]} already exists`] } }
   }
 }

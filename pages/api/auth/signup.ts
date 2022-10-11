@@ -5,7 +5,7 @@ import { NextApiHandler } from "next";
 import { z } from "zod"
 
 const ValidatePostInput = z.object({
-  username: z.string().max(8),
+  username: z.string().min(1).max(8),
   email: z.string().email(),
   password: z.string().min(8),
   confirm_password: z.string(),
@@ -26,11 +26,11 @@ const POST: NextApiHandler<any> = async (req, res) => {
       return res.json(req.session.user)
     } catch(err) {
       if (err instanceof PrismaClientKnownRequestError) {
-        return res.json(handlePrismaUserError(err))
+        return res.status(400).json(handlePrismaUserError(err))
       }
     }
   } else {
-    res.json(valBody.error.format())
+    res.status(400).json(valBody.error.format())
   }
 }
 
