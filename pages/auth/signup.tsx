@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import AuthContainer from "@/components/shared/layouts/AuthContainer";
 import Input from "@/components/shared/input/Input";
 import Button from "@/components/shared/buttons";
-import { inputStyle, InputLabel, Container, ButtonsWrapper } from "@/styles/signup"
+import { inputStyle, InputLabel, Container, ButtonsWrapper, ForgotPassword } from "@/styles/signup"
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -115,7 +115,7 @@ const Page: NextPage = () => {
 
           <div className={ButtonsWrapper()}>
             <Button type="four">Sign up</Button>
-            <Button type="five" as="a" href="/">
+            <Button className={ForgotPassword()} type="five" as="a" href="/">
               forgot password
             </Button>
           </div>

@@ -7,32 +7,34 @@ const Title = css({
   marginTop: "auto",
 });
 
-const Container = styled('div', {
-  width: '100%',
+const Container = styled("div", {
+  width: "100%",
   maxWidth: "30.9375rem",
   minHeight: "33.4375rem",
 });
 
 const TopContainer = css({
   display: "grid",
-  placeContent: 'center',
-  gridTemplateColumns: 'max-content minmax(0, 30.937rem)',
-  alignItems: 'start',
+  placeContent: "center",
   gap: "4.375em",
-  flexDirection: "row",
   width: "100vw",
   minHeight: "100vh",
-  background: '$white300',
-  padding: '0 2rem'
+  background: "$white300",
+  padding: "1rem 2rem",
 });
 
 const BackButton = css({
-  padding: '1rem 0',
+  padding: "1rem 0",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   gap: "1rem",
   minWidth: "163px",
+  order: '1',
+  justifySelf: 'end',
+  "@md": {
+    order: '0'
+  }
 });
 
 type AuthContainerProp = React.PropsWithChildren<{
@@ -41,21 +43,41 @@ type AuthContainerProp = React.PropsWithChildren<{
   className?: string; 
 }>
 
-const AuthContainer: React.FC<AuthContainerProp> = ({ title, href, children, className }) => {
+
+const InnerSection = styled('section', {
+  display: 'grid',
+  gridTemplateColumns: 'minmax(0, 495px)',
+  gridTemplateRows: 'max-content, 1fr',
+  gap: '1rem',
+  alignItems: 'start',
+  "@md": {
+    gridTemplateRows: 'unset',
+    gridTemplateColumns: 'max-content minmax(0, 495px)',
+  }
+})
+
+const AuthContainer: React.FC<AuthContainerProp> = ({
+  title,
+  href,
+  children,
+  className=""
+}) => {
   return (
     <main className={TopContainer()}>
-      <Button as="a" href={href} type={"three"} className={BackButton()}>
-        <BackArrow /> Go Back
-      </Button>
-      <Container className={className}>
-        <TitleSection>
-          <h2 className={Title()}>{title}</h2>
-        </TitleSection>
+      <InnerSection>
+        <Button as="a" href={href} type={"three"} className={BackButton()}>
+          <BackArrow /> Go Back
+        </Button>
+        <Container className={className}>
+          <TitleSection>
+            <h2 className={Title()}>{title}</h2>
+          </TitleSection>
 
-        <AuthContainerStyle>
-          {children}
-        </AuthContainerStyle>
-      </Container>
+          <AuthContainerStyle>
+            {children}
+          </AuthContainerStyle>
+        </Container>
+      </InnerSection>
     </main>
   );
 };

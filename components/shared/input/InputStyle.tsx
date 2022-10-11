@@ -7,7 +7,6 @@ export const InputStyle = styled('input', {
   backgroundColor: "$white300",
   border: "none",
   minHeight: "2.9725em",
-  minWidth: "15.925em",
   borderRadius: "0.3125em",
   color: "$grey600",
   '&:focus': {
