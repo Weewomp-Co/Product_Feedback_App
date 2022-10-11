@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import AuthContainer from "@/components/shared/layouts/AuthContainer";
 import Input from "@/components/shared/input/Input";
 import Button from "@/components/shared/buttons";
-import { inputStyle, InputLabel, Container, ButtonsWrapper } from "@/styles/signup"
+import { inputStyle, InputLabel } from "@/styles/signup"
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
 import { withSessionSsr } from "@/lib/withSession.module";
 import { css, styled } from "stitches.config";
+import {AuthContainerOverides, SignInStyle, ErrorText, FormStyle, Container, ButtonsWrapper} from '@/styles/signin'
 
 const Validation = z
   .object({
@@ -38,43 +39,6 @@ const Page: NextPage = () => {
   }, []);
 
   const [responseErrors, setResponseErrors] = useState([])
-
-  const AuthContainerOverides = css({
-    display: 'grid',
-  })
-
-  const SignInStyle = css({
-    backgroundColor: 'blue'
-  })
-
-  const ButtonsWrapper = css({
-    display: 'flex',
-    gap: '1rem',
-    flexDirection: 'column',
-    justifyContent: 'start',
-    alignItems: 'start',
-    '@md': {
-      flexDirection: 'row',
-    },
-    marginTop: '2rem' 
-
-  })
-
-  const ErrorText = css({
-    fontFamily: '$jost', 
-    fontSize: '$body2',
-    color: "$red"
-  })
-
-  const FormStyle = css({
-    display: "grid",
-    gridTemplateRows: 'repeat(4, max-content) 1fr',
-  })
-
-  const Container = css({
-    height: '100%',
-    display: 'grid'
-  })
 
   const router = useRouter()
   const onValid = handleSubmit(
