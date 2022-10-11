@@ -1,8 +1,8 @@
 import { styled, css } from "stitches.config";
 
 export const FeedbackHeaderStyle = styled('div', {
-  width: '20em',
-  maxWidth: '15.938rem',
+  width: 'min-content',
+  minWidth: '15.938rem',
   background: 'radial-gradient(128.88% 128.88% at 103.9% -10.39%, #E84D70 0%, #A337F6 53.09%, #28A7ED 100%)',
   minHeight: '8.563rem',
   color: 'white',
@@ -12,7 +12,8 @@ export const FeedbackHeaderStyle = styled('div', {
   padding: '1.5rem',
   fontSize: '$h1',
   flexDirection: 'column',
-  borderRadius: '0.625rem'
+  borderRadius: '0.625rem',
+  fontFamily: 'jost'
 })
 
 export const TitleStyle = css('div', {
