@@ -6,12 +6,15 @@ import { BackArrow } from "@/assets/backArrow";
 type AuthContainerProp = React.PropsWithChildren<{
   title: string;
   href: string;
-}>;
+  className?: string; 
+}>
+
 
 const AuthContainer: React.FC<AuthContainerProp> = ({
   title,
   href,
   children,
+  className=""
 }) => {
   return (
     <main className={TopContainer()}>
@@ -19,7 +22,7 @@ const AuthContainer: React.FC<AuthContainerProp> = ({
         <Button as="a" href={href} type={"three"} className={BackButton()}>
           <BackArrow /> Go Back
         </Button>
-        <Container>
+        <Container className={className}>
           <TitleSection>
             <h2 className={Title()}>{title}</h2>
           </TitleSection>
