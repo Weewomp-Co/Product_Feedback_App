@@ -4,6 +4,12 @@ import Link from 'next/link'
 
 const Roadmap = ({Planned, InProgress, Live}) => {
   
+  type RoadmapContainerProp = React.PropsWithChildren<{
+    Planned: number;
+    InProgress: number;
+    Live: number;
+  }>
+
   return (
     <RoadmapContainer>
       <div className={TitleSection()}>

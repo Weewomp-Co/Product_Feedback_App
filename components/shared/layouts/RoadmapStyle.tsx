@@ -63,8 +63,8 @@ export const MarkerLive = css({
 })
 
 export const RoadmapContainer = styled('div', {
-  width: 'min-content',
-  minWidth: '15.938rem',
+  width: '100%',
+  maxWidth: '15.938rem',
   minHeight: '11.125rem',
   backgroundColor: 'white',
   borderRadius: '0.625rem',
