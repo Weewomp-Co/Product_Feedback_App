@@ -13,8 +13,8 @@ const FeedbackHeader: React.FC<FeedbackHeaderProp> = ({title, subtitle}) =>{
   
   return (
     <FeedbackHeaderStyle>
-      <div className={TitleStyle()}>{title}</div>
-      <div className={SubTitleStyle()}>{subtitle}</div>
+      <h2 className={TitleStyle()}>{title}</h2>
+      <p className={SubTitleStyle()}>{subtitle}</p>
     </FeedbackHeaderStyle>
   )
 }
