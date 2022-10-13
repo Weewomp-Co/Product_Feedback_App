@@ -1,6 +1,6 @@
 import { Dropdown } from "@/components/shared/dropdown";
 import { withSessionSsr } from "@/lib/withSession.module";
-import { atom, useAtom } from "jotai";
+import { atom } from "jotai";
 import type { NextPage } from "next";
 import { css } from "stitches.config";
 
@@ -16,12 +16,11 @@ const InnerContainer = css({
   width: "100%"
 })
 
-const items = ["Most Upvotes", "Least Upvotes", "Most Comments", "Least Comments"]
+const items = ["Most Upvotes", "Least Upvotes", "Most Comments", "Least Comments", "Testing"]
 type Items = (typeof items)[number]
 const selected = atom<Items>(items[0])
 
 const Page: NextPage = () => {
-  const [value] = useAtom(selected)
 	return <div className={Container()}>
     <div className={InnerContainer()}>
       <Dropdown items={items} selected={selected} />

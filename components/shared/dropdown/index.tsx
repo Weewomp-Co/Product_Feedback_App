@@ -1,4 +1,4 @@
-import { Dispatch, ReactElement, useCallback, useState } from "react";
+import { Dispatch, KeyboardEventHandler, ReactElement, RefObject, useCallback, useState } from "react";
 import {
   DropdownButton,
   DropdownCaret,
@@ -8,7 +8,10 @@ import {
 } from "./styles";
 import { PrimitiveAtom, useAtom } from "jotai";
 import { UpArrow } from "@/assets/upArrow";
+import useDropdownMenu from "react-accessible-dropdown-menu-hook"
 
+type DropdownMenuHookReturn = ReturnType<typeof useDropdownMenu<HTMLButtonElement>>
+type DropdownHookItemProp = DropdownMenuHookReturn["itemProps"][number]
 type DropdownProps<T> = React.PropsWithChildren<{
   items: T[];
   selected: PrimitiveAtom<T>;
@@ -20,13 +23,12 @@ export const Dropdown = <T,>({
   selected,
   getKey = (value) => value as string,
 }: DropdownProps<T>): ReactElement | null => {
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedValue] = useAtom(selected);
+  const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(items.length)
   return (
     <DropdownContainer>
-      <DropdownInput onClick={() => setIsOpen(!isOpen)}>
+      <DropdownInput {...buttonProps}>
         <span>{(selectedValue as string | null) ?? "No Item Selected"}</span>
-
         <UpArrow className={DropdownCaret({ open: isOpen })} />
       </DropdownInput>
 
@@ -36,6 +38,7 @@ export const Dropdown = <T,>({
         open={isOpen}
         setOpen={setIsOpen}
         getKey={getKey}
+        itemProps={itemProps}
       />
     </DropdownContainer>
   );
@@ -44,6 +47,7 @@ export const Dropdown = <T,>({
 type DropdownMenuProps<T> = DropdownProps<T> & {
   open: boolean;
   setOpen: Dispatch<boolean>;
+  itemProps: DropdownHookItemProp[]
 };
 
 export const DropdownMenu = <T,>({
@@ -52,17 +56,19 @@ export const DropdownMenu = <T,>({
   open,
   setOpen,
   getKey,
+  itemProps
 }: DropdownMenuProps<T>): ReactElement | null => {
   return (
     <>
       {open && (
-        <DropdownDialog>
+        <DropdownDialog role="menu">
           {items.map((value, index) => (
             <DropdownItem
               key={index}
               value={value}
               setOpen={setOpen}
               selected={selected}
+              itemProp={itemProps[index]}
             >
               <>{getKey ? getKey(value) : value}</>
             </DropdownItem>
@@ -77,6 +83,7 @@ type DropdownItemProps<T> = React.PropsWithChildren<{
   value: T;
   selected: PrimitiveAtom<T>;
   setOpen: Dispatch<boolean>;
+  itemProp: DropdownHookItemProp
 }>;
 
 export const DropdownItem = <T,>({
@@ -84,6 +91,7 @@ export const DropdownItem = <T,>({
   selected,
   value,
   setOpen,
+  itemProp
 }: DropdownItemProps<T>): ReactElement | null => {
   const [selectedValue, setSelected] = useAtom(selected);
   const onClick = useCallback(() => {
@@ -92,7 +100,13 @@ export const DropdownItem = <T,>({
   }, [setSelected, value, setOpen]);
 
   return (
-    <DropdownButton selected={value === selectedValue} onClick={onClick}>
+      <DropdownButton 
+        role={itemProp.role} 
+        onKeyDown={itemProp.onKeyDown as unknown as KeyboardEventHandler} 
+        ref={itemProp.ref as unknown as RefObject<HTMLButtonElement>} 
+        selected={value === selectedValue} 
+        onClick={onClick}
+      >
       {children}
     </DropdownButton>
   );
