@@ -16,10 +16,16 @@ const InnerContainer = css({
   width: "100%"
 })
 
+const items = ["Most Upvotes", "Least Upvotes", "Most Comments", "Least Comments"]
+type Items = (typeof items)[number]
+const selected = atom<Items>(items[0])
+
 const Page: NextPage = () => {
+  const [value] = useAtom(selected)
 	return <div className={Container()}>
     <div className={InnerContainer()}>
-      <Dropdown  />
+      {value}
+      <Dropdown items={items} selected={selected} />
     </div>
 	</div>;
 };

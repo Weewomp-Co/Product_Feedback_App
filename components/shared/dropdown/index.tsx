@@ -5,11 +5,12 @@ import { PrimitiveAtom, useAtom } from "jotai";
 type DropdownProps<T> = React.PropsWithChildren<{
   items: T[];
   selected: PrimitiveAtom<T>;
+  getKey?: (value: T) => string
 }>;
 export const Dropdown = <T,>({
-  children,
   items,
   selected,
+  getKey=(value) => value as string
 }: DropdownProps<T>): ReactElement | null => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -19,6 +20,7 @@ export const Dropdown = <T,>({
         selected={selected}
         open={isOpen}
         setOpen={setIsOpen}
+        getKey={getKey}
       />
     </DropdownContainer>
   );
@@ -30,24 +32,34 @@ type DropdownMenuProps<T> = DropdownProps<T> & {
 };
 
 export const DropdownMenu = <T,>({
-  children,
   items,
   selected,
+  open,
   setOpen,
+  getKey
 }: DropdownMenuProps<T>): ReactElement | null => {
-  return <DropdownDialog>{children}</DropdownDialog>;
+  return <DropdownDialog>
+    {items.map((value, index) => <>
+        <DropdownItem key={index} value={value} selected={selected}>
+          <>
+            {getKey ? getKey(value) : value}
+          </>
+        </DropdownItem>
+    </>)}
+  </DropdownDialog>;
 };
 
 type DropdownItemProps<T> = React.PropsWithChildren<{
   value: T;
   selected: PrimitiveAtom<T>;
 }>;
+
 export const DropdownItem = <T,>({
   children,
   selected,
   value,
 }: DropdownItemProps<T>): ReactElement | null => {
-  const [_, setSelected] = useAtom(selected);
+  const [selectedValue, setSelected] = useAtom(selected);
   const onClick = useCallback(() => setSelected(value), [setSelected, value]);
-  return <DropdownButton onClick={onClick}>{children}</DropdownButton>;
+  return <DropdownButton selected={value === selectedValue} onClick={onClick}>{children}</DropdownButton>;
 };
