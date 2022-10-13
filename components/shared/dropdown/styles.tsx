@@ -43,6 +43,7 @@ export const DropdownDialog = styled("div", {
   background: "$white900",
   borderRadius: "10px",
   boxShadow: "0px 10px 40px -7px rgba(55, 63, 104, 0.350492)",
+  zIndex: '10'
 });
 
 export const DropdownButton = styled("button", {
