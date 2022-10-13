@@ -1,9 +1,38 @@
-import { styled } from "stitches.config";
+import { css, styled } from "stitches.config";
 
 export const DropdownContainer = styled("div", {
   position: "relative",
   width: "100%",
 });
+
+export const DropdownInput = styled('button', {
+  width: "100%",
+  display: 'flex',
+  fontFamily: "$jost",
+  fontSize: "$body2",
+  color: "$grey600",
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  background: 'white',
+  borderRadius: '10px',
+  padding: '13px 24px',
+  border: 'none',
+  cursor: 'pointer'
+})
+
+export const DropdownCaret = css({
+  transform: 'rotate(180deg)',
+  transition: 'transform 200ms ease-in-out',
+  color: '$grey900',
+
+  variants: {
+    open: {
+      true: {
+        transform: 'rotate(0deg)',
+      }
+    }
+  },
+})
 
 export const DropdownDialog = styled("div", {
   position: "absolute",

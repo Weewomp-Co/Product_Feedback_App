@@ -24,7 +24,6 @@ const Page: NextPage = () => {
   const [value] = useAtom(selected)
 	return <div className={Container()}>
     <div className={InnerContainer()}>
-      {value}
       <Dropdown items={items} selected={selected} />
     </div>
 	</div>;
