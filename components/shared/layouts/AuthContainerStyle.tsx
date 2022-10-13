@@ -1,4 +1,4 @@
-import { styled } from "../../../stitches.config";
+import { styled, css } from "../../../stitches.config";
 
 export const AuthContainerStyle = styled('div', {
   minHeight: '23.4375rem',
@@ -23,4 +23,50 @@ export const TitleSection = styled('div', {
   letterSpacing: '$h2',
   borderRadius: '10px 10px 0px 0px',
   padding: '1.5rem'
+})
+
+export const Title = css({
+  marginTop: "auto",
+});
+
+export const Container = styled("div", {
+  width: "100%",
+  maxWidth: "30.9375rem",
+  minHeight: "33.4375rem",
+});
+
+export const TopContainer = css({
+  display: "grid",
+  placeContent: "center",
+  gap: "4.375em",
+  width: "100vw",
+  minHeight: "100vh",
+  background: "$white300",
+  padding: "1rem 2rem",
+});
+
+export const BackButton = css({
+  padding: "1rem 0",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "1rem",
+  minWidth: "163px",
+  order: '1',
+  justifySelf: 'end',
+  "@md": {
+    order: '0'
+  }
+});
+
+export const InnerSection = styled('section', {
+  display: 'grid',
+  gridTemplateColumns: 'minmax(0, 495px)',
+  gridTemplateRows: 'max-content, 1fr',
+  gap: '1rem',
+  alignItems: 'start',
+  "@md": {
+    gridTemplateRows: 'unset',
+    gridTemplateColumns: 'max-content minmax(0, 495px)',
+  }
 })
