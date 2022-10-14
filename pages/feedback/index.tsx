@@ -1,6 +1,5 @@
-import { Dropdown } from "@/components/shared/dropdown";
+import { NavBar } from "@/components/feedback/navbar";
 import { withSessionSsr } from "@/lib/withSession.module";
-import { atom } from "jotai";
 import type { NextPage } from "next";
 import { css } from "stitches.config";
 
@@ -11,20 +10,9 @@ const Container = css({
   padding: "3rem"
 })
 
-const InnerContainer = css({
-  maxWidth: "250px",
-  width: "100%"
-})
-
-const items = ["Most Upvotes", "Least Upvotes", "Most Comments", "Least Comments", "Testing"]
-type Items = (typeof items)[number]
-const selected = atom<Items>(items[0])
-
 const Page: NextPage = () => {
 	return <div className={Container()}>
-    <div className={InnerContainer()}>
-      <Dropdown items={items} selected={selected} />
-    </div>
+    <NavBar suggestions={6} />
 	</div>;
 };
 
