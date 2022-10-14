@@ -25,12 +25,12 @@ const Votes: React.FC<VotesProps> = ({
 
   const onVoteClick = useCallback(() => {
     if (!active) {
-      setVotes(votes + 1);
-      setActive(true);
+      setVotes && setVotes(votes + 1);
+      setActive && setActive(true);
       onClick && onClick(votes + 1)
     } else {
-      setVotes(votes - 1);
-      setActive(false);
+      setVotes && setVotes(votes - 1);
+      setActive && setActive(false);
       onClick && onClick(votes - 1)
     }
     
