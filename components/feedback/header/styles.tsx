@@ -7,7 +7,7 @@ export const FeedbackHeaderStyle = styled('div', {
   minHeight: '8.563rem',
   color: 'white',
   display: 'flex',
-  justifyContent: 'start',
+  justifyContent: 'end',
   alignItems: 'start',
   padding: '1.5rem',
   fontSize: '$h1',
@@ -19,7 +19,8 @@ export const FeedbackHeaderStyle = styled('div', {
 export const TitleStyle = css('div', {
   fontSize: '$h2',
   marginTop: 'auto',
-  fontWeight: '$bold'
+  fontWeight: '$bold',
+  margin: '0'
 })
 
 export const SubTitleStyle = css('div', {
