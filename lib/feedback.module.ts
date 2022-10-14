@@ -1,5 +1,5 @@
 import { client } from "@/prisma/client"
-import { Category, Feedback, Status } from "@prisma/client";
+import { Category, Feedback, Prisma, Status } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { CommentsInnerJonn } from "./comments.module";
@@ -58,3 +58,47 @@ export const ValidateFeedbackBody = z.object({
   status: z.enum([Status.Live, Status.Planned, Status.Progress, Status.Suggestion] as const).optional(),
   category: z.enum([Category.UI, Category.UX, Category.Bug, Category.Feature, Category.Enchancement] as const),
 })
+
+const feedbackPost = Prisma.validator<Prisma.FeedbackArgs>()({
+  include: {
+      user: {
+        select: {
+          username: true,
+          email: true,
+          id: true,
+        },
+      },
+      comments: {
+        where: {
+          parentId: null,
+        },
+        include: {
+          children: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  email: true,
+                },
+              },
+            },
+          },
+          user: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+            },
+          },
+        },
+      },
+      _count: {
+        select: {
+          votes: true,
+        },
+      },
+    }
+})
+
+export type GetFeedbackPost = Prisma.FeedbackGetPayload<typeof feedbackPost>

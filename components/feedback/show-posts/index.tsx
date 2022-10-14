@@ -1,34 +1,9 @@
-import { Feedback, Comment } from "@prisma/client";
+import { GetFeedbackPost } from "@/lib/feedback.module";
 import FeedbackPreview from "../preview";
 import { ShowPostsContainer } from "./styles";
 
-type AllFeedbackPosts = (Feedback & {
-  user: {
-    id: string;
-    email: string;
-    username: string;
-  };
-  comments: (Comment & {
-    children: (Comment & {
-      user: {
-        id: string;
-        email: string;
-        username: string;
-      };
-    })[];
-    user: {
-      id: string;
-      email: string;
-      username: string;
-    };
-  })[];
-  _count: {
-    votes: number;
-  };
-})[];
-
 type ShowPostProps = {
-  posts: AllFeedbackPosts;
+  posts: GetFeedbackPost[]
 };
 
 export const ShowPosts: React.FC<ShowPostProps> = ({ posts }) => {
