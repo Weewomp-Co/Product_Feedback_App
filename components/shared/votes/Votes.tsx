@@ -8,6 +8,7 @@ type VotesProps = {
   active: boolean;
   setActive: Dispatch<boolean>;
   onClick?: (vote: number) => void
+  className?: string
 };
 
 const Votes: React.FC<VotesProps> = ({
@@ -15,7 +16,8 @@ const Votes: React.FC<VotesProps> = ({
   setVotes,
   active,
   setActive,
-  onClick
+  onClick,
+  className
 }) => {
   const formatedVotes = new Intl.NumberFormat("en-US", {
     notation: "compact",
@@ -34,7 +36,7 @@ const Votes: React.FC<VotesProps> = ({
     
   }, [votes, active, setActive, setVotes, onClick]);
 
-  return <VotesButton active={active} onClick={onVoteClick}>
+  return <VotesButton active={active} onClick={onVoteClick} className={className}>
     <UpArrow />
     <div>{formatedVotes}</div>
   </VotesButton>
