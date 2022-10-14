@@ -11,7 +11,7 @@ import {
   MarkerLive,
   itemText,
   itemWrapper,
-} from "./RoadmapStyle";
+} from "./styles";
 import Link from "next/link";
 
 type RoadmapContainerProp = {

@@ -4,9 +4,9 @@ import { UpArrow } from "@/assets/upArrow"
 
 type VotesProps = {
   votes: number;
-  setVotes: Dispatch<number>;
+  setVotes?: Dispatch<number>;
   active: boolean;
-  setActive: Dispatch<boolean>;
+  setActive?: Dispatch<boolean>;
   onClick?: (vote: number) => void
   className?: string
 };
