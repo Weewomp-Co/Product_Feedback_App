@@ -17,21 +17,19 @@ type DropdownProps<T> = React.PropsWithChildren<{
   items: T[];
   selected: PrimitiveAtom<T>;
   getKey?: (value: T) => string;
-  register?: UseFormRegisterReturn<any>
 }>;
 
 export const Dropdown = <T,>({
   items,
   selected,
-  getKey = (value) => value as string,
-  register
+  getKey = (value) => value as string
 }: DropdownProps<T>): ReactElement | null => {
   const [selectedValue] = useAtom(selected);
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(items.length)
   return (
     <DropdownContainer>
       <DropdownInput {...buttonProps} type="button">
-        <span {...register}>{(selectedValue as string | null) ?? "No Item Selected"}</span>
+        <span>{(selectedValue as string | null) ?? "No Item Selected"}</span>
         <UpArrow className={DropdownCaret({ open: isOpen })} />
       </DropdownInput>
 

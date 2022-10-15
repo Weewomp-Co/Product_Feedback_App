@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Plus } from '@/assets/Plus'
 import Input from '@/components/shared/input/Input'
 import { InputLabel } from '@/styles/signup'
-import { inputStyle, ButtonsWrapper, ForgotPassword} from "@/styles/signup"
+import { inputStyle } from "@/styles/signup"
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,21 +15,16 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
 import { withSessionSsr } from "@/lib/withSession.module";
 import { NextPage } from 'next'
-import { styled, css } from '@stitches/react'
+import { styled, css } from '../../stitches.config'
 import {Dropdown} from '@/components/shared/dropdown'
-import { UpArrow } from "@/assets/upArrow";
-import { DropdownMenu } from "@/components/shared/dropdown"
-import { DropdownCaret, DropdownContainer } from "@/components/shared/dropdown/styles";
-import { atom, useAtom, PrimitiveAtom } from "jotai";
-import useDropdownMenu from "react-accessible-dropdown-menu-hook";
-import { PickCategory } from '@/components/feedback/create/PickCategory'
+import { atom, useAtom, PrimitiveAtom, useAtomValue } from "jotai";
 
 
 const Validation = z
   .object({
     title: z.string().min(1).max(32),
     details: z.string().min(1),
-    category: z.string()
+    category: z.string().default("Feature")
   })
 
 
@@ -40,6 +35,8 @@ const Page: NextPage = () => {
     handleSubmit,
     formState: { errors },
     setError,
+    setValue,
+    getValues
   } = useForm<z.infer<typeof Validation>>({
     resolver,
   });
@@ -82,7 +79,7 @@ const Page: NextPage = () => {
   const items = ["Feature", "UI", "UX", "Enhancement", "Bug"]
   type Items = (typeof items)[number]
   const sortBySelected = atom<Items>(items[0])
-  
+
   const router = useRouter()
 
   const BackArrowStyle = css({
@@ -100,7 +97,7 @@ const Page: NextPage = () => {
       console.log(data)
       const response = await fetch("/api/feedback", {
         method: "POST",
-        body: JSON.stringify({ ...data, sortBySelected }),
+        body: JSON.stringify({ ...data }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -145,21 +142,24 @@ const Page: NextPage = () => {
 
   const ButtonsWrapper = css({
     display: 'flex',
-    justifyContent: 'end',
-    alignItems: 'end',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
-    gap: '1rem'
+    gap: '1rem',
+    '@md' : {
+      flexDirection: 'row',
+      justifyContent: 'end',
+      alignItems: 'end',
+    }
   })
-  
-
-  // const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(items.length)
   
   return (
     
     <div className={Container()}>
       <div className={CreateContainer()}>
         <div className={Section0()}>
-          <Button type={'five'} css={{
+          <Button color={'five'} css={{
             display:'flex',
             justifyContent:'center',
             alignItems: 'center',
@@ -218,11 +218,21 @@ const Page: NextPage = () => {
             </div>
 
             <div className={ButtonsWrapper()}>
-              <Button type={"five"} css={{
+              <Button color={"five"} css={{
                 backgroundColor: '$grey600',
-                color: 'white'
+                color: 'white',
+                width: '100%',
+                '@md': {
+                width: 'unset'
+                }
               }}>Cancel</Button>
-              <Button type={"one"}>Add Feedback</Button>
+              <Button type='submit' color={"one"} css={{
+                color: 'white',
+                width: '100%',
+                '@md': {
+                  width: 'unset'
+                }
+              }}>Add Feedback</Button>
             </div>
           </form>
         </div>

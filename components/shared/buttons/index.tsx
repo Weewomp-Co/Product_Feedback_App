@@ -11,7 +11,7 @@ export default styled('button', {
   borderRadius: '10px',
   color: '$white300',
   variants: {
-    type: {
+    color: {
       one: {
         backgroundColor: '$purple',
         "&:hover": {
@@ -46,6 +46,6 @@ export default styled('button', {
     },
   },
   defaultVariants: {
-    type: 'one'
+    color: 'one'
   }
 });
