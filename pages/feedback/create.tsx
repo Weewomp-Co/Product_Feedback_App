@@ -20,7 +20,7 @@ import {Dropdown} from '@/components/shared/dropdown'
 import { UpArrow } from "@/assets/upArrow";
 import { DropdownMenu } from "@/components/shared/dropdown"
 import { DropdownCaret, DropdownContainer } from "@/components/shared/dropdown/styles";
-import { atom, useAtom } from "jotai";
+import { atom, useAtom, PrimitiveAtom } from "jotai";
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
 import { PickCategory } from '@/components/feedback/create/PickCategory'
 
@@ -31,6 +31,8 @@ const Validation = z
     category: z.string(),
     detail: z.string()
   })
+
+
 
 
 const Page: NextPage = () => {
@@ -53,6 +55,36 @@ const Page: NextPage = () => {
     });
   }, []);
 
+  const InputWrapper = css({
+    	padding: '0.8125em 1.5em 0.8125em 1.5em',
+	fontFamily: '$jost', 
+	fontSize: '$body2',
+  backgroundColor: "$white300",
+  border: "none",
+  minHeight: "2.9725em",
+  borderRadius: "0.3125em",
+  color: "$grey600",
+  '&:focus': {
+    outline: "1px solid $grey900"
+  },
+
+  variants : {
+    isError: {
+      true: {
+        border: "1px solid $red"
+      },
+      
+      false: {
+        border: "none"
+      }
+    }
+  }
+  })
+
+  const items = ["Feature", "UI", "UX", "Enhancement", "Bug"]
+  type Items = (typeof items)[number]
+  const sortBySelected = atom<Items>(items[0])
+  
   const router = useRouter()
   // const onValid = handleSubmit(
   //   // on valid
@@ -112,6 +144,34 @@ const Page: NextPage = () => {
 
     }
   );
+
+  const subTitle = css({
+    fontSize: '14px',
+    color: '$grey300',
+    padding: '0rem',
+    margin: '0'
+  })
+
+  const Title = css({
+    margin: '0rem',
+    padding: '0rem'
+  })
+
+  const MainTitle = css({
+    fontSize: '$h1',
+    padding: '0rem',
+    margin: '0rem'
+  })
+
+  const FormStyle = css({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem'
+  })
+
+  
+  
+
   // const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(items.length)
   
   return (
@@ -125,17 +185,23 @@ const Page: NextPage = () => {
             alignItems: 'center',
             gap: '1rem',
             padding: '0rem'
+          }} onClick={() => {
+            router.back()
           }}>
           <BackArrow/>  Go Back
           </Button>
           <Plus className={PlusButton()}/>
         </div>  
         <div className={Section1()}>
-          <h1>Create New Feedback</h1>
+          <h2 className={MainTitle()}>Create New Feedback</h2>
 
-          <form onSubmit={onValid}>
-            <InputLabel>Feedback Title</InputLabel>
-            <h4>Add a short, descriptive headline</h4>
+          <form onSubmit={onValid} className={FormStyle()}>
+
+            <div>
+            <InputLabel className={Title()}>Feedback Title</InputLabel>
+            <p className={subTitle()}>Add a short, descriptive headline</p>
+            </div>
+
             <Input
               id={ids.title}
               isError={!!errors.title}
@@ -144,12 +210,37 @@ const Page: NextPage = () => {
               css={inputStyle}
               register={register("title")}
             />
-            <InputLabel>Category</InputLabel>
-            <h4>Choose a category for your feedback</h4>
-            {/* <Dropdown items={['Feature', 'UI', 'UX', 'Enhancement', 'Bug']} /> */}
-            <DropdownContainer className={SortByContainerCSS()}>
-            <PickCategory />
-            </DropdownContainer>
+
+            <div>
+            <InputLabel className={Title()}>Category</InputLabel>
+            <p className={subTitle()}>Choose a category for your feedback</p>
+            </div>
+            <Dropdown items={items} selected={sortBySelected}/>
+
+            <div>
+            <InputLabel className={Title()}>Feedback Detail</InputLabel>
+            <p className={subTitle()}>Include any specific comments on what should be improved, added, etc.</p>
+            </div>
+
+            <div>
+            <Input
+            as={"textarea"}
+            id={""}
+            isError={false}
+            errorMessage={""}
+            type={"text"}
+            css={{
+              minWidth: '100%',
+              maxWidth: '100%'
+            }}
+            
+            />
+            </div>
+
+            <div>
+              <Button type={"four"}>Cancel</Button>
+              <Button type={"two"}>Add Feedback</Button>
+            </div>
           </form>
         </div>
       </div>

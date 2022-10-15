@@ -13,7 +13,7 @@ export const DropdownInput = styled('button', {
   color: "$grey600",
   justifyContent: 'space-between',
   alignItems: 'center',
-  background: 'white',
+  background: '$white300',
   borderRadius: '10px',
   padding: '13px 24px',
   border: 'none',

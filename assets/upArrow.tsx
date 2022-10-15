@@ -1,4 +1,3 @@
-
 type UpArrowProps = {
   className?: string
 }

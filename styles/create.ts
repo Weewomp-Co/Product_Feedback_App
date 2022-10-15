@@ -33,11 +33,14 @@ export const Section1 = css({
   minHeight: '10rem',
   width: '100%',
   borderRadius: '0.625rem',
-  padding: '3rem'
+  padding: '3rem',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2.5rem'
 })
 
 export const CreateContainer = css({
-  maxWidth: '33.75rem',
+  maxWidth: '39.75rem',
   width: '100%',
   minHeight: '10rem',
   height: 'fit-content',
