@@ -24,7 +24,7 @@ const Validation = z
   .object({
     title: z.string().min(1).max(32),
     details: z.string().min(1),
-    category: z.string().default("Suggestion")
+    category: z.string()
   })
 
 
@@ -36,7 +36,8 @@ const Page: NextPage = () => {
     formState: { errors },
     setError,
     setValue,
-    getValues
+    getValues,
+    getFieldState
   } = useForm<z.infer<typeof Validation>>({
     resolver,
   });
@@ -79,6 +80,10 @@ const Page: NextPage = () => {
   const items = ["Suggestion", "Planned", "In-Progress", "Live"]
   type Items = (typeof items)[number]
   const sortBySelected = atom<Items>(items[0])
+
+  const logValue = (value: string) => {
+    console.log(value)
+  }
 
   const router = useRouter()
 
@@ -151,7 +156,8 @@ const Page: NextPage = () => {
       flexDirection: 'row',
       justifyContent: 'end',
       alignItems: 'end',
-    }
+    },
+    marginTop: '1rem'
   })
   
   return (
@@ -168,7 +174,7 @@ const Page: NextPage = () => {
           }} onClick={() => {
             router.back()
           }}>
-          <BackArrow/>  Go Back
+          <BackArrow/>Go Back
           </Button>
           <Plus className={PlusButton()}/>
         </div>  
@@ -195,7 +201,7 @@ const Page: NextPage = () => {
             <InputLabel className={Title()}>Category</InputLabel>
             <p className={subTitle()}>Choose a category for your feedback</p>
             </div>
-            <Dropdown items={items} selected={sortBySelected}/>
+            <Dropdown items={items} selected={sortBySelected} getKey={(value) => value as string}/>
 
             <div>
             <InputLabel className={Title()}>Feedback Detail</InputLabel>
@@ -225,6 +231,8 @@ const Page: NextPage = () => {
                 '@md': {
                 width: 'unset'
                 }
+              }} onClick={() => {
+                router.back()
               }}>Cancel</Button>
               <Button type='submit' color={"one"} css={{
                 color: 'white',

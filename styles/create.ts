@@ -11,7 +11,7 @@ export const Container = css({
   alignItems: 'center',
   backgroundColor: '$white300',
   fontFamily: 'jost',
-  justifyContent: 'start',
+  justifyContent: 'center',
 })
 
 export const Section0 = css({
@@ -48,5 +48,5 @@ export const CreateContainer = css({
   justifyContent: 'center',
   alignItems:'center',
   flexDirection: 'column',
-  padding: '3rem'
+  padding: '1.5rem'
 })
