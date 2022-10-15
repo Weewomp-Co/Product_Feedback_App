@@ -9,6 +9,7 @@ import {
 import { PrimitiveAtom, useAtom } from "jotai";
 import { UpArrow } from "@/assets/upArrow";
 import useDropdownMenu from "react-accessible-dropdown-menu-hook"
+import {UseFormRegisterReturn} from 'react-hook-form'
 
 type DropdownMenuHookReturn = ReturnType<typeof useDropdownMenu<HTMLButtonElement>>
 type DropdownHookItemProp = DropdownMenuHookReturn["itemProps"][number]
@@ -16,19 +17,21 @@ type DropdownProps<T> = React.PropsWithChildren<{
   items: T[];
   selected: PrimitiveAtom<T>;
   getKey?: (value: T) => string;
+  register?: UseFormRegisterReturn<any>
 }>;
 
 export const Dropdown = <T,>({
   items,
   selected,
   getKey = (value) => value as string,
+  register
 }: DropdownProps<T>): ReactElement | null => {
   const [selectedValue] = useAtom(selected);
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(items.length)
   return (
     <DropdownContainer>
-      <DropdownInput {...buttonProps}>
-        <span>{(selectedValue as string | null) ?? "No Item Selected"}</span>
+      <DropdownInput {...buttonProps} type="button">
+        <span {...register}>{(selectedValue as string | null) ?? "No Item Selected"}</span>
         <UpArrow className={DropdownCaret({ open: isOpen })} />
       </DropdownInput>
 

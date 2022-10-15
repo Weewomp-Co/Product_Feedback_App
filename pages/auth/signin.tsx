@@ -96,7 +96,7 @@ const Page: NextPage = () => {
             (responseErrors?.map((error, index) => <h4 key={index} className={ErrorText()}>{error}</h4>))
           }
           <div className={ButtonsWrapper()}>
-            <Button type="four" css={{
+            <Button type="one" css={{
               backgroundColor: '#28A7ED',
               '&:hover' :{
                 backgroundColor: '#86c8ed'

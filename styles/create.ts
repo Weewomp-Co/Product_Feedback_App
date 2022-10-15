@@ -3,7 +3,7 @@ import { styled, css } from "stitches.config";
 export const Container = css({
   display: 'flex',
   flexDirection: 'column',
-  minHeight:'145vh',
+  minHeight:'100vh',
   width: '100vw',
   padding: '0rem',
   margin: '0rem',

@@ -28,11 +28,9 @@ import { PickCategory } from '@/components/feedback/create/PickCategory'
 const Validation = z
   .object({
     title: z.string().min(1).max(32),
-    category: z.string(),
-    detail: z.string()
+    details: z.string().min(1),
+    category: z.string()
   })
-
-
 
 
 const Page: NextPage = () => {
@@ -50,8 +48,8 @@ const Page: NextPage = () => {
   useEffect(() => {
     setIds({
       title: v4(),
-      category: v4(),
-      detail: v4()
+      details: v4(),
+      category: v4()
     });
   }, []);
 
@@ -86,38 +84,12 @@ const Page: NextPage = () => {
   const sortBySelected = atom<Items>(items[0])
   
   const router = useRouter()
-  // const onValid = handleSubmit(
-  //   // on valid
-  //   async (data) => {
-  //     const response = await fetch("/api/auth/signup", {
-  //       method: "POST",
-  //       body: JSON.stringify({ ...data, confirm_password: data.confirm }),
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
 
-  //     if (response.ok) {
-  //       router.push("/feedback/create")
-  //     } 
-
-  //     const result = await response.json()
-  //     if (result?.email?._errors)
-  //       setError("email", { message: result.email._errors?.[0] });
-  //     if (result?.username?._errors)
-  //       setError("username", { message: result.username._errors?.[0] });
-  //     if (result?.details?._errors)
-  //       setError("password", { message: result.password._errors?.[0] });
-  //     if (result?.confirm_password?._errors)
-  //       setError("confirm", { message: result.confirm_password._errors?.[0] });
-  //   }
-  // );
-
-  // const BackArrowStyle = css({
-  //   padding: '0rem',
-  //   margin: '0rem',
-  //   width: 'min-content'
-  // })
+  const BackArrowStyle = css({
+    padding: '0rem',
+    margin: '0rem',
+    width: 'min-content'
+  })
   const SortByContainerCSS = css({
     "$dropdown-space": '42px'
   })
@@ -125,23 +97,25 @@ const Page: NextPage = () => {
   const onValid = handleSubmit(
     // on valid
     async (data) => {
+      console.log(data)
       const response = await fetch("/api/feedback", {
         method: "POST",
-        body: JSON.stringify({ ...data }),
+        body: JSON.stringify({ ...data, sortBySelected }),
         headers: {
           "Content-Type": "application/json",
         },
       })
 
       if (response.ok) {
+        console.log(response)
         router.push("/feedback")
       } 
       
       const result = await response.json()
-      console.log(result)
       if (result?.title?._errors)
-        setError("title", { message: result.email._errors?.[0] });
-
+        setError("title", { message: result.title._errors?.[0] });
+      if (result?.details?._errors)
+        setError("details", { message: result.details._errors?.[0] });
     }
   );
 
@@ -169,7 +143,13 @@ const Page: NextPage = () => {
     gap: '1rem'
   })
 
-  
+  const ButtonsWrapper = css({
+    display: 'flex',
+    justifyContent: 'end',
+    alignItems: 'end',
+    width: '100%',
+    gap: '1rem'
+  })
   
 
   // const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(items.length)
@@ -225,21 +205,24 @@ const Page: NextPage = () => {
             <div>
             <Input
             as={"textarea"}
-            id={""}
-            isError={false}
-            errorMessage={""}
+            id={ids.title}
+            isError={!!errors.title}
+            errorMessage={errors.details?.message ?? ""}
             type={"text"}
             css={{
               minWidth: '100%',
               maxWidth: '100%'
             }}
-            
+            register={register("details")}
             />
             </div>
 
-            <div>
-              <Button type={"four"}>Cancel</Button>
-              <Button type={"two"}>Add Feedback</Button>
+            <div className={ButtonsWrapper()}>
+              <Button type={"five"} css={{
+                backgroundColor: '$grey600',
+                color: 'white'
+              }}>Cancel</Button>
+              <Button type={"one"}>Add Feedback</Button>
             </div>
           </form>
         </div>
