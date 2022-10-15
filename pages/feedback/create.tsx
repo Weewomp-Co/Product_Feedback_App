@@ -24,7 +24,7 @@ const Validation = z
   .object({
     title: z.string().min(1).max(32),
     details: z.string().min(1),
-    category: z.string().default("Feature")
+    category: z.string().default("Suggestion")
   })
 
 
@@ -76,7 +76,7 @@ const Page: NextPage = () => {
   }
   })
 
-  const items = ["Feature", "UI", "UX", "Enhancement", "Bug"]
+  const items = ["Suggestion", "Planned", "In-Progress", "Live"]
   type Items = (typeof items)[number]
   const sortBySelected = atom<Items>(items[0])
 
