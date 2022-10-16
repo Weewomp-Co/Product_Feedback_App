@@ -20,29 +20,40 @@ import type { NextPage } from "next";
 import { Status } from "@prisma/client";
 import { roadmapAtom } from "@/lib/stores";
 import { useEffect, useMemo } from "react";
+import {
+  BadgeSearch,
+  badgeSearchAtom,
+} from "@/components/feedback/badge-search";
 
 const Page: NextPage = () => {
   const [sortBy] = useAtom(sortBySelected);
+  const [filterByCategory] = useAtom(badgeSearchAtom);
   const feedbacks = useQuery<GetFeedbackPost[]>(
-    ["feedbacks", sortBy],
+    ["feedbacks", sortBy, filterByCategory],
     async () => {
       const response = await fetch("/api/feedback/").then(
         (res) => res.json() as Promise<GetFeedbackPost[]>
       );
 
-      return response.sort((a, b) => {
-        if (sortBy === "Most Upvotes") return b._count.votes - a._count.votes;
-        if (sortBy === "Least Upvotes") return a._count.votes - b._count.votes;
-        if (sortBy === "Most Comments")
-          return b.comments.length - a.comments.length;
-        if (sortBy === "Least Comments")
-          return a.comments.length - b.comments.length;
-        return 1;
-      });
+      return response
+        .filter(post => filterByCategory === 'All' ? true : filterByCategory === post.category)
+        .sort((a, b) => {
+          if (sortBy === "Most Upvotes") return b._count.votes - a._count.votes;
+          if (sortBy === "Least Upvotes")
+            return a._count.votes - b._count.votes;
+          if (sortBy === "Most Comments")
+            return b.comments.length - a.comments.length;
+          if (sortBy === "Least Comments")
+            return a.comments.length - b.comments.length;
+          return 1;
+        });
     }
   );
 
-  const RoadmapResultDefault = useMemo(() => ({ Planned: 0, InProgress: 0, Live: 0 }), []);
+  const RoadmapResultDefault = useMemo(
+    () => ({ Planned: 0, InProgress: 0, Live: 0 }),
+    []
+  );
   const RoadmapResults = useMemo(() => {
     return feedbacks.data?.reduce(
       (total, curr) => {
@@ -76,6 +87,7 @@ const Page: NextPage = () => {
         >
           View Profile
         </Buttons>
+        <BadgeSearch />
         <Roadmap {...RoadmapProps} />
       </section>
 
