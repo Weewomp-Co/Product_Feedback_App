@@ -1,5 +1,6 @@
 import FeedbackHeader from "@/components/feedback/header";
 import { NavBar } from "@/components/feedback/navbar";
+import { sortBySelected } from "@/components/feedback/navbar/sortby";
 import { NoPosts } from "@/components/feedback/no-posts";
 import Roadmap from "@/components/feedback/roadmap-card";
 import { ShowPosts } from "@/components/feedback/show-posts";
@@ -8,12 +9,22 @@ import { GetFeedbackPost } from "@/lib/feedback.module";
 import { withSessionSsr } from "@/lib/withSession.module";
 import { Container, FeedbackProfileLeftContainer, FeedbackProfileRightContainer, InnerLeftContainer, InnerRightContainer } from "@/styles/feedback";
 import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import type { NextPage } from "next";
 
 const Page: NextPage = () => {
-  const feedbacks = useQuery<GetFeedbackPost[]>(['feedbacks'], async () => {
-      return fetch('/api/feedback/')
-        .then( res => res.json() )
+  const [sortBy] = useAtom(sortBySelected)
+  const feedbacks = useQuery<GetFeedbackPost[]>(['feedbacks', sortBy], async () => {
+      const response = await fetch('/api/feedback/')
+        .then( res => res.json() as Promise<GetFeedbackPost[]> ) 
+
+      return response.sort((a, b) => {
+        if (sortBy === "Most Upvotes") return b._count.votes - a._count.votes
+        if (sortBy === "Least Upvotes") return a._count.votes - b._count.votes
+        if (sortBy === "Most Comments") return b.comments.length - a.comments.length
+        if (sortBy === "Least Comments") return a.comments.length - b.comments.length
+        return 1
+      }) 
   })
 
 	return <main className={Container()}>

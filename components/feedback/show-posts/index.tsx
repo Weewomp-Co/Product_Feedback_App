@@ -9,7 +9,6 @@ type ShowPostProps = {
 
 export const ShowPosts: React.FC<ShowPostProps> = ({ posts }) => {
   const [user] = useAtom(userAtom)
-  console.log(user)
   return (
     <ShowPostsContainer>
       {posts.map((post) => (
