@@ -71,7 +71,7 @@ const Page: NextPage = () => {
         <FeedbackHeader title="Frontend Mentor" subtitle="Feedback Board" />
         <Buttons
           className={FeedbackProfileLeftContainer()}
-          type="three"
+          color="three"
           css={{ textAlign: "left", padding: ".75rem 23px" }}
         >
           View Profile
@@ -82,7 +82,7 @@ const Page: NextPage = () => {
       <section className={InnerRightContainer()}>
         <Buttons
           className={FeedbackProfileRightContainer()}
-          type="three"
+          color="three"
           css={{ textAlign: "left", padding: ".75rem 23px" }}
         >
           View Profile

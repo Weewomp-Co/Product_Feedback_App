@@ -94,14 +94,14 @@ const Page: NextPage = () => {
             (responseErrors?.map((error, index) => <h4 key={index} className={ErrorText()}>{error}</h4>))
           }
           <div className={ButtonsWrapper()}>
-            <Button type="four" css={{
+            <Button color="four" css={{
               backgroundColor: '#28A7ED',
               '&:hover' :{
                 backgroundColor: '#86c8ed'
               },
               width: '137px'
             }}>Sign in</Button>
-            <Button type="four" as="a" href="/auth/signup" css={{
+            <Button color="four" as="a" href="/auth/signup" css={{
               backgroundColor: '#E84D70',
               '&:hover': {
                 backgroundColor: '#e87891'
