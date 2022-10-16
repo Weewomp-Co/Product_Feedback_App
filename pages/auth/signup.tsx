@@ -114,8 +114,8 @@ const Page: NextPage = () => {
           />
 
           <div className={ButtonsWrapper()}>
-            <Button type="four">Sign up</Button>
-            <Button className={ForgotPassword()} type="five" as="a" href="/">
+            <Button color="four">Sign up</Button>
+            <Button className={ForgotPassword()} color="five" as="a" href="/">
               forgot password
             </Button>
           </div>

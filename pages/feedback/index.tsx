@@ -18,12 +18,12 @@ const Page: NextPage = () => {
 	return <main className={Container()}>
     <section className={InnerLeftContainer()}>
       <FeedbackHeader title="Frontend Mentor" subtitle="Feedback Board" />
-      <Buttons className={FeedbackProfileLeftContainer()} type="three" css={{ textAlign: 'left', padding: '.75rem 23px' }}>View Profile</Buttons>
+      <Buttons className={FeedbackProfileLeftContainer()} color="three" css={{ textAlign: 'left', padding: '.75rem 23px' }}>View Profile</Buttons>
       <Roadmap Planned={2} InProgress={3} Live={1} />
     </section>
     
     <section className={InnerRightContainer()}>
-      <Buttons className={FeedbackProfileRightContainer()} type="three" css={{ textAlign: 'left', padding: '.75rem 23px' }}>View Profile</Buttons>
+      <Buttons className={FeedbackProfileRightContainer()} color="three" css={{ textAlign: 'left', padding: '.75rem 23px' }}>View Profile</Buttons>
       <NavBar suggestions={feedbacks?.data?.length ?? 0} />
       {feedbacks?.data?.length === 0 && <NoPosts />}
       {feedbacks?.data?.length > 0 && <ShowPosts posts={feedbacks.data} />}
