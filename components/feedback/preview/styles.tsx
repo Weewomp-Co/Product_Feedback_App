@@ -1,16 +1,24 @@
 import { styled, css } from "stitches.config";
 
 export const FeedbackPreviewContainer = styled("div", {
+  display: 'grid',
+  gridTemplateColumns: '1fr max-content',
   fontFamily: "jost",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "start",
   minHeight: "9.438rem",
   maxWidth: "51.563rem",
-  padding: "2rem",
   borderRadius: "0.625rem",
   position: "relative",
-  background: 'white'
+  background: 'white',
+  gap: "1rem",
+  padding: '1.5rem',
+  "@xs": {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "start",
+    flexDirection: 'row',
+    gap: '0px',
+    padding: "2rem",
+  }
 });
 
 export const title = css({
@@ -38,6 +46,7 @@ export const CommentsStyle = css({
   gap: "1rem",
   fontWeight: "bold",
   marginRight: "0",
+  order: 2,
 });
 
 export const subtitle = css({
@@ -51,12 +60,20 @@ export const textWrapper = css({
   justifyContent: "start",
   alignItems: "start",
   flexDirection: "column",
-  paddingLeft: "2.5rem",
   gap: "0.75rem",
+  gridColumn: '1 / -1',
+  "@xs": {
+    paddingLeft: "2.5rem",
+  }
 });
 
 export const VotesStyle = css({
   zIndex: "1",
+  order: 1,
+  justifySelf: 'start',
+  "@xs": {
+    order: 'unset',
+  }
 });
 
 export const tag = css({

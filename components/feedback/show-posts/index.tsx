@@ -7,7 +7,6 @@ type ShowPostProps = {
 };
 
 export const ShowPosts: React.FC<ShowPostProps> = ({ posts }) => {
-  console.log(posts);
   return (
     <ShowPostsContainer>
       {posts.map((post) => (

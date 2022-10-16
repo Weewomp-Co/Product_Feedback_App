@@ -45,6 +45,7 @@ const FeedbackPreview: React.FC<FeedbackPreviewProp> = ({
         setActive={setActive}
         className={VotesStyle()}
       />
+
       <div className={textWrapper()}>
         <Link href={`/feedback/${uuid}`}>
           <a className={title()}>{Title}</a>

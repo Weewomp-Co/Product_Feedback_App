@@ -4,13 +4,14 @@ import { NoPosts } from "@/components/feedback/no-posts";
 import Roadmap from "@/components/feedback/roadmap-card";
 import { ShowPosts } from "@/components/feedback/show-posts";
 import Buttons from "@/components/shared/buttons";
+import { GetFeedbackPost } from "@/lib/feedback.module";
 import { withSessionSsr } from "@/lib/withSession.module";
 import { Container, FeedbackProfileLeftContainer, FeedbackProfileRightContainer, InnerLeftContainer, InnerRightContainer } from "@/styles/feedback";
 import { useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
 
 const Page: NextPage = () => {
-  const feedbacks = useQuery(['feedbacks'], async () => {
+  const feedbacks = useQuery<GetFeedbackPost[]>(['feedbacks'], async () => {
       return fetch('/api/feedback/')
         .then( res => res.json() )
   })
@@ -26,7 +27,7 @@ const Page: NextPage = () => {
       <Buttons className={FeedbackProfileRightContainer()} type="three" css={{ textAlign: 'left', padding: '.75rem 23px' }}>View Profile</Buttons>
       <NavBar suggestions={feedbacks?.data?.length ?? 0} />
       {feedbacks?.data?.length === 0 && <NoPosts />}
-      {feedbacks?.data?.length > 0 && <ShowPosts posts={feedbacks.data} />}
+      {feedbacks.data && feedbacks?.data?.length > 0 && <ShowPosts posts={feedbacks.data} />}
     </section>
 	</main>;
 };

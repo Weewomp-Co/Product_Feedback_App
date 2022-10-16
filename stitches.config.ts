@@ -27,6 +27,7 @@ export const { styled, css, config, getCssText } = createStitches({
 		},
 		fontWeights: {
 			regular: 400,
+      medium: 500,
 			semibold: 600,
 			bold: 700
 		},
@@ -47,6 +48,7 @@ export const { styled, css, config, getCssText } = createStitches({
 		},
   },
   media: {
+    xs: '(min-width: 450px)',
     sm: '(min-width: 640px)',
     md: '(min-width: 768px)',
     lg: '(min-width: 1024px)',

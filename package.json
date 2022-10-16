@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@charlietango/use-focus-trap": "^1.4.0",
     "@hookform/resolvers": "^2.9.8",
     "@prisma/client": "^4.4.0",
     "@stitches/react": "^1.2.8",
@@ -21,6 +22,7 @@
     "prisma": "^4.4.0",
     "react": "18.2.0",
     "react-accessible-dropdown-menu-hook": "^3.2.0",
+    "react-cool-onclickoutside": "^1.7.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.37.0",
     "uuid": "^9.0.0",

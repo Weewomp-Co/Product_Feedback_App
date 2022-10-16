@@ -1,47 +1,60 @@
 import { css } from "stitches.config";
 
 export const Container = css({
-  display: 'grid',
-  gridTemplateColumns: 'minmax(0, 689px)',
-  justifyContent: 'center',
-  gap: '30px',
+  display: "grid",
+  gridTemplateColumns: "minmax(0, 689px)",
+  justifyContent: "center",
+  gap: "30px",
   width: "100vw",
-  minHeight: '100vh',
+  minHeight: "100vh",
   background: "$white300",
-  padding: "3rem",
+  padding: '3rem 24px',
+  gridTemplateRows: 'max-content',
+  "@xs": {
+    gridTemplateRows: '178px max-content',
+  },
   "@md": {
-    gridTemplateColumns: '255px minmax(0, 825px)',
-  }
-})
+    padding: "3rem",
+    gridTemplateColumns: "255px minmax(0, 825px)",
+    gridTemplateRows: 'initial'
+  },
+});
 
 export const InnerLeftContainer = css({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '24px',
+  display: "none",
+  "@xs": {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "10px",
+  },
   "@md": {
-    display: 'flex',
-    flexDirection: 'column',
-  }
-})
+    display: "flex",
+    flexDirection: "column",
+    gap: "24px",
+  },
+});
 
 export const InnerRightContainer = css({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '42px'
-})
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+});
 
 export const FeedbackProfileLeftContainer = css({
-  display: 'none',
+  display: "none",
   "@md": {
-    display: 'inline'
-  }
-})
+    display: "inline",
+  },
+});
 
 export const FeedbackProfileRightContainer = css({
-  display: 'inline',
-  // alignSelf: 'end',
-  marginBottom: '-20px',
+  display: "inline",
+  marginBottom: "-4px",
+  marginTop: '112px',
+  "@xs": {
+    marginTop: '0px'
+  },
   "@md": {
-    display: 'none'
-  }
-})
+    display: "none",
+  },
+});

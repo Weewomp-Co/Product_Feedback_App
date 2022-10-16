@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@charlietango/use-focus-trap': ^1.4.0
   '@hookform/resolvers': ^2.9.8
   '@prisma/client': ^4.4.0
   '@stitches/react': ^1.2.8
@@ -19,6 +20,7 @@ specifiers:
   prisma: ^4.4.0
   react: 18.2.0
   react-accessible-dropdown-menu-hook: ^3.2.0
+  react-cool-onclickoutside: ^1.7.0
   react-dom: 18.2.0
   react-hook-form: ^7.37.0
   typescript: 4.8.4
@@ -26,6 +28,7 @@ specifiers:
   zod: ^3.19.1
 
 dependencies:
+  '@charlietango/use-focus-trap': 1.4.0_biqbaboplfbrettd7655fr4n2y
   '@hookform/resolvers': 2.9.8_react-hook-form@7.37.0
   '@prisma/client': 4.4.0_prisma@4.4.0
   '@stitches/react': 1.2.8_react@18.2.0
@@ -38,6 +41,7 @@ dependencies:
   prisma: 4.4.0
   react: 18.2.0
   react-accessible-dropdown-menu-hook: 3.2.0
+  react-cool-onclickoutside: 1.7.0_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.37.0_react@18.2.0
   uuid: 9.0.0
@@ -68,6 +72,16 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.9
     dev: true
+
+  /@charlietango/use-focus-trap/1.4.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-M/t4N7UxJ8tRBP+u8xB77m49vugcaZ241x9Q92PTJaJUS3lAWTKC2itSebKMlIUyN1Xz7C1zz7cnOynPDeBdLA==}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /@eslint/eslintrc/1.3.2:
     resolution: {integrity: sha512-AXYd23w1S/bv3fTs3Lz0vjiYemS08jWkI3hYyS9I1ry+0f+Yjs1wm+sU0BS8qDOPrBIkp4qHYC16I8uVtpLajQ==}
@@ -2091,6 +2105,14 @@ packages:
 
   /react-accessible-dropdown-menu-hook/3.2.0:
     resolution: {integrity: sha512-DilA+bEX1Jznu81Y7aVZyC2bWktuIHmMDW8OIGb0wmdfiP0mQEkklgxGaMJigwM6SssBghiKTRmoQIXkoS6YkQ==}
+    dev: false
+
+  /react-cool-onclickoutside/1.7.0_react@18.2.0:
+    resolution: {integrity: sha512-HVZK2155Unee+enpoHKyYP2UdQK69thw90XAOUCjvJBcgRSgfRPgWWt/W1dYzoGp3+nleAa8SJxF1d4FMA4Qmw==}
+    peerDependencies:
+      react: '>= 16.8.0'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-dom/18.2.0_react@18.2.0:
