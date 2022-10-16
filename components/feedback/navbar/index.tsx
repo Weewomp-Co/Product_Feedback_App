@@ -23,6 +23,7 @@ import useFocusTrap from "@charlietango/use-focus-trap";
 import useClickOutside from "react-cool-onclickoutside"
 import { useAtom } from "jotai";
 import { roadmapAtom } from "@/lib/stores";
+import { BadgeSearch } from "../badge-search";
 
 type NavBarProps = {
   suggestions: number;
@@ -85,6 +86,7 @@ export const NavBar: React.FC<NavBarProps> = ({ suggestions }) => {
       {isAsideOpen && (
         <NavBarAsideContainer>
           <NavBarAside ref={outsideRef}>
+            <BadgeSearch />
             <Roadmap {...roadmapAtomResult} />
           </NavBarAside>
         </NavBarAsideContainer>
