@@ -19,7 +19,6 @@ type FeedbackPreviewProp = React.PropsWithChildren<{
   Title: string;
   Subtitle: string;
   Category: string;
-  setVotes?: Dispatch<number>;
   active: boolean;
   setActive?: Dispatch<boolean>;
   uuid: string;
@@ -29,21 +28,25 @@ const FeedbackPreview: React.FC<FeedbackPreviewProp> = ({
   votes,
   commentsNumber,
   Category,
-  setVotes,
   active,
   setActive,
   uuid,
   Title,
   Subtitle
 }) => {
+  const onVote = () => {
+    fetch(`/api/feedback/${uuid}/votes`, {
+      method: 'POST'
+    })
+  }
+
   return (
     <FeedbackPreviewContainer>
       <Votes
         votes={votes}
-        setVotes={setVotes}
         active={active}
-        setActive={setActive}
         className={VotesStyle()}
+        onClick={onVote}
       />
 
       <div className={textWrapper()}>

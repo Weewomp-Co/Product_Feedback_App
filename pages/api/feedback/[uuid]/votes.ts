@@ -2,6 +2,7 @@ import { withSessionRoute } from "@/lib/withSession.module";
 import { NextApiHandler } from "next";
 import { client } from "@/prisma/client"
 import { z } from "zod";
+import { updateUserSession } from "@/lib/user.module";
 
 const POST: NextApiHandler<any> = async (req, res) => {
   const postExist = await client.feedback.findFirst({
@@ -27,6 +28,7 @@ const POST: NextApiHandler<any> = async (req, res) => {
         }
       })
 
+      await updateUserSession(req)
       return res.json({ created: true })
     } else {
       // remove vote
@@ -36,6 +38,7 @@ const POST: NextApiHandler<any> = async (req, res) => {
         }
       })
 
+      await updateUserSession(req)
       return res.json({ deleted: true })
     }
   } else {

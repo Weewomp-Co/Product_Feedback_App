@@ -5,6 +5,7 @@ specifiers:
   '@hookform/resolvers': ^2.9.8
   '@prisma/client': ^4.4.0
   '@stitches/react': ^1.2.8
+  '@tanstack/query-core': ^4.12.0
   '@tanstack/react-query': ^4.10.3
   '@types/node': 18.8.2
   '@types/react': 18.0.21
@@ -32,11 +33,12 @@ dependencies:
   '@hookform/resolvers': 2.9.8_react-hook-form@7.37.0
   '@prisma/client': 4.4.0_prisma@4.4.0
   '@stitches/react': 1.2.8_react@18.2.0
+  '@tanstack/query-core': 4.12.0
   '@tanstack/react-query': 4.10.3_biqbaboplfbrettd7655fr4n2y
   '@types/uuid': 8.3.4
   argon2: 0.29.1
   iron-session: 6.2.1_next@12.3.1
-  jotai: 1.8.5_react@18.2.0
+  jotai: 1.8.5_3nrletennzxzg4ez6h5fbnqg54
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y
   prisma: 4.4.0
   react: 18.2.0
@@ -372,6 +374,10 @@ packages:
 
   /@tanstack/query-core/4.10.3:
     resolution: {integrity: sha512-+ME02sUmBfx3Pjd+0XtEthK8/4rVMD2jcxvnW9DSgFONpKtpjzfRzjY4ykzpDw1QEo2eoPvl7NS8J5mNI199aA==}
+    dev: false
+
+  /@tanstack/query-core/4.12.0:
+    resolution: {integrity: sha512-KEiFPNLMFByhNL2s6RBFL6Z5cNdwwQzFpW/II3GY+rEuQ343ZEoVyQ48zlUXXkEkbamQFIFg2onM8Pxf0Yo01A==}
     dev: false
 
   /@tanstack/react-query/4.10.3_biqbaboplfbrettd7655fr4n2y:
@@ -1600,7 +1606,7 @@ packages:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
 
-  /jotai/1.8.5_react@18.2.0:
+  /jotai/1.8.5_3nrletennzxzg4ez6h5fbnqg54:
     resolution: {integrity: sha512-c6MGQ3S0X8VctRUEmRLEL3FMib3F7Ppsx3x86c5XL+Gm6JjH6qIt0lb0F4yE2V5/9Tg+KhGiagfsdA5lg0D7cQ==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -1634,6 +1640,7 @@ packages:
       xstate:
         optional: true
     dependencies:
+      '@tanstack/query-core': 4.12.0
       react: 18.2.0
     dev: false
 

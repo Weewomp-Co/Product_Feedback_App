@@ -16,6 +16,7 @@ export const VotesButton = styled('button', {
   minWidth: 'calc(3ch + 22px)',
   background: '#F2F4FE',
   color: 'Black',
+  cursor: 'pointer',
   "&:hover, &:focus": {
     background: '#CFD7FF',
     border: 'none',
