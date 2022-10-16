@@ -21,6 +21,8 @@ import { useCallback, useEffect, useState } from "react";
 import Roadmap from "../roadmap-card";
 import useFocusTrap from "@charlietango/use-focus-trap";
 import useClickOutside from "react-cool-onclickoutside"
+import { useAtom } from "jotai";
+import { roadmapAtom } from "@/lib/stores";
 
 type NavBarProps = {
   suggestions: number;
@@ -31,6 +33,8 @@ export const NavBar: React.FC<NavBarProps> = ({ suggestions }) => {
   const ref = useFocusTrap(isAsideOpen, {
     disableAriaHider: true
   })
+
+  const [roadmapAtomResult] = useAtom(roadmapAtom)
 
   const outsideRef = useClickOutside(() => {
       if (!isAsideOpen) return
@@ -81,7 +85,7 @@ export const NavBar: React.FC<NavBarProps> = ({ suggestions }) => {
       {isAsideOpen && (
         <NavBarAsideContainer>
           <NavBarAside ref={outsideRef}>
-            <Roadmap Planned={2} InProgress={3} Live={1} />
+            <Roadmap {...roadmapAtomResult} />
           </NavBarAside>
         </NavBarAsideContainer>
       )}
