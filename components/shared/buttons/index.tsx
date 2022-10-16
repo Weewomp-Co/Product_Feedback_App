@@ -3,13 +3,16 @@ import { styled } from '../../../stitches.config'
 export default styled('button', {
   padding: ".75rem 1.5rem",
   fontFamily: '$jost',
-  fontSize: '$h4',
+  fontSize: '13px',
   fontWeight: '$bold',
   transition: 'background 120ms ease-out, color 120ms ease-out',
   cursor: 'pointer',
   border: 'none',
   borderRadius: '10px',
   color: '$white300',
+  "@xs": {
+    fontSize: '$h4'
+  },
   variants: {
     color: {
       one: {

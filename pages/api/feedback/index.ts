@@ -37,7 +37,7 @@ const POST: NextApiHandler<any> = async (req, res) => {
   }
 };
 
-const GET: NextApiHandler<any> = async (_, res) => {
+const GET: NextApiHandler<any> = async (req, res) => {
   const results = await client.feedback.findMany({
     include: {
       user: {

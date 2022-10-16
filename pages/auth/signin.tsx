@@ -54,7 +54,6 @@ const Page: NextPage = () => {
 
       if (response.ok) {
         router.push("/feedback")
-        console.log(response)
       } 
 
       
@@ -65,7 +64,6 @@ const Page: NextPage = () => {
       if (result?.username?._errors)
         setError("password", { message: result.password._errors?.[0] });
       
-      console.log(result._errors)
       setResponseErrors(result._errors);
     }
   );

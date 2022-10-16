@@ -1,38 +1,14 @@
-import { Feedback, Comment } from "@prisma/client";
+import { GetFeedbackPost } from "@/lib/feedback.module";
 import FeedbackPreview from "../preview";
 import { ShowPostsContainer } from "./styles";
-
-type AllFeedbackPosts = (Feedback & {
-  user: {
-    id: string;
-    email: string;
-    username: string;
-  };
-  comments: (Comment & {
-    children: (Comment & {
-      user: {
-        id: string;
-        email: string;
-        username: string;
-      };
-    })[];
-    user: {
-      id: string;
-      email: string;
-      username: string;
-    };
-  })[];
-  _count: {
-    votes: number;
-  };
-})[];
-
+import { userAtom } from "@/lib/stores";
+import { useAtom } from "jotai";
 type ShowPostProps = {
-  posts: AllFeedbackPosts;
+  posts: GetFeedbackPost[]
 };
 
 export const ShowPosts: React.FC<ShowPostProps> = ({ posts }) => {
-  console.log(posts);
+  const [user] = useAtom(userAtom)
   return (
     <ShowPostsContainer>
       {posts.map((post) => (
@@ -43,7 +19,7 @@ export const ShowPosts: React.FC<ShowPostProps> = ({ posts }) => {
           Subtitle={post.details}
           Category={post.category}
           votes={post._count.votes}
-          active={false}
+          active={user.votes.some(({ feedbackId }) => post.id === feedbackId)}
           commentsNumber={post.comments.length}
         />
       ))}

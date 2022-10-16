@@ -2,23 +2,30 @@ import { styled } from '../../../stitches.config';
 
 export const VotesButton = styled('button', {
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'row',
   alignItems: 'center',
-  gap: ".5rem",
+  justifyContent: 'center',
+  gap: "8px",
   fontFamily: "$jost",
   fontSize: "$body3",
   fontWeight: "$bold",
-  padding: "0.875rem 0.6875rem .5rem 0.6875rem",
+  padding: '4px 16px',
   borderRadius: '10px',
   outline: 'none',
   border: 'none',
   minWidth: 'calc(3ch + 22px)',
   background: '#F2F4FE',
   color: 'Black',
+  cursor: 'pointer',
   "&:hover, &:focus": {
     background: '#CFD7FF',
     border: 'none',
     outline: 'none',
+  },
+  "@xs": {
+    flexDirection: 'column',
+    gap: '10px',
+    padding: "0.875rem 0.6875rem .5rem 0.6875rem",
   },
   variants: {
     active: {
