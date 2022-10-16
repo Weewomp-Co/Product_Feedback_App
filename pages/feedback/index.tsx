@@ -42,7 +42,7 @@ const Page: NextPage = () => {
     }
   );
 
-  const RoadmapResultDefault = { Planned: 0, InProgress: 0, Live: 0 };
+  const RoadmapResultDefault = useMemo(() => ({ Planned: 0, InProgress: 0, Live: 0 }), []);
   const RoadmapResults = useMemo(() => {
     return feedbacks.data?.reduce(
       (total, curr) => {
