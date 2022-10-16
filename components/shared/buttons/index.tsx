@@ -1,7 +1,7 @@
 import { styled } from '../../../stitches.config'
 
 export default styled('button', {
-  padding: ".75em 3.125em",
+  padding: ".75rem 1.5rem",
   fontFamily: '$jost',
   fontSize: '$h4',
   fontWeight: '$bold',
@@ -11,7 +11,7 @@ export default styled('button', {
   borderRadius: '10px',
   color: '$white300',
   variants: {
-    type: {
+    color: {
       one: {
         backgroundColor: '$purple',
         "&:hover": {
@@ -46,6 +46,6 @@ export default styled('button', {
     },
   },
   defaultVariants: {
-    type: 'one'
+    color: 'one'
   }
 });
