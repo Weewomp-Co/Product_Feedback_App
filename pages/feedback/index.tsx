@@ -53,7 +53,7 @@ const Page: NextPage = () => {
       },
       { ...RoadmapResultDefault }
     );
-  }, [feedbacks]);
+  }, [feedbacks, RoadmapResultDefault]);
 
   const RoadmapProps = RoadmapResults ? RoadmapResults : RoadmapResultDefault;
   const [roadmapAtomResult, setRoadmapAtomResult] = useAtom(roadmapAtom);
@@ -63,7 +63,7 @@ const Page: NextPage = () => {
       JSON.stringify(RoadmapResults) !== JSON.stringify(roadmapAtomResult)
     )
       setRoadmapAtomResult(RoadmapResults);
-  }, [RoadmapResults, roadmapAtomResult]);
+  }, [RoadmapResults, roadmapAtomResult, setRoadmapAtomResult]);
 
   return (
     <main className={Container()}>
