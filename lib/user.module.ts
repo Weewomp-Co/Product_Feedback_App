@@ -1,19 +1,22 @@
 import { User } from "@prisma/client";
-import { client } from "@/prisma/client"
-import { hash } from "argon2"
+import { client } from "@/prisma/client";
+import { hash } from "argon2";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiRequest } from "next";
 
-export const sanitizeUser = (user: User & { votes: { feedbackId: string }[] }) => {
+export const sanitizeUser = (
+  user: User & { votes: { feedbackId: string }[] }
+) => {
   return {
     id: user.id,
     email: user.email,
     username: user.username,
-    votes: user.votes
-  }
-}
+    votes: user.votes,
+    session_updated: Date.now(),
+  };
+};
 
-type CreateUser = Omit<User, "id">
+type CreateUser = Omit<User, "id">;
 export const createUser = async (user: CreateUser) => {
   return client.user.create({
     data: {
@@ -24,25 +27,30 @@ export const createUser = async (user: CreateUser) => {
     include: {
       votes: {
         select: {
-          feedbackId: true
-        }
-      }
-    }
-  })
-}
+          feedbackId: true,
+        },
+      },
+    },
+  });
+};
 
 export const handlePrismaUserError = (err: PrismaClientKnownRequestError) => {
   if (err.code === "P2002") {
-    const target = err.meta?.target as string[] | undefined
-    if (!target?.[0]) return { '_errors': ["Unknown unqiue field contraint error"] }
-    return { [target?.[0]]: { '_errors': [`User with that ${target?.[0]} already exists`] } }
+    const target = err.meta?.target as string[] | undefined;
+    if (!target?.[0])
+      return { _errors: ["Unknown unqiue field contraint error"] };
+    return {
+      [target?.[0]]: {
+        _errors: [`User with that ${target?.[0]} already exists`],
+      },
+    };
   }
-}
+};
 
 export const updateUserSession = async (req: NextApiRequest) => {
   const user = await client.user.findFirst({
     where: {
-      id: req.session?.user?.id
+      id: req.session?.user?.id,
     },
     select: {
       id: true,
@@ -50,13 +58,13 @@ export const updateUserSession = async (req: NextApiRequest) => {
       username: true,
       votes: {
         select: {
-          feedbackId: true
-        }
-      }
-    }
-  })
+          feedbackId: true,
+        },
+      },
+    },
+  });
 
-  if (!user) return
-  req.session.user = user
-  await req.session.save()
-}
+  if (!user) return;
+  req.session.user = { ...user, session_updated: Date.now() };
+  await req.session.save();
+};
