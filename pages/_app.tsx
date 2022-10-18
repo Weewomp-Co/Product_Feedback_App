@@ -5,16 +5,16 @@ import { Provider } from "jotai";
 import { Suspense } from "react";
 
 // Create a client
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Suspense>
     <QueryClientProvider client={queryClient}>
       <Provider>
-        <Component {...pageProps} />
+        <Suspense>
+          <Component {...pageProps} />
+        </Suspense>
       </Provider>
     </QueryClientProvider>
-    </Suspense>
   );
 }
 

@@ -12,6 +12,7 @@ import {
 import { Dispatch } from "react";
 import { Comments } from "@/assets/comments";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
 
 type FeedbackPreviewProp = React.PropsWithChildren<{
   votes: number;
@@ -29,13 +30,12 @@ const FeedbackPreview: React.FC<FeedbackPreviewProp> = ({
   commentsNumber,
   Category,
   active,
-  setActive,
   uuid,
   Title,
   Subtitle
 }) => {
-  const onVote = () => {
-    fetch(`/api/feedback/${uuid}/votes`, {
+  const onVote = async () => {
+    await fetch(`/api/feedback/${uuid}/votes`, {
       method: 'POST'
     })
   }
