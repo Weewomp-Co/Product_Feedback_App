@@ -7,7 +7,6 @@ export const Container = css({
   width: '100vw',
   padding: '0rem',
   margin: '0rem',
-  // justifyContent:'center',
   alignItems: 'center',
   backgroundColor: '$white300',
   fontFamily: 'jost',

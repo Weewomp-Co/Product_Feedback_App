@@ -23,8 +23,7 @@ import { atom, useAtom, PrimitiveAtom, useAtomValue } from "jotai";
 const Validation = z
   .object({
     title: z.string().min(1).max(32),
-    details: z.string().min(1),
-    category: z.string()
+    details: z.string().min(1)
   })
 
 
@@ -46,8 +45,7 @@ const Page: NextPage = () => {
   useEffect(() => {
     setIds({
       title: v4(),
-      details: v4(),
-      category: v4()
+      details: v4()
     });
   }, []);
 
@@ -80,6 +78,12 @@ const Page: NextPage = () => {
   const items = ["Suggestion", "Planned", "In-Progress", "Live"]
   type Items = (typeof items)[number]
   const sortBySelected = atom<Items>(items[0])
+  
+  try {
+  const selectedValue = useAtomValue(sortBySelected);
+  } catch (err){
+    throw err
+  }
 
   const logValue = (value: string) => {
     console.log(value)
@@ -98,7 +102,8 @@ const Page: NextPage = () => {
 
   const onValid = handleSubmit(
     // on valid
-    async (data) => {
+     async(data) => {
+      Object.assign(data, {category: selectedValue})
       console.log(data)
       const response = await fetch("/api/feedback", {
         method: "POST",
@@ -181,7 +186,7 @@ const Page: NextPage = () => {
         <div className={Section1()}>
           <h2 className={MainTitle()}>Create New Feedback</h2>
 
-          <form onSubmit={onValid} className={FormStyle()}>
+          <form onSubmit={(data) => onValid(data)} className={FormStyle()}>
 
             <div>
             <InputLabel className={Title()}>Feedback Title</InputLabel>
