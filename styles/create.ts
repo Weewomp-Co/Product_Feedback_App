@@ -13,6 +13,27 @@ export const Container = css({
   justifyContent: 'center',
 })
 
+export const ButtonsWrapper = css({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+  gap: '1rem',
+  '@md' : {
+    flexDirection: 'row',
+    justifyContent: 'end',
+    alignItems: 'end',
+  },
+  marginTop: '1rem'
+})
+
+export const FormStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem'
+})
+
 export const Section0 = css({
   display: 'flex',
   justifyContent: 'start',
@@ -48,4 +69,22 @@ export const CreateContainer = css({
   alignItems:'center',
   flexDirection: 'column',
   padding: '1.5rem'
+})
+
+export const subTitle = css({
+  fontSize: '14px',
+  color: '$grey300',
+  padding: '0rem',
+  margin: '0'
+})
+
+export const Title = css({
+  margin: '0rem',
+  padding: '0rem'
+})
+
+export const MainTitle = css({
+  fontSize: '$h1',
+  padding: '0rem',
+  margin: '0rem'
 })

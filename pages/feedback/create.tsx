@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '@/components/shared/buttons/index'
-import {Container, Section0, PlusButton, Section1, CreateContainer} from '@/styles/create'
+import {Container, Section0, PlusButton, Section1, CreateContainer, subTitle, Title, MainTitle, ButtonsWrapper, FormStyle} from '@/styles/create'
 import { BackArrow } from '@/assets/backArrow'
 import Image from 'next/image'
 import { Plus } from '@/assets/Plus'
@@ -19,13 +19,15 @@ import { styled, css } from '../../stitches.config'
 import {Dropdown} from '@/components/shared/dropdown'
 import { atom, useAtom, PrimitiveAtom, useAtomValue } from "jotai";
 
+const items = ["Suggestion", "Planned", "In-Progress", "Live"]
+type Items = (typeof items)[number]
+const sortBySelected = atom<Items>(items[0])
 
 const Validation = z
   .object({
     title: z.string().min(1).max(32),
     details: z.string().min(1)
   })
-
 
 const Page: NextPage = () => {
   const resolver = zodResolver(Validation);
@@ -49,41 +51,7 @@ const Page: NextPage = () => {
     });
   }, []);
 
-  const InputWrapper = css({
-    	padding: '0.8125em 1.5em 0.8125em 1.5em',
-	fontFamily: '$jost', 
-	fontSize: '$body2',
-  backgroundColor: "$white300",
-  border: "none",
-  minHeight: "2.9725em",
-  borderRadius: "0.3125em",
-  color: "$grey600",
-  '&:focus': {
-    outline: "1px solid $grey900"
-  },
-
-  variants : {
-    isError: {
-      true: {
-        border: "1px solid $red"
-      },
-      
-      false: {
-        border: "none"
-      }
-    }
-  }
-  })
-
-  const items = ["Suggestion", "Planned", "In-Progress", "Live"]
-  type Items = (typeof items)[number]
-  const sortBySelected = atom<Items>(items[0])
-  
-  try {
-  const selectedValue = useAtomValue(sortBySelected);
-  } catch (err){
-    throw err
-  }
+  const [selectedValue] = useAtom(sortBySelected)
 
   const logValue = (value: string) => {
     console.log(value)
@@ -91,20 +59,10 @@ const Page: NextPage = () => {
 
   const router = useRouter()
 
-  const BackArrowStyle = css({
-    padding: '0rem',
-    margin: '0rem',
-    width: 'min-content'
-  })
-  const SortByContainerCSS = css({
-    "$dropdown-space": '42px'
-  })
-
   const onValid = handleSubmit(
     // on valid
      async(data) => {
       Object.assign(data, {category: selectedValue})
-      console.log(data)
       const response = await fetch("/api/feedback", {
         method: "POST",
         body: JSON.stringify({ ...data }),
@@ -114,7 +72,6 @@ const Page: NextPage = () => {
       })
 
       if (response.ok) {
-        console.log(response)
         router.push("/feedback")
       } 
       
@@ -125,45 +82,6 @@ const Page: NextPage = () => {
         setError("details", { message: result.details._errors?.[0] });
     }
   );
-
-  const subTitle = css({
-    fontSize: '14px',
-    color: '$grey300',
-    padding: '0rem',
-    margin: '0'
-  })
-
-  const Title = css({
-    margin: '0rem',
-    padding: '0rem'
-  })
-
-  const MainTitle = css({
-    fontSize: '$h1',
-    padding: '0rem',
-    margin: '0rem'
-  })
-
-  const FormStyle = css({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem'
-  })
-
-  const ButtonsWrapper = css({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    gap: '1rem',
-    '@md' : {
-      flexDirection: 'row',
-      justifyContent: 'end',
-      alignItems: 'end',
-    },
-    marginTop: '1rem'
-  })
   
   return (
     
@@ -199,7 +117,10 @@ const Page: NextPage = () => {
               errorMessage={errors.title?.message ?? ""}
               type={"text"}
               css={inputStyle}
-              register={register("title")}
+              register={register("title",
+              {
+                minLength: 1
+              })}
             />
 
             <div>
@@ -224,7 +145,9 @@ const Page: NextPage = () => {
               minWidth: '100%',
               maxWidth: '100%'
             }}
-            register={register("details")}
+            register={register("details", {
+              minLength: 1
+            })}
             />
             </div>
 
@@ -253,20 +176,5 @@ const Page: NextPage = () => {
     </div>
   )
 }
-
-// export const getServerSideProps = withSessionSsr(({ req }) => {
-//   if (req.session.user) {
-//     return {
-//       redirect: {
-//         permanent: true,
-//         destination: '/feedback/create'
-//       }
-//     }
-//   }
-
-//   return {
-//     props: {}
-//   }
-// })
 
 export default Page
