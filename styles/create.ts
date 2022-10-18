@@ -44,7 +44,7 @@ export const Section0 = css({
 })
 
 export const PlusButton = css({
-  transform: 'translateX(3rem) translateY(1.75rem)',
+  transform: 'translateX(1.5rem) translateY(1.75rem)',
   marginTop: '2.625rem'
 })
 
@@ -53,7 +53,7 @@ export const Section1 = css({
   minHeight: '10rem',
   width: '100%',
   borderRadius: '0.625rem',
-  padding: '3rem',
+  padding: '2.75rem 1.5rem',
   display: 'flex',
   flexDirection: 'column',
   gap: '2.5rem'
