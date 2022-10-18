@@ -1,4 +1,5 @@
 import { BackArrow } from "@/assets/backArrow";
+import { CommentForm } from "@/components/feedback-[id]/comments-form";
 import FeedbackPreview from "@/components/feedback/preview";
 import Buttons from "@/components/shared/buttons";
 import { GetFeedbackPost } from "@/lib/feedback.module";
@@ -66,6 +67,8 @@ const Page: NextPage<PageProps> = ({ id }) => {
             Category={post.data.category}
           />
         )}
+
+        {post?.data && <CommentForm id={post.data?.id} />}
       </FeedbackIDInnerContainer>
     </FeedbackIDMain>
   );
