@@ -1,5 +1,6 @@
 import { BackArrow } from "@/assets/backArrow";
 import { CommentForm } from "@/components/feedback-[id]/comments-form";
+import { ShowComments } from "@/components/feedback-[id]/show-comments";
 import FeedbackPreview from "@/components/feedback/preview";
 import Buttons from "@/components/shared/buttons";
 import { GetFeedbackPost } from "@/lib/feedback.module";
@@ -50,7 +51,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
           </Buttons>
 
           {isOwner && (
-            <Buttons color="two">Edit Mobile</Buttons>
+            <Buttons color="two">Edit Feedback</Buttons>
           )}
         </TopNavContainer>
 
@@ -68,6 +69,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
           />
         )}
 
+        {post?.data && <ShowComments post={post.data} />}
         {post?.data && <CommentForm id={post.data?.id} />}
       </FeedbackIDInnerContainer>
     </FeedbackIDMain>

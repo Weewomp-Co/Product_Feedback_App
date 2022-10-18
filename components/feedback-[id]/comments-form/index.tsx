@@ -26,11 +26,13 @@ export const CommentForm: React.FC<CommentFormProps> = ({ id }) => {
     handleSubmit,
     setError,
     formState: { errors },
+    watch,
+    reset
   } = useForm<z.infer<typeof Validation>>({ resolver });
 
+  const watchContent = watch('content')
   const queryClient = useQueryClient();
   const onSubmit = handleSubmit(async ({ content }) => {
-      console.log(content)
       const response = await fetch(`/api/feedback/${id}/comments`, {
         method: "POST",
         headers: {
@@ -41,6 +43,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({ id }) => {
 
       if (response.ok) {
         queryClient.invalidateQueries(["feedbackPost"]);
+        reset()
       } else {
         const result = await response.json()
         if (result?.content?._errors)
@@ -62,7 +65,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({ id }) => {
       />
 
       <CommentFormBottomContainer>
-        <p>255 characters left</p>
+        <p>{250 - (watchContent?.length ?? 0)} characters left</p>
 
         <Buttons color="one">Post Comment</Buttons>
       </CommentFormBottomContainer>
