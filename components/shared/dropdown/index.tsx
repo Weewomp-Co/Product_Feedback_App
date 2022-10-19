@@ -27,7 +27,7 @@ export const Dropdown = <T,>({
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(items.length)
   return (
     <DropdownContainer>
-      <DropdownInput {...buttonProps}>
+      <DropdownInput type="button" {...buttonProps}>
         <span>{(selectedValue as string | null) ?? "No Item Selected"}</span>
         <UpArrow className={DropdownCaret({ open: isOpen })} />
       </DropdownInput>

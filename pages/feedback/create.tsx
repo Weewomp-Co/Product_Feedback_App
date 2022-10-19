@@ -2,7 +2,6 @@ import React from 'react'
 import Button from '@/components/shared/buttons/index'
 import {Container, Section0, PlusButton, Section1, CreateContainer, subTitle, Title, MainTitle, ButtonsWrapper, FormStyle} from '@/styles/create'
 import { BackArrow } from '@/assets/backArrow'
-import Image from 'next/image'
 import { Plus } from '@/assets/Plus'
 import Input from '@/components/shared/input/Input'
 import { InputLabel } from '@/styles/signup'
@@ -13,11 +12,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 } from "uuid";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
-import { withSessionSsr } from "@/lib/withSession.module";
 import { NextPage } from 'next'
-import { styled, css } from '../../stitches.config'
 import {Dropdown} from '@/components/shared/dropdown'
-import { atom, useAtom, PrimitiveAtom, useAtomValue } from "jotai";
+import { atom, useAtom } from "jotai";
 
 const items = ["Suggestion", "Planned", "In-Progress", "Live"]
 type Items = (typeof items)[number]
@@ -25,11 +22,14 @@ const sortBySelected = atom<Items>(items[0])
 
 const Validation = z
   .object({
-    title: z.string().min(1).max(32),
-    details: z.string().min(1)
-  })
+    title: z.string().min(1, "Can't be empty").max(32, "Title too long"),
+    category: z.string(),
+    details: z.string().min(1, "Can't be empty")
+  }).required()
 
 const Page: NextPage = () => {
+  const [selectedValue] = useAtom(sortBySelected)
+
   const resolver = zodResolver(Validation);
   const {
     register,
@@ -37,8 +37,6 @@ const Page: NextPage = () => {
     formState: { errors },
     setError,
     setValue,
-    getValues,
-    getFieldState
   } = useForm<z.infer<typeof Validation>>({
     resolver,
   });
@@ -47,11 +45,10 @@ const Page: NextPage = () => {
   useEffect(() => {
     setIds({
       title: v4(),
+      category: v4(),
       details: v4()
     });
   }, []);
-
-  const [selectedValue] = useAtom(sortBySelected)
 
   const logValue = (value: string) => {
     console.log(value)
@@ -62,7 +59,7 @@ const Page: NextPage = () => {
   const onValid = handleSubmit(
     // on valid
      async(data) => {
-      Object.assign(data, {category: selectedValue})
+      console.log(data)
       const response = await fetch("/api/feedback", {
         method: "POST",
         body: JSON.stringify({ ...data }),
@@ -80,6 +77,8 @@ const Page: NextPage = () => {
         setError("title", { message: result.title._errors?.[0] });
       if (result?.details?._errors)
         setError("details", { message: result.details._errors?.[0] });
+      if (result?.category?._errors)
+        setError("category", { message: result.category._errors?.[0] });
     }
   );
   
@@ -104,7 +103,7 @@ const Page: NextPage = () => {
         <div className={Section1()}>
           <h2 className={MainTitle()}>Create New Feedback</h2>
 
-          <form onSubmit={(data) => onValid(data)} className={FormStyle()}>
+          <form onSubmit={(data) => {setValue('category', selectedValue); onValid(data)}} className={FormStyle()}>
 
             <div>
             <InputLabel className={Title()}>Feedback Title</InputLabel>
