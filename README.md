@@ -3,12 +3,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Stack [💫]
 * React (UI)
 * NextJS (Routing framework + backend endpoints)
-* Stiches (css in js solution)
-* Jotai (global state management)
-* Zod (validation)
-* Prisma (data-layer)
-* Postgres (data-layer)
-* Docker (containerisation)
+* Stiches (Css in js solution)
+* Iron Session (Statless authenication lib)
+* Tanstack/react-query (Async state management)
+* React Hook Forms (Client side form validation)
+* Jotai (Global state management)
+* Zod (Validation)
+* Prisma (Data-layer)
+* Postgres (Data-layer)
+* Docker (Containerisation)
 
 ## Installation guide [🔧]
 ### node_modules [🪐]
