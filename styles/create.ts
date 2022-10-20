@@ -1,4 +1,5 @@
-import { css } from "stitches.config";
+import { css, styled } from "stitches.config";
+import { InputLabel as DefaultInputLabel } from "./signup"
 
 export const Container = css({
   display: 'flex',
@@ -15,15 +16,21 @@ export const Container = css({
 
 export const ButtonsWrapper = css({
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'column-reverse',
   justifyContent: 'center',
   alignItems: 'center',
   width: '100%',
   gap: '1rem',
-  '@md' : {
+  '@xs' : {
     flexDirection: 'row',
     justifyContent: 'end',
     alignItems: 'end',
+  },
+  'button': {
+    width: '100%',
+    '@xs': {
+      width: 'unset'
+    }
   },
   marginTop: '1rem'
 })
@@ -45,7 +52,7 @@ export const NavContainer = css({
 
 export const PlusButton = css({
   transform: 'translateX(1.5rem) translateY(1.75rem)',
-  marginTop: '2.625rem'
+  marginTop: '0.916rem'
 })
 
 export const Section = css({
@@ -78,13 +85,17 @@ export const subTitle = css({
   margin: '0'
 })
 
-export const Title = css({
+export const MainTitle = css({
+  fontSize: '18px',
+  padding: '0rem',
   margin: '0rem',
-  padding: '0rem'
+  color: '$grey600',
+  '@xs': {
+    fontSize: '$h1',
+  }
 })
 
-export const MainTitle = css({
-  fontSize: '$h1',
-  padding: '0rem',
-  margin: '0rem'
+export const InputLabel = styled(DefaultInputLabel, {
+  margin: 0,
+  padding: 0
 })

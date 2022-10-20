@@ -7,15 +7,14 @@ import {
   Section,
   CreateContainer,
   subTitle,
-  Title,
   MainTitle,
   ButtonsWrapper,
   FormStyle,
+  InputLabel
 } from "@/styles/create";
 import { BackArrow } from "@/assets/backArrow";
 import { Plus } from "@/assets/Plus";
 import Input from "@/components/shared/input/Input";
-import { InputLabel } from "@/styles/signup";
 import { inputStyle } from "@/styles/signup";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -33,9 +32,9 @@ type Category = typeof categories[number];
 const categorySelectAtom = atom<Category>(categories[0]);
 
 const Validation = z.object({
-    title: z.string().min(1, "Can't be empty").max(32, "Title too long"),
+    title: z.string().min(5, "Can't be empty").max(25, "Title too long"),
     category: z.string().optional(),
-    details: z.string().min(1, "Can't be empty"),
+    details: z.string().min(25, "Can't be empty"),
   })
 
 const Page: NextPage = () => {
@@ -115,7 +114,7 @@ const Page: NextPage = () => {
 
           <form onSubmit={onValid} className={FormStyle()}>
             <div>
-              <InputLabel className={Title()}>Feedback Title</InputLabel>
+              <InputLabel>Feedback Title</InputLabel>
               <p className={subTitle()}>Add a short, descriptive headline</p>
             </div>
 
@@ -129,7 +128,7 @@ const Page: NextPage = () => {
             />
 
             <div>
-              <InputLabel className={Title()}>Category</InputLabel>
+              <InputLabel>Category</InputLabel>
               <p className={subTitle()}>Choose a category for your feedback</p>
             </div>
 
@@ -139,7 +138,7 @@ const Page: NextPage = () => {
             </div>
 
             <div>
-              <InputLabel className={Title()}>Feedback Detail</InputLabel>
+              <InputLabel>Feedback Detail</InputLabel>
               <p className={subTitle()}>
                 Include any specific comments on what should be improved, added,
                 etc.
@@ -156,6 +155,7 @@ const Page: NextPage = () => {
                 css={{
                   minWidth: "100%",
                   maxWidth: "100%",
+                  minHeight: "96px",
                 }}
                 register={register("details")}
               />
@@ -168,10 +168,6 @@ const Page: NextPage = () => {
                 css={{
                   backgroundColor: "$grey600",
                   color: "white",
-                  width: "100%",
-                  "@md": {
-                    width: "unset",
-                  },
                 }}
                 onClick={() => {
                   router.back();
@@ -183,10 +179,6 @@ const Page: NextPage = () => {
                 color={"one"}
                 css={{
                   color: "white",
-                  width: "100%",
-                  "@md": {
-                    width: "unset",
-                  },
                 }}
               >
                 Add Feedback
