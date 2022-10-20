@@ -33,7 +33,7 @@ const POST: NextApiHandler<any> = async (req, res) => {
 
     return res.status(201).json(result);
   } else {
-    return res.json(parsedBody.error.format());
+    return res.status(400).json(parsedBody.error.format());
   }
 };
 

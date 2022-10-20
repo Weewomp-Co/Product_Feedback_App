@@ -4,7 +4,7 @@ export const InputStyle = styled('input', {
 	padding: '0.8125em 1.5em 0.8125em 1.5em',
 	fontFamily: '$jost', 
 	fontSize: '$body2',
-  backgroundColor: "$white300",
+  backgroundColor: "$white600",
   border: "none",
   minHeight: "2.9725em",
   borderRadius: "0.3125em",
@@ -26,8 +26,9 @@ export const InputStyle = styled('input', {
   }
 })
 
-export const ErrorMessage = styled('div', {
+export const ErrorMessage = styled('p', {
   fontFamily: '$jost', 
 	fontSize: '$body2',
-  color: "$red"
+  color: "$red",
+  margin: '0'
 })
