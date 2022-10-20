@@ -2,9 +2,9 @@ import { styled } from '../../../stitches.config'
 
 export default styled('button', {
   padding: ".75rem 1.5rem",
-  fontFamily: '$jost',
+  fontFamily: "$jost",
   fontSize: '13px',
-  fontWeight: '$bold',
+  fontWeight: '$medium',
   transition: 'background 120ms ease-out, color 120ms ease-out',
   cursor: 'pointer',
   border: 'none',

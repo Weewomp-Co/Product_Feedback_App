@@ -25,8 +25,9 @@ export const GetOneFeedback = async (req: NextApiRequest) => {
       },
       _count: {
         select: {
-          votes: true
-        }
+          votes: true,
+          comments: true
+        },
       }
     }
   });
@@ -59,7 +60,7 @@ export const ValidateFeedbackBody = z.object({
   category: z.enum([Category.UI, Category.UX, Category.Bug, Category.Feature, Category.Enchancement] as const),
 })
 
-const feedbackPost = Prisma.validator<Prisma.FeedbackArgs>()({
+export const feedbackPostQuery = Prisma.validator<Prisma.FeedbackArgs>()({
   include: {
       user: {
         select: {
@@ -82,6 +83,13 @@ const feedbackPost = Prisma.validator<Prisma.FeedbackArgs>()({
                   email: true,
                 },
               },
+              replyTo: {
+                select: {
+                  id: true,
+                  username: true,
+                  email: true
+                }
+              }
             },
           },
           user: {
@@ -96,9 +104,10 @@ const feedbackPost = Prisma.validator<Prisma.FeedbackArgs>()({
       _count: {
         select: {
           votes: true,
+          comments: true
         },
       },
     }
 })
 
-export type GetFeedbackPost = Prisma.FeedbackGetPayload<typeof feedbackPost>
+export type GetFeedbackPost = Prisma.FeedbackGetPayload<typeof feedbackPostQuery>
