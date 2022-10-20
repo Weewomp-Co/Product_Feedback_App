@@ -1,7 +1,6 @@
 import { AuthContainerStyle, TitleSection, Title, Container, TopContainer, BackButton, InnerSection  } from "./AuthContainerStyle";
-import { css, styled } from "../../../stitches.config";
-import Button from "@/components/shared/buttons";
 import { BackArrow } from "@/assets/backArrow";
+import Link from "next/link";
 
 type AuthContainerProp = React.PropsWithChildren<{
   title: string;
@@ -19,9 +18,11 @@ const AuthContainer: React.FC<AuthContainerProp> = ({
   return (
     <main className={TopContainer()}>
       <InnerSection>
-        <Button as="a" href={href} type={"three"} className={BackButton()}>
-          <BackArrow /> Go Back
-        </Button>
+        <Link href={href}>
+          <BackButton as="a" color="three">
+            <BackArrow /> Go Back
+          </BackButton>
+        </Link>
         <Container className={className}>
           <TitleSection>
             <h2 className={Title()}>{title}</h2>
