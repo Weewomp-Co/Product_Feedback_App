@@ -42,6 +42,7 @@ export const GetOneFeedback = async (req: NextApiRequest) => {
 }
 
 export const HasSessionCreatedFeedback = (feedback: Feedback, req: NextApiRequest, res: NextApiResponse<unknown>, keyword: string) => {
+  if (req.session?.user?.role === "ADMIN") return false
   if (feedback.userId !== req.session.user?.id) {
     res.status(401).json({
       _errors: [`Unauthorized cannot ${keyword} another users feedback post`]

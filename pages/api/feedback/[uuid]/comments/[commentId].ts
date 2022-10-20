@@ -58,7 +58,7 @@ export default withSessionRoute(async (req, res) => {
     _errors: ["No Comment By that ID"]
   })
 
-  if (getComment.userId !== req.session.user?.id) return res.status(401).json({
+  if (req.session?.user.role === "USER" && getComment.userId !== req.session.user?.id) return res.status(401).json({
     unauthorized: true
   })
 

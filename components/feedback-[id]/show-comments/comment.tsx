@@ -130,7 +130,7 @@ export const Comment: React.FC<CommentProps> = ({
         <button className="comment-reply" onClick={onToggleReply}>
           reply
         </button>
-        {user.id === comment.userId && (
+        {(user.id === comment.userId || user.role === "ADMIN") && (
           <button onClick={onDeleteComment} className="comment-delete">
             <Image src={Trash} width={21} height={21} alt="Delete" />
           </button>
