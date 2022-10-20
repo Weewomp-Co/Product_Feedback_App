@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import { withSessionSsr } from "@/lib/withSession.module";
 import { css, styled } from "stitches.config";
 import {AuthContainerOverides, SignInStyle, ErrorText, FormStyle, Container, ButtonsWrapper} from '@/styles/signin'
+import Link from "next/link";
 
 const Validation = z
   .object({
@@ -99,12 +100,14 @@ const Page: NextPage = () => {
               },
               width: '137px'
             }}>Sign in</Button>
-            <Button color="four" as="a" href="/auth/signup" css={{
+            <Link href="/auth/signup">
+              <Button color="four" as="a"  css={{
               backgroundColor: '#E84D70',
               '&:hover': {
                 backgroundColor: '#e87891'
               }
             }}>Sign up</Button>
+            </Link>
           </div>
         </form>
         </div>
