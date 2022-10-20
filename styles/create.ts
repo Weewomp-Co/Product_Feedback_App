@@ -1,4 +1,4 @@
-import { styled, css } from "stitches.config";
+import { css } from "stitches.config";
 
 export const Container = css({
   display: 'flex',
