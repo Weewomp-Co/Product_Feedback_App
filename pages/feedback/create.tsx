@@ -2,9 +2,9 @@ import React from "react";
 import Button from "@/components/shared/buttons/index";
 import {
   Container,
-  Section0,
+  NavContainer,
   PlusButton,
-  Section1,
+  Section,
   CreateContainer,
   subTitle,
   Title,
@@ -26,21 +26,20 @@ import { useRouter } from "next/router";
 import { NextPage } from "next";
 import { Dropdown } from "@/components/shared/dropdown";
 import { atom, useAtom } from "jotai";
+import { ErrorMessage } from "@/components/shared/input/InputStyle"
 
-const items = ["Suggestion", "Planned", "In-Progress", "Live"];
-type Items = typeof items[number];
-const sortBySelected = atom<Items>(items[0]);
+const categories = ['UI', 'UX', 'Bug', 'Feature', 'Enchancement'];
+type Category = typeof categories[number];
+const categorySelectAtom = atom<Category>(categories[0]);
 
-const Validation = z
-  .object({
+const Validation = z.object({
     title: z.string().min(1, "Can't be empty").max(32, "Title too long"),
-    category: z.string(),
+    category: z.string().optional(),
     details: z.string().min(1, "Can't be empty"),
   })
-  .required();
 
 const Page: NextPage = () => {
-  const [selectedValue] = useAtom(sortBySelected);
+  const [selectedCategory] = useAtom(categorySelectAtom);
 
   const resolver = zodResolver(Validation);
   const {
@@ -48,7 +47,6 @@ const Page: NextPage = () => {
     handleSubmit,
     formState: { errors },
     setError,
-    setValue,
   } = useForm<z.infer<typeof Validation>>({
     resolver,
   });
@@ -62,22 +60,17 @@ const Page: NextPage = () => {
     });
   }, []);
 
-  const logValue = (value: string) => {
-    console.log(value);
-  };
-
   const router = useRouter();
-
   const onValid = handleSubmit(
     // on valid
     async (data) => {
       console.log(data);
       const response = await fetch("/api/feedback", {
         method: "POST",
-        body: JSON.stringify({ ...data }),
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ ...data, category: selectedCategory }),
       });
 
       if (response.ok) {
@@ -95,9 +88,9 @@ const Page: NextPage = () => {
   );
 
   return (
-    <div className={Container()}>
-      <div className={CreateContainer()}>
-        <div className={Section0()}>
+    <main className={Container()}>
+      <section className={CreateContainer()}>
+        <nav className={NavContainer()}>
           <Button
             color={"five"}
             css={{
@@ -115,17 +108,12 @@ const Page: NextPage = () => {
             Go Back
           </Button>
           <Plus className={PlusButton()} />
-        </div>
-        <div className={Section1()}>
+        </nav>
+
+        <div className={Section()}>
           <h2 className={MainTitle()}>Create New Feedback</h2>
 
-          <form
-            onSubmit={(data) => {
-              setValue("category", selectedValue);
-              onValid(data);
-            }}
-            className={FormStyle()}
-          >
+          <form onSubmit={onValid} className={FormStyle()}>
             <div>
               <InputLabel className={Title()}>Feedback Title</InputLabel>
               <p className={subTitle()}>Add a short, descriptive headline</p>
@@ -137,20 +125,18 @@ const Page: NextPage = () => {
               errorMessage={errors.title?.message ?? ""}
               type={"text"}
               css={inputStyle}
-              register={register("title", {
-                minLength: 1,
-              })}
+              register={register("title")}
             />
 
             <div>
               <InputLabel className={Title()}>Category</InputLabel>
               <p className={subTitle()}>Choose a category for your feedback</p>
             </div>
-            <Dropdown
-              items={items}
-              selected={sortBySelected}
-              getKey={(value) => value as string}
-            />
+
+            <div>
+              <Dropdown items={categories} selected={categorySelectAtom} />
+              {!!errors.category && <ErrorMessage>{errors.category?.message}</ErrorMessage>}
+            </div>
 
             <div>
               <InputLabel className={Title()}>Feedback Detail</InputLabel>
@@ -164,21 +150,20 @@ const Page: NextPage = () => {
               <Input
                 as={"textarea"}
                 id={ids.title}
-                isError={!!errors.title}
+                isError={!!errors.details}
                 errorMessage={errors.details?.message ?? ""}
                 type={"text"}
                 css={{
                   minWidth: "100%",
                   maxWidth: "100%",
                 }}
-                register={register("details", {
-                  minLength: 1,
-                })}
+                register={register("details")}
               />
             </div>
 
             <div className={ButtonsWrapper()}>
               <Button
+                type="button"
                 color={"five"}
                 css={{
                   backgroundColor: "$grey600",
@@ -195,7 +180,6 @@ const Page: NextPage = () => {
                 Cancel
               </Button>
               <Button
-                type="submit"
                 color={"one"}
                 css={{
                   color: "white",
@@ -210,8 +194,8 @@ const Page: NextPage = () => {
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

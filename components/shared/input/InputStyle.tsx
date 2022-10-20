@@ -26,8 +26,9 @@ export const InputStyle = styled('input', {
   }
 })
 
-export const ErrorMessage = styled('div', {
+export const ErrorMessage = styled('p', {
   fontFamily: '$jost', 
 	fontSize: '$body2',
-  color: "$red"
+  color: "$red",
+  margin: '0'
 })

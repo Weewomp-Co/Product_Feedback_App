@@ -101,6 +101,7 @@ export const DropdownItem = <T,>({
 
   return (
       <DropdownButton 
+        type="button"
         role={itemProp.role} 
         onKeyDown={itemProp.onKeyDown as unknown as KeyboardEventHandler} 
         ref={itemProp.ref as unknown as RefObject<HTMLButtonElement>} 

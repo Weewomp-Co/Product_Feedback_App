@@ -34,7 +34,7 @@ export const FormStyle = css({
   gap: '1rem'
 })
 
-export const Section0 = css({
+export const NavContainer = css({
   display: 'flex',
   justifyContent: 'start',
   alignItems: 'start',
@@ -48,7 +48,7 @@ export const PlusButton = css({
   marginTop: '2.625rem'
 })
 
-export const Section1 = css({
+export const Section = css({
   backgroundColor: 'white',
   minHeight: '10rem',
   width: '100%',
