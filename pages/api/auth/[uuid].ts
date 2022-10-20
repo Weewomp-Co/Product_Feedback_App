@@ -22,7 +22,7 @@ const DELETE: NextApiHandler = async (req, res) => {
     }
   })
 
-  if (getUser.id !== req.session.user?.id) {
+  if (getUser.id === req.session.user?.id) {
     req.session.destroy()
   }
 
