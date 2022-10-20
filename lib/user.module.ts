@@ -11,6 +11,7 @@ export const sanitizeUser = (
     id: user.id,
     email: user.email,
     username: user.username,
+    role: user.role,
     votes: user.votes,
     session_updated: Date.now(),
   };
@@ -56,6 +57,7 @@ export const updateUserSession = async (req: NextApiRequest) => {
       id: true,
       email: true,
       username: true,
+      role: true,
       votes: {
         select: {
           feedbackId: true,
