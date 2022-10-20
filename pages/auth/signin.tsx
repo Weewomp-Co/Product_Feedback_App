@@ -68,7 +68,7 @@ const Page: NextPage = () => {
   );
 
   return (
-      <AuthContainer className={`${AuthContainerOverides()}`} title="Sign in" href="/auth/signin">
+      <AuthContainer className={`${AuthContainerOverides()}`} title="Sign in">
         <div className={Container()}>
         <form onSubmit={onValid} className={FormStyle()}>
           <InputLabel htmlFor={ids.email}>Email</InputLabel>
