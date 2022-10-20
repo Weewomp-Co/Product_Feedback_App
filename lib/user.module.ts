@@ -66,7 +66,10 @@ export const updateUserSession = async (req: NextApiRequest) => {
     },
   });
 
-  if (!user) return;
+  if (!user) {
+    req.session.destroy();
+    return
+  };
   req.session.user = { ...user, session_updated: Date.now() };
   await req.session.save();
 };
