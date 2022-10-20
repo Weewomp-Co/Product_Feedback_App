@@ -20,7 +20,7 @@ export const ShowPosts: React.FC<ShowPostProps> = ({ posts }) => {
           Category={post.category}
           votes={post._count.votes}
           active={user.votes.some(({ feedbackId }) => post.id === feedbackId)}
-          commentsNumber={post.comments.length}
+          commentsNumber={post._count.comments}
         />
       ))}
     </ShowPostsContainer>

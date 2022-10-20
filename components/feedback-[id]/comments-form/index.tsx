@@ -16,7 +16,7 @@ type CommentFormProps = {
 };
 
 const Validation = z.object({
-  content: z.string().max(250).min(25),
+  content: z.string().trim().max(250).min(25),
 });
 
 export const CommentForm: React.FC<CommentFormProps> = ({ id }) => {

@@ -6,7 +6,8 @@ export const FeedbackIDMain = styled('main', {
   display: 'grid',
   gridTemplateColumns: 'minmax(0, 730px)',
   justifyContent: 'center',
-  background: '$white300'
+  background: '$white300',
+  padding: '0 1.5rem 1.5rem 1.5rem'
 }) 
 
 export const FeedbackIDInnerContainer = styled('section', {

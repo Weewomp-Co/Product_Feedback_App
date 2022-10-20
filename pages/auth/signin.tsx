@@ -56,8 +56,6 @@ const Page: NextPage = () => {
         router.push("/feedback")
       } 
 
-      
-
       const result = await response.json()
       if (result?.email?._errors)
         setError("email", { message: result.email._errors?.[0] });

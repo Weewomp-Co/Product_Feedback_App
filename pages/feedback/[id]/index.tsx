@@ -45,7 +45,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
     <FeedbackIDMain>
       <FeedbackIDInnerContainer>
         <TopNavContainer>
-        <Buttons onClick={onGoBack} className={GoBack()} css={{ padding: '12px 0' }} color="five">
+          <Buttons onClick={onGoBack} className={GoBack()} css={{ padding: '12px 0' }} color="five">
             <BackArrow />
             Go Back
           </Buttons>
@@ -63,7 +63,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
             )}
             Title={post.data?.title}
             Subtitle={post.data.details}
-            commentsNumber={post.data.comments?.length ?? 0}
+            commentsNumber={post.data._count?.comments ?? 0}
             uuid={post.data.id}
             Category={post.data.category}
           />

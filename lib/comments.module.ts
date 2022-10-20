@@ -3,7 +3,7 @@ import { client } from "@/prisma/client";
 
 export const ValidateCommentPostInput = z
   .object({
-    content: z.string().min(25),
+    content: z.string().min(25).trim(),
     parentId: z.string().optional(),
     replyToId: z.string().optional(),
   })
@@ -55,6 +55,13 @@ export const CommentsInnerJonn = {
           username: true,
         },
       },
+      replyTo: {
+        select: {
+          id: true,
+          username: true,
+          email: true
+        }
+      }
     },
   },
   user: {

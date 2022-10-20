@@ -5,8 +5,11 @@ export const CommentFormContainer = styled('form', {
   width: '100%',
   borderRadius: '10px',
   background: 'white',
-  padding: '2rem',
-  paddingTop: '24px'
+  padding: '24px',
+  "@xs": {
+    padding: '2rem',
+    paddingTop: '24px',
+  }
 })
 
 export const CommentFormHeading = styled('h2', {
