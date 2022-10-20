@@ -56,7 +56,7 @@ export const HasSessionCreatedFeedback = (feedback: Feedback, req: NextApiReques
 
 export const ValidateFeedbackBody = z.object({
   title: z.string().min(5).max(25),
-  details: z.string().min(25).max(256),
+  details: z.string().trim().min(25).max(256),
   status: z.enum([Status.Live, Status.Planned, Status.Progress, Status.Suggestion] as const).optional(),
   category: z.enum([Category.UI, Category.UX, Category.Bug, Category.Feature, Category.Enchancement] as const),
 })

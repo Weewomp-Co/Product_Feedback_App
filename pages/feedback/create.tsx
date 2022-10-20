@@ -35,7 +35,7 @@ const categorySelectAtom = atom<Category>(categories[0]);
 const Validation = z.object({
     title: z.string().min(5, "Can't be empty").max(25, "Title too long"),
     category: z.string().optional(),
-    details: z.string().min(25, "Can't be empty"),
+    details: z.string().trim().min(25, "Can't be empty").max(256, "Details too long"),
   })
 
 const Page: NextPage = () => {
