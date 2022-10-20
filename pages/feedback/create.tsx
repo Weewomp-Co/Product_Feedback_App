@@ -26,6 +26,7 @@ import { NextPage } from "next";
 import { Dropdown } from "@/components/shared/dropdown";
 import { atom, useAtom } from "jotai";
 import { ErrorMessage } from "@/components/shared/input/InputStyle"
+import { withSessionSsr } from "@/lib/withSession.module";
 
 const categories = ['UI', 'UX', 'Bug', 'Feature', 'Enchancement'];
 type Category = typeof categories[number];
@@ -192,3 +193,18 @@ const Page: NextPage = () => {
 };
 
 export default Page;
+
+export const getServerSideProps = withSessionSsr(({ req }) => {
+  if (!req.session.user) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: "/auth/signin",
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+});
