@@ -38,7 +38,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
   const [isOwner, setIsOwner] = useState(false)
   useEffect(() => {
     if (!user || !user?.id) return
-    setIsOwner(user.id === post.data?.userId)
+    setIsOwner(user.id === post.data?.userId || user.role === "ADMIN")
   }, [post, user])
 
   return (
