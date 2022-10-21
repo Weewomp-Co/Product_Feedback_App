@@ -14,7 +14,7 @@ import {
   InnerLeftContainer,
   InnerRightContainer,
 } from "@/styles/feedback";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { Status } from "@prisma/client";

@@ -4,7 +4,7 @@ import { atom } from "jotai";
 
 type AuthMeResponse = ReturnType<typeof sanitizeUser>;
 export const userAtom = atomWithQuery<AuthMeResponse, AuthMeResponse>(() => ({
-  queryKey: ["auth me"],
+  queryKey: ["authme"],
   queryFn: async () => {
     const host = process.env.NEXT_PUBLIC_HOSTNAME ?? 'http://localhost:3000'
     const res = await fetch(`${host}/api/auth/me`);

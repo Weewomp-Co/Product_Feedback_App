@@ -13,6 +13,9 @@ import { Dispatch } from "react";
 import { Comments } from "@/assets/comments";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { queryClientAtom } from "jotai/query";
+import { userAtom } from "@/lib/stores";
 
 type FeedbackPreviewProp = React.PropsWithChildren<{
   votes: number;
@@ -34,10 +37,16 @@ const FeedbackPreview: React.FC<FeedbackPreviewProp> = ({
   Title,
   Subtitle
 }) => {
+  const [queryClient] = useAtom(queryClientAtom)
+  const [_, dispatch] = useAtom(userAtom)
   const onVote = async () => {
     await fetch(`/api/feedback/${uuid}/votes`, {
       method: 'POST'
     })
+
+    queryClient.invalidateQueries(['feedbacks'])
+    queryClient.invalidateQueries(['feedbackPost'])
+    dispatch({ type: 'refetch' })
   }
 
   return (

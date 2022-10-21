@@ -18,7 +18,7 @@ const Votes: React.FC<VotesProps> = ({
   const [_active, setActive] = useState(active)
   const formatedVotes = new Intl.NumberFormat("en-US", {
     notation: "compact",
-  }).format(active != _active ? (active === true && _active === false ? votes-1 : votes + 1) : votes);
+  }).format(votes);
 
   const onVoteClick = useCallback(() => {
     if (!_active) {
