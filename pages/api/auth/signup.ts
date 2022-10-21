@@ -5,9 +5,9 @@ import { NextApiHandler } from "next";
 import { z } from "zod"
 
 const ValidatePostInput = z.object({
-  username: z.string().min(1).max(8),
+  username: z.string().trim().min(1).max(8),
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().trim().min(8),
   confirm_password: z.string(),
 }).refine((input) => input.password === input.confirm_password, {
   message: "Passwords don't match",
