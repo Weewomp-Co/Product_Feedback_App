@@ -3,17 +3,130 @@ import { styled, css } from "stitches.config";
 import Button from "@/components/shared/buttons";
 import { BackArrow } from "@/assets/backArrow";
 import RoadmapPageCard from '@/components/roadmap/roadmap-page-card'
+import { useQuery } from "@tanstack/react-query";
+import { GetFeedbackPost } from "@/lib/feedback.module";
+
+type ShowProps = {
+  posts: GetFeedbackPost[]
+}
+
+const ShowPlanned: React.FC<ShowProps> = ({
+  posts
+}) => {
+  
+  return<div style={{
+    maxWidth: '21.875rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem'
+  }}>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
+      <h3 style={{
+        padding: '0',
+        margin: '0'
+      }}>Planned ({posts.filter(item => item.status === "Planned").length})</h3>
+      <p style={{
+        padding: '0',
+        margin: '0'
+      }}>Ideas prioritized for research</p>
+    </div>
+    {
+    posts.filter(item => item.status === "Planned").map(item =>
+      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={"af"}/> )
+  }
+  </div>
+}
+
+const ShowInProgress: React.FC<ShowProps> = ({
+  posts
+}) => {
+  
+  return<div style={{
+    maxWidth: '21.875rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem'
+  }}>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
+      <h3 style={{
+        padding: '0',
+        margin: '0'
+      }}>In-Progress ({posts.filter(item => item.status === "Planned").length})</h3>
+      <p style={{
+        padding: '0',
+        margin: '0'
+      }}>Currently being developed</p>
+    </div>
+    {
+    posts.filter(item => item.status === "Progress").map(item =>
+      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={"af"}/> )
+  }
+  </div>
+}
+
+const ShowLive: React.FC<ShowProps> = ({
+  posts
+}) => {
+  
+  return<div style={{
+    maxWidth: '21.875rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem'
+  }}>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
+      <h3 style={{
+        padding: '0',
+        margin: '0'
+      }}>Live ({posts.filter(item => item.status === "Live").length})</h3>
+      <p style={{
+        padding: '0',
+        margin: '0'
+      }}>Released features</p>
+    </div>
+    {
+    posts.filter(item => item.status === "Live").map(item =>
+      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={"af"}/> )
+  }
+  </div>
+}
+
 
 const Page: NextPage = () => {
+  const feedbacks = useQuery<GetFeedbackPost[]>(
+    ["feedbacks"],
+    async () => {
+      const response = await fetch("/api/feedback/").then(
+        (res) => res.json() as Promise<GetFeedbackPost[]>
+      );
+
+      return response
+        .filter(post => post.status != 'Suggestion')
+    }
+  );
 
   const Container = css({
-    width: '100vw',
-    height: '100vh',
+    maxWidth: '100vw',
+    minHeight: '100vh',
     padding: '3rem',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'jost'
+    fontFamily: 'jost',
+    backgroundColor: '$white300',
+    
   })
 
   const ContentContainer = css({
@@ -57,9 +170,28 @@ const Page: NextPage = () => {
   const FeedbackSection = css({
     display: 'flex',
     width: '100%',
-    height: '40rem',
-    backgroundColor: 'aliceblue'
+    minHeight: '40rem',
   })
+
+  const DesktopContainer = styled('div', {
+    display: 'none',
+    '@md': {
+      display: 'flex',
+      justifyContent: 'start',
+      alignItems: 'start',
+      width:'100%',
+      gap: '1.5rem'
+    }
+  })
+
+  const MobileContainer = styled('div', {
+    display: 'block',
+    '@md': {
+      display: 'none'
+    }
+  })
+
+  
 
   return (
     <main className={Container()}>
@@ -84,8 +216,24 @@ const Page: NextPage = () => {
         </div>
 
         <div className={FeedbackSection()}>
-            <RoadmapPageCard status={"Planned"} title={"Mock title"} desc={"Mock desc here"} category={"Feature"} votes={2} commentsNumber={3} id={'1asdfasdf'}/>
-            <RoadmapPageCard status={"In-Progress"} title={"Mock title"} desc={"It would be great to see a more detailed breakdown of solutions."} category={"Feature"} votes={2} commentsNumber={3} id={'1asdfasdf'}/>
+            {/* <RoadmapPageCard status={"Planned"} title={"Mock title"} desc={"Mock desc here"} category={"Feature"} votes={2} commentsNumber={3} id={'1asdfasdf'}/>
+            <RoadmapPageCard status={"In-Progress"} title={"Mock title"} desc={"It would be great to see a more detailed breakdown of solutions."} category={"Feature"} votes={2} commentsNumber={3} id={'1asdfasdf'}/> */}
+            
+            {
+              (feedbacks.data) ?
+            <div style={{
+              width: '100%'
+            }}>
+              <DesktopContainer>
+                <ShowPlanned posts={feedbacks.data}/>
+                <ShowInProgress posts={feedbacks.data} />
+                <ShowLive posts={feedbacks.data} />
+              </DesktopContainer>
+              <MobileContainer>
+                Mobile
+              </MobileContainer>
+            </div> : (<></>)
+            }
         </div>
       </div>
     </main>

@@ -2,6 +2,7 @@ import { styled, css } from "stitches.config";
 import React from "react";
 import {Dot} from './styles'
 import Votes from '@/components/shared/votes/Votes'
+import {Comments} from '@/assets/comments'
 
 type RoadmapPageCardProps = {
   status?: string;
@@ -18,7 +19,7 @@ function getDotByType(status: string | undefined){
     case 'Planned':
     return "#F49F85"
       break;
-    case 'In-Progress':
+    case 'Progress':
     return "#AD1FEA"
       break;
     case 'Live':
@@ -91,8 +92,6 @@ const Category = styled('div', {
 
 const StyledVotes = {
   flexDirection: 'row',
-  marginTop: '1rem'
-  // marginTop: '1rem'
 }
 
 const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
@@ -114,11 +113,30 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
         }}/>
         <div className={Type()}>{status}</div>
       </Container>
-      <div>
+      <div style={{
+        width: '100%'
+      }}>
         <div className={Title()}>{title}</div>
         <p className={Desc()}>{desc}</p>
         <Category>{category}</Category>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginTop: '1rem'
+        }}>
         <Votes votes={1} active={false} css={StyledVotes}/>
+        <div style={{
+          display: 'flex',
+          justifyContent:'center',
+          alignItems: 'center',
+          width: 'min-content',
+          gap: '1rem'
+        }}>
+        <Comments />
+        <h4>{commentsNumber}</h4>
+        </div>
+        </div>
       </div>
     </RoadmapPageCardContainer>
   )
