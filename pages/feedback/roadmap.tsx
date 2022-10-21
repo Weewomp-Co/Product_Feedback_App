@@ -209,7 +209,8 @@ const Page: NextPage = () => {
     flexDirection: 'column',
     '@md': {
       display: 'none'
-    }
+    },
+    marginBottom: '3rem'
   })
 
   const MobileButton = styled('button', {
