@@ -24,6 +24,7 @@ import {
   BadgeSearch,
   badgeSearchAtom,
 } from "@/components/feedback/badge-search";
+import Link from "next/link";
 
 const Page: NextPage = () => {
   const [sortBy] = useAtom(sortBySelected);
@@ -36,7 +37,9 @@ const Page: NextPage = () => {
       );
 
       return response
-        .filter(post => filterByCategory === 'All' ? true : filterByCategory === post.category)
+        .filter((post) =>
+          filterByCategory === "All" ? true : filterByCategory === post.category
+        )
         .sort((a, b) => {
           if (sortBy === "Most Upvotes") return b._count.votes - a._count.votes;
           if (sortBy === "Least Upvotes")
@@ -80,25 +83,32 @@ const Page: NextPage = () => {
     <main className={Container()}>
       <section className={InnerLeftContainer()}>
         <FeedbackHeader title="Frontend Mentor" subtitle="Feedback Board" />
-        <Buttons
-          className={FeedbackProfileLeftContainer()}
-          color="three"
-          css={{ textAlign: "left", padding: ".75rem 23px" }}
-        >
-          View Profile
-        </Buttons>
+        <Link href="/feedback/profile">
+          <Buttons
+            className={FeedbackProfileLeftContainer()}
+            color="three"
+            css={{ textAlign: "left", padding: ".75rem 23px" }}
+            as="a"
+          >
+            View Profile
+          </Buttons>
+        </Link>
         <BadgeSearch />
         <Roadmap {...RoadmapProps} />
       </section>
 
       <section className={InnerRightContainer()}>
-        <Buttons
-          className={FeedbackProfileRightContainer()}
-          color="three"
-          css={{ textAlign: "left", padding: ".75rem 23px" }}
-        >
-          View Profile
-        </Buttons>
+        <Link href="/feedback/profile">
+          <Buttons
+            className={FeedbackProfileRightContainer()}
+            color="three"
+            css={{ textAlign: "left", padding: ".75rem 23px" }}
+            as="a"
+          >
+            View Profile
+          </Buttons>
+        </Link>
+
         <NavBar suggestions={feedbacks?.data?.length ?? 0} />
         {feedbacks?.data?.length === 0 && <NoPosts />}
         {feedbacks.data && feedbacks?.data?.length > 0 && (

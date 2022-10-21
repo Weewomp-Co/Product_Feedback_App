@@ -64,7 +64,6 @@ const Page: NextPage = () => {
   const onValid = handleSubmit(
     // on valid
     async (data) => {
-      console.log(data);
       const response = await fetch("/api/feedback", {
         method: "POST",
         headers: {

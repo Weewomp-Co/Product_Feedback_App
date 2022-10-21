@@ -40,4 +40,3 @@ export const CommentFormBottomContainer = styled('div', {
     fontSize: '$body2'
   }
 })
-
