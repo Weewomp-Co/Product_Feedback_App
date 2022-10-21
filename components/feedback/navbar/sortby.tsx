@@ -17,13 +17,17 @@ const SortByButton = styled('button', {
   textAlign: 'start', 
   border: 'none',
   fontFamily: '$jost',
-  fontSize: '$h4',
+  fontSize: '13px',
   background: 'transparent',
   color: '#F2F4FE',
   cursor: 'pointer',
   alignItems: 'center',
+  padding: '0',
   '& span': {
     fontWeight: '$bold' 
+  },
+  "@xs": {
+    fontSize: '$h4'
   }
 })
 
@@ -31,9 +35,10 @@ const SortByCaret = css(DropdownCaret, {
   color: 'white'    
 })
 
-const SortByInput: React.FC<{ buttonProps: ButtonProps, open: boolean }> = ({ buttonProps, open }) => {
+type SortByInputProps = { buttonProps: ButtonProps, open: boolean, disabled: boolean }
+const SortByInput: React.FC<SortByInputProps> = ({ buttonProps, open, disabled }) => {
   const [selectedValue] = useAtom(sortBySelected)
-  return <SortByButton {...buttonProps}>
+  return <SortByButton {...buttonProps} disabled={disabled}>
     Sort by : <span>{selectedValue}</span>
 
     <UpArrow className={SortByCaret({ open })} />
@@ -42,6 +47,7 @@ const SortByInput: React.FC<{ buttonProps: ButtonProps, open: boolean }> = ({ bu
 
 type DropdownProps = React.PropsWithChildren<{
   getKey?: (value: string) => string;
+  disabled?: boolean
 }>;
 
 const SortByContainerCSS = css({
@@ -50,11 +56,12 @@ const SortByContainerCSS = css({
 
 export const SortyBy: React.FC<DropdownProps> = ({
   getKey = (value) => value as string,
+  disabled = false
 }) => {
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(items.length)
   return (
     <DropdownContainer className={SortByContainerCSS()}>
-      <SortByInput open={isOpen} buttonProps={buttonProps} />
+      <SortByInput disabled={disabled} open={isOpen} buttonProps={buttonProps} />
       <DropdownMenu
         items={items}
         selected={sortBySelected}

@@ -12,6 +12,10 @@ import {
 import { Dispatch } from "react";
 import { Comments } from "@/assets/comments";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { userAtom } from "@/lib/stores";
+import { queryClientAtom } from "jotai/query";
 
 type FeedbackPreviewProp = React.PropsWithChildren<{
   votes: number;
@@ -19,7 +23,6 @@ type FeedbackPreviewProp = React.PropsWithChildren<{
   Title: string;
   Subtitle: string;
   Category: string;
-  setVotes?: Dispatch<number>;
   active: boolean;
   setActive?: Dispatch<boolean>;
   uuid: string;
@@ -29,22 +32,32 @@ const FeedbackPreview: React.FC<FeedbackPreviewProp> = ({
   votes,
   commentsNumber,
   Category,
-  setVotes,
   active,
-  setActive,
   uuid,
   Title,
   Subtitle
 }) => {
+  const [queryClient] = useAtom(queryClientAtom)
+  const [_, dispatch] = useAtom(userAtom)
+  const onVote = async () => {
+    await fetch(`/api/feedback/${uuid}/votes`, {
+      method: 'POST'
+    })
+
+    queryClient.invalidateQueries(['feedbacks'])
+    queryClient.invalidateQueries(['feedbackPost'])
+    dispatch({ type: 'refetch' })
+  }
+
   return (
     <FeedbackPreviewContainer>
       <Votes
         votes={votes}
-        setVotes={setVotes}
         active={active}
-        setActive={setActive}
         className={VotesStyle()}
+        onClick={onVote}
       />
+
       <div className={textWrapper()}>
         <Link href={`/feedback/${uuid}`}>
           <a className={title()}>{Title}</a>

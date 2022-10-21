@@ -1,4 +1,5 @@
 import { styled, css } from "../../../stitches.config";
+import buttons from "../buttons";
 
 export const AuthContainerStyle = styled('div', {
   minHeight: '23.4375rem',
@@ -45,13 +46,12 @@ export const TopContainer = css({
   padding: "1rem 2rem",
 });
 
-export const BackButton = css({
-  padding: "1rem 0",
+export const BackButton = styled(buttons, {
+  padding: "1rem 40px",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   gap: "1rem",
-  minWidth: "163px",
   order: '1',
   justifySelf: 'end',
   "@md": {

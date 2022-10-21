@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import { withSessionSsr } from "@/lib/withSession.module";
 import { css, styled } from "stitches.config";
 import {AuthContainerOverides, SignInStyle, ErrorText, FormStyle, Container, ButtonsWrapper} from '@/styles/signin'
+import Link from "next/link";
 
 const Validation = z
   .object({
@@ -54,10 +55,7 @@ const Page: NextPage = () => {
 
       if (response.ok) {
         router.push("/feedback")
-        console.log(response)
       } 
-
-      
 
       const result = await response.json()
       if (result?.email?._errors)
@@ -65,13 +63,12 @@ const Page: NextPage = () => {
       if (result?.username?._errors)
         setError("password", { message: result.password._errors?.[0] });
       
-      console.log(result._errors)
       setResponseErrors(result._errors);
     }
   );
 
   return (
-      <AuthContainer className={`${AuthContainerOverides()}`} title="Sign in" href="/auth/signin">
+      <AuthContainer className={`${AuthContainerOverides()}`} title="Sign in">
         <div className={Container()}>
         <form onSubmit={onValid} className={FormStyle()}>
           <InputLabel htmlFor={ids.email}>Email</InputLabel>
@@ -103,12 +100,14 @@ const Page: NextPage = () => {
               },
               width: '137px'
             }}>Sign in</Button>
-            <Button color="four" as="a" href="/auth/signup" css={{
+            <Link href="/auth/signup">
+              <Button color="four" as="a"  css={{
               backgroundColor: '#E84D70',
               '&:hover': {
                 backgroundColor: '#e87891'
               }
             }}>Sign up</Button>
+            </Link>
           </div>
         </form>
         </div>

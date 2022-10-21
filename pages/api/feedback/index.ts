@@ -2,7 +2,7 @@ import { withSessionRoute } from "@/lib/withSession.module";
 import { NextApiHandler } from "next";
 import { Status } from "@prisma/client";
 import { client } from "@/prisma/client";
-import { ValidateFeedbackBody } from "@/lib/feedback.module";
+import { feedbackPostQuery, ValidateFeedbackBody } from "@/lib/feedback.module";
 
 const POST: NextApiHandler<any> = async (req, res) => {
   const parsedBody = ValidateFeedbackBody.safeParse(req.body);
@@ -33,52 +33,12 @@ const POST: NextApiHandler<any> = async (req, res) => {
 
     return res.status(201).json(result);
   } else {
-    return res.json(parsedBody.error.format());
+    return res.status(400).json(parsedBody.error.format());
   }
 };
 
-const GET: NextApiHandler<any> = async (_, res) => {
-  const results = await client.feedback.findMany({
-    include: {
-      user: {
-        select: {
-          username: true,
-          email: true,
-          id: true,
-        },
-      },
-      comments: {
-        where: {
-          parentId: null,
-        },
-        include: {
-          children: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  username: true,
-                  email: true,
-                },
-              },
-            },
-          },
-          user: {
-            select: {
-              id: true,
-              username: true,
-              email: true,
-            },
-          },
-        },
-      },
-      _count: {
-        select: {
-          votes: true,
-        },
-      },
-    },
-  });
+const GET: NextApiHandler<any> = async (req, res) => {
+  const results = await client.feedback.findMany(feedbackPostQuery);
 
   return res.json(results);
 };

@@ -13,7 +13,7 @@ export const DropdownInput = styled('button', {
   color: "$grey600",
   justifyContent: 'space-between',
   alignItems: 'center',
-  background: '$white300',
+  background: '$white600',
   borderRadius: '10px',
   padding: '13px 24px',
   border: 'none',
@@ -76,7 +76,7 @@ export const DropdownButton = styled("button", {
       true: {
         color: "$purple",
         "&::after": {
-          opacity: '1' 
+          opacity: '1'
         },
         "&:focus": {
           color: "$grey900"

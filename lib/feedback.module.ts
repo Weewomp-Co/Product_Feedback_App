@@ -1,5 +1,5 @@
 import { client } from "@/prisma/client"
-import { Category, Feedback, Status } from "@prisma/client";
+import { Category, Feedback, Prisma, Status } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { CommentsInnerJonn } from "./comments.module";
@@ -25,8 +25,9 @@ export const GetOneFeedback = async (req: NextApiRequest) => {
       },
       _count: {
         select: {
-          votes: true
-        }
+          votes: true,
+          comments: true
+        },
       }
     }
   });
@@ -41,6 +42,7 @@ export const GetOneFeedback = async (req: NextApiRequest) => {
 }
 
 export const HasSessionCreatedFeedback = (feedback: Feedback, req: NextApiRequest, res: NextApiResponse<unknown>, keyword: string) => {
+  if (req.session?.user?.role === "ADMIN") return false
   if (feedback.userId !== req.session.user?.id) {
     res.status(401).json({
       _errors: [`Unauthorized cannot ${keyword} another users feedback post`]
@@ -54,7 +56,59 @@ export const HasSessionCreatedFeedback = (feedback: Feedback, req: NextApiReques
 
 export const ValidateFeedbackBody = z.object({
   title: z.string().min(5).max(25),
-  details: z.string().min(25).max(256),
+  details: z.string().trim().min(25).max(256),
   status: z.enum([Status.Live, Status.Planned, Status.Progress, Status.Suggestion] as const).optional(),
   category: z.enum([Category.UI, Category.UX, Category.Bug, Category.Feature, Category.Enchancement] as const),
 })
+
+export const feedbackPostQuery = Prisma.validator<Prisma.FeedbackArgs>()({
+  include: {
+      user: {
+        select: {
+          username: true,
+          email: true,
+          id: true,
+        },
+      },
+      comments: {
+        where: {
+          parentId: null,
+        },
+        include: {
+          children: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  email: true,
+                },
+              },
+              replyTo: {
+                select: {
+                  id: true,
+                  username: true,
+                  email: true
+                }
+              }
+            },
+          },
+          user: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+            },
+          },
+        },
+      },
+      _count: {
+        select: {
+          votes: true,
+          comments: true
+        },
+      },
+    }
+})
+
+export type GetFeedbackPost = Prisma.FeedbackGetPayload<typeof feedbackPostQuery>
