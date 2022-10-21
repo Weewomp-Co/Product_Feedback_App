@@ -120,13 +120,17 @@ const Page: NextPage = () => {
   const Container = css({
     maxWidth: '100vw',
     minHeight: '100vh',
-    padding: '3rem',
+    padding: '0rem',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'start',
+    alignItems: 'start',
     fontFamily: 'jost',
     backgroundColor: '$white300',
-    
+    '@md': {
+      padding: '3rem',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
   })
 
   const ContentContainer = css({
@@ -143,12 +147,15 @@ const Page: NextPage = () => {
     maxHeight: '7rem',
     width: '100%',
     height: '100%',
-    borderRadius: '0.625rem',
+    borderRadius: '0rem',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     color: 'white',
-    padding: '2rem'
+    padding: '2rem',
+    '@md': {
+      borderRadius: '0.625rem'
+    }
   })
 
   const navWrapper = css({
