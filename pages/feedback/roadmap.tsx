@@ -5,6 +5,9 @@ import { BackArrow } from "@/assets/backArrow";
 import RoadmapPageCard from '@/components/roadmap/roadmap-page-card'
 import { useQuery } from "@tanstack/react-query";
 import { GetFeedbackPost } from "@/lib/feedback.module";
+import {useState, useEffect} from 'react'
+import feedback from "pages/api/feedback";
+import {useRouter} from 'next/router'
 
 type ShowProps = {
   posts: GetFeedbackPost[]
@@ -36,7 +39,7 @@ const ShowPlanned: React.FC<ShowProps> = ({
     </div>
     {
     posts.filter(item => item.status === "Planned").map(item =>
-      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={""}/> )
+      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={item.id} uuid={item.id}/> )
   }
   </div>
 }
@@ -67,7 +70,7 @@ const ShowInProgress: React.FC<ShowProps> = ({
     </div>
     {
     posts.filter(item => item.status === "Progress").map(item =>
-      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={""}/> )
+      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={item.id} uuid={item.id}/> )
   }
   </div>
 }
@@ -98,20 +101,25 @@ const ShowLive: React.FC<ShowProps> = ({
     </div>
     {
     posts.filter(item => item.status === "Live").map(item =>
-      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={""}/> )
+      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={item.id} uuid={item.id}/> )
   }
   </div>
 }
 
 
 const Page: NextPage = () => {
+
+  const [selected, setSelected] = useState("Planned")
+
+  const router = useRouter();
+
   const feedbacks = useQuery<GetFeedbackPost[]>(
     ["feedbacks"],
     async () => {
       const response = await fetch("/api/feedback/").then(
         (res) => res.json() as Promise<GetFeedbackPost[]>
       );
-
+        
       return response
         .filter(post => post.status != 'Suggestion')
     }
@@ -139,7 +147,10 @@ const Page: NextPage = () => {
     width: '100%',
     height: '100%',
     flexDirection: 'column',
+    gap: '0rem',
+    '@md': {
     gap: '3rem'
+    }
   })
 
   const navBar = css({
@@ -192,12 +203,45 @@ const Page: NextPage = () => {
   })
 
   const MobileContainer = styled('div', {
-    display: 'block',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
     '@md': {
       display: 'none'
     }
   })
 
+  const MobileButton = styled('button', {
+    backgroundColor: 'transparent',
+    border: 'none',
+    fontFamily: 'jost',
+    fontSize: '$h3',
+    color: '$grey600',
+    fontWeight: 'bold',
+    height: 'inherit',
+    borderBottom: '.2rem solid transparent',
+    width: '100%',
+    opacity: '0.4'
+  })
+
+  const PlannedSelected = {
+    borderBottom: '.2rem solid #F49F85',
+    color: 'black',
+    opacity: '1'
+  }
+
+  const ProgressSelected = {
+    borderBottom: '.2rem solid #AD1FEA',
+    color: 'black',
+    opacity: '1'
+  }
+
+  const LiveSelected = {
+    borderBottom: '.2rem solid #62BCFA',
+    color: 'black',
+    opacity: '1'
+  }
   
 
   return (
@@ -213,6 +257,8 @@ const Page: NextPage = () => {
               gap: '1rem',
               height: 'fit-content',
               padding: '0'
+            }} onClick={() => {
+              router.back();
             }}><BackArrow />Go Back</Button>
             <h1 className={navTitle()}>Roadmap</h1>
           </div>
@@ -236,9 +282,36 @@ const Page: NextPage = () => {
                 <ShowInProgress posts={feedbacks.data} />
                 <ShowLive posts={feedbacks.data} />
               </DesktopContainer>
+              {
               <MobileContainer>
-                Mobile
+                
+                  <div style={{
+                    display: 'flex',
+                    width: '100%',
+                    height: '3.75rem',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    borderBottom: '1px solid #8C92B319',
+                    marginBottom: '1.5rem',
+                    position: 'relative'
+                  }}>
+                    <MobileButton onClick={() => {
+                      setSelected("Planned")
+                    }} css={(selected === "Planned") ? (PlannedSelected) : ({})}>Planned ({feedbacks?.data?.filter(item => item.status === "Planned").length})</MobileButton>
+                    <MobileButton onClick={() => {
+                      setSelected("Progress")
+                    }} css={(selected === "Progress") ? (ProgressSelected) : ({})}>In-Progress ({feedbacks?.data?.filter(item => item.status === "Progress").length})</MobileButton>
+                    <MobileButton onClick={() => {
+                      setSelected("Live")
+                    }} css={(selected === "Live") ? (LiveSelected) : ({})}>Live ({feedbacks?.data?.filter(item => item.status === "Live").length})</MobileButton>
+                  </div>
+                  {
+                  (selected === "Planned") ? (
+                    <ShowPlanned posts={feedbacks.data}/>
+                  ) : (selected === "Progress") ? (<ShowInProgress posts={feedbacks.data}/>) : (selected ==="Live") ? (<ShowLive posts={feedbacks.data}/>) : (<></>)
+                  }
               </MobileContainer>
+              }
             </div> : (<></>)
             }
         </div>

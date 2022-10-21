@@ -3,6 +3,7 @@ import React from "react";
 import {Dot} from './styles'
 import Votes from '@/components/shared/votes/Votes'
 import {Comments} from '@/assets/comments'
+import Link from 'next/link'
 
 type RoadmapPageCardProps = {
   status?: string;
@@ -11,7 +12,7 @@ type RoadmapPageCardProps = {
   category?: string;
   votes?: number;
   commentsNumber?: number;
-  id?: string
+  uuid?: string
 }
 
 function getDotByType(status: string | undefined){
@@ -37,12 +38,14 @@ const RoadmapPageCardContainer = styled('div', {
   width: '100%',
   backgroundColor: 'white',
   display: 'flex',
-  justifyContent: 'start',
+  justifyContent: 'center',
   alignItems: 'start',
   borderRadius: '.3rem',
   padding: '2rem',
   flexDirection: 'column',
-  fontFamily: 'jost'
+  fontFamily: 'jost',
+  gap: '1rem',
+  position: 'relative'
 })
 
 const Container = styled('div', {
@@ -67,7 +70,9 @@ const Desc = css({
   fontSize: '$h3',
   color: '$grey300',
   fontWeight: '',
-  minHeight: '3.25rem'
+  minHeight: '3.25rem',
+  wordBreak: 'break-word',
+  margin: '.2rem 0rem'
 })
 
 const Category = styled('div', {
@@ -90,8 +95,26 @@ const Category = styled('div', {
   }
 })
 
+const LinkStyle = css({
+  "&::after": {
+    position: "absolute",
+    inset: "0",
+    content: "",
+    display: "block",
+  },
+  '&:active': {
+    color: '$grey900'
+  },
+  '&:hover': {
+    color: '$grey900'
+  }
+})
+
 const StyledVotes = {
   flexDirection: 'row',
+  margin: '0',
+  height: 'min-content',
+  zIndex: '5'
 }
 
 const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
@@ -101,29 +124,37 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
   category,
   votes,
   commentsNumber,
-  id
+  uuid
 }) => {
   return (
     <RoadmapPageCardContainer css={{
       borderTop: `0.375rem solid ${getDotByType(status)}`,
     }}>
+      
+      <div>
       <Container>
         <Dot css={{
           backgroundColor: `${getDotByType(status)}`
         }}/>
         <div className={Type()}>{status}</div>
       </Container>
+      <div className={Title()}>
+        <Link href={`/feedback/${uuid}`}><a className={LinkStyle()}>{title}</a></Link>
+      </div>
+      <p className={Desc()}>{desc}</p>
+      </div>
       <div style={{
-        width: '100%'
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem'
       }}>
-        <div className={Title()}>{title}</div>
-        <p className={Desc()}>{desc}</p>
         <Category>{category}</Category>
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginTop: '1rem'
+          height: 'min-content'
         }}>
         <Votes votes={1} active={false} css={StyledVotes}/>
         <div style={{
@@ -131,10 +162,13 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
           justifyContent:'center',
           alignItems: 'center',
           width: 'min-content',
-          gap: '1rem'
+          gap: '1rem',
+          height:'min-content'
         }}>
         <Comments />
-        <h4>{commentsNumber}</h4>
+        <h4 style={{
+          margin: '0'
+        }}>{commentsNumber}</h4>
         </div>
         </div>
       </div>
