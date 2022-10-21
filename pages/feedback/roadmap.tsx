@@ -36,7 +36,7 @@ const ShowPlanned: React.FC<ShowProps> = ({
     </div>
     {
     posts.filter(item => item.status === "Planned").map(item =>
-      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={"af"}/> )
+      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={""}/> )
   }
   </div>
 }
@@ -67,7 +67,7 @@ const ShowInProgress: React.FC<ShowProps> = ({
     </div>
     {
     posts.filter(item => item.status === "Progress").map(item =>
-      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={"af"}/> )
+      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={""}/> )
   }
   </div>
 }
@@ -98,7 +98,7 @@ const ShowLive: React.FC<ShowProps> = ({
     </div>
     {
     posts.filter(item => item.status === "Live").map(item =>
-      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={"af"}/> )
+      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={""}/> )
   }
   </div>
 }
