@@ -90,7 +90,8 @@ export const StyledVotes = {
   flexDirection: 'row',
   margin: '0',
   height: 'min-content',
-  zIndex: '5'
+  zIndex: '5',
+  padding: '8px 11px'
 }
 
 export const VotesSection = css({

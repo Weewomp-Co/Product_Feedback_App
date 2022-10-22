@@ -1,13 +1,10 @@
 import { NextPage } from "next";
 import Button from "@/components/shared/buttons";
 import { BackArrow } from "@/assets/backArrow";
-import RoadmapPageCard from "@/components/roadmap/roadmap-page-card";
 import { useQuery } from "@tanstack/react-query";
 import { GetFeedbackPost } from "@/lib/feedback.module";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { userAtom } from "@/lib/stores";
-import { useAtom } from "jotai";
 import {
   Container,
   ContentContainer,
@@ -23,137 +20,10 @@ import {
   LiveSelected,
   MobileNavWrapper,
   PostsWrapper,
-  LabelStyle,
-  ColumnContainer,
+  AddFeedback,
 } from "@/styles/roadmap";
-
-type ShowProps = {
-  posts: GetFeedbackPost[];
-};
-
-const ShowPlanned: React.FC<ShowProps> = ({ posts }) => {
-  const [user] = useAtom(userAtom);
-  return (
-    <div className={ColumnContainer()}>
-      <div className={LabelStyle()}>
-        <h3
-          style={{
-            padding: "0",
-            margin: "0",
-          }}
-        >
-          Planned ({posts.filter((item) => item.status === "Planned").length})
-        </h3>
-        <p
-          style={{
-            padding: "0",
-            margin: "0",
-          }}
-        >
-          Ideas prioritized for research
-        </p>
-      </div>
-      {posts
-        .filter((item) => item.status === "Planned")
-        .map((item) => (
-          <RoadmapPageCard
-            votes={item._count.votes}
-            title={item.title}
-            status={item.status}
-            desc={item.details}
-            category={item.category}
-            commentsNumber={item.comments.length}
-            key={item.id}
-            uuid={item.id}
-            active={user.votes.some(({ feedbackId }) => item.id === feedbackId)}
-          />
-        ))}
-    </div>
-  );
-};
-
-const ShowInProgress: React.FC<ShowProps> = ({ posts }) => {
-  const [user] = useAtom(userAtom);
-  return (
-    <div className={ColumnContainer()}>
-      <div className={LabelStyle()}>
-        <h3
-          style={{
-            padding: "0",
-            margin: "0",
-          }}
-        >
-          In-Progress (
-          {posts.filter((item) => item.status === "Planned").length})
-        </h3>
-        <p
-          style={{
-            padding: "0",
-            margin: "0",
-          }}
-        >
-          Currently being developed
-        </p>
-      </div>
-      {posts
-        .filter((item) => item.status === "Progress")
-        .map((item) => (
-          <RoadmapPageCard
-            votes={item._count.votes}
-            title={item.title}
-            status={item.status}
-            desc={item.details}
-            category={item.category}
-            commentsNumber={item.comments.length}
-            key={item.id}
-            uuid={item.id}
-            active={user.votes.some(({ feedbackId }) => item.id === feedbackId)}
-          />
-        ))}
-    </div>
-  );
-};
-
-const ShowLive: React.FC<ShowProps> = ({ posts }) => {
-  const [user] = useAtom(userAtom);
-  return (
-    <div className={ColumnContainer()}>
-      <div className={LabelStyle()}>
-        <h3
-          style={{
-            padding: "0",
-            margin: "0",
-          }}
-        >
-          Live ({posts.filter((item) => item.status === "Live").length})
-        </h3>
-        <p
-          style={{
-            padding: "0",
-            margin: "0",
-          }}
-        >
-          Released features
-        </p>
-      </div>
-      {posts
-        .filter((item) => item.status === "Live")
-        .map((item) => (
-          <RoadmapPageCard
-            votes={item._count.votes}
-            title={item.title}
-            status={item.status}
-            desc={item.details}
-            category={item.category}
-            commentsNumber={item.comments.length}
-            key={item.id}
-            uuid={item.id}
-            active={user.votes.some(({ feedbackId }) => item.id === feedbackId)}
-          />
-        ))}
-    </div>
-  );
-};
+import { RoadmapStatusContainer } from "@/components/roadmap/roadmap-status-container";
+import { Status } from "@prisma/client";
 
 const Page: NextPage = () => {
   const [selected, setSelected] = useState("Planned");
@@ -165,6 +35,10 @@ const Page: NextPage = () => {
 
     return response.filter((post) => post.status != "Suggestion");
   });
+
+  const ReduceByStatus = (status: Status) => (total: number, curr: GetFeedbackPost) => {
+    return total + (curr.status === status ? 1 : 0)
+  }
 
   return (
     <main className={Container()}>
@@ -194,27 +68,26 @@ const Page: NextPage = () => {
 
           <div>
             <Button
+              className={AddFeedback()}
               color={"one"}
               onClick={() => {
                 router.push("/feedback/create");
               }}
-            >
-              + Add Feedback
-            </Button>
+            />
           </div>
         </div>
 
         <div className={FeedbackSection()}>
-          {feedbacks.data ? (
+          {feedbacks.data && (
             <div
               style={{
                 width: "100%",
               }}
             >
               <DesktopContainer>
-                <ShowPlanned posts={feedbacks.data} />
-                <ShowInProgress posts={feedbacks.data} />
-                <ShowLive posts={feedbacks.data} />
+                <RoadmapStatusContainer posts={feedbacks.data} status="Planned" />
+                <RoadmapStatusContainer posts={feedbacks.data} status="Progress" />
+                <RoadmapStatusContainer posts={feedbacks.data} status="Live" />
               </DesktopContainer>
               {
                 <MobileContainer>
@@ -225,13 +98,7 @@ const Page: NextPage = () => {
                       }}
                       css={selected === "Planned" ? PlannedSelected : {}}
                     >
-                      Planned (
-                      {
-                        feedbacks?.data?.filter(
-                          (item) => item.status === "Planned"
-                        ).length
-                      }
-                      )
+                      Planned ({feedbacks?.data?.reduce(ReduceByStatus("Planned"), 0)})
                     </MobileButton>
                     <MobileButton
                       onClick={() => {
@@ -239,13 +106,7 @@ const Page: NextPage = () => {
                       }}
                       css={selected === "Progress" ? ProgressSelected : {}}
                     >
-                      In-Progress (
-                      {
-                        feedbacks?.data?.filter(
-                          (item) => item.status === "Progress"
-                        ).length
-                      }
-                      )
+                      In-Progress ({feedbacks?.data?.reduce(ReduceByStatus("Progress"), 0)})
                     </MobileButton>
                     <MobileButton
                       onClick={() => {
@@ -253,26 +114,20 @@ const Page: NextPage = () => {
                       }}
                       css={selected === "Live" ? LiveSelected : {}}
                     >
-                      Live (
-                      {
-                        feedbacks?.data?.filter(
-                          (item) => item.status === "Live"
-                        ).length
-                      }
-                      )
+                      Live ({feedbacks?.data?.reduce(ReduceByStatus("Live"), 0)})
                     </MobileButton>
                   </div>
                   {selected === "Planned" ? (
                     <div className={PostsWrapper()}>
-                      <ShowPlanned posts={feedbacks.data} />
+                      <RoadmapStatusContainer posts={feedbacks.data} status="Planned" />
                     </div>
                   ) : selected === "Progress" ? (
                     <div className={PostsWrapper()}>
-                      <ShowInProgress posts={feedbacks.data} />
+                      <RoadmapStatusContainer posts={feedbacks.data} status="Progress" />
                     </div>
                   ) : selected === "Live" ? (
                     <div className={PostsWrapper()}>
-                      <ShowLive posts={feedbacks.data} />
+                      <RoadmapStatusContainer posts={feedbacks.data} status="Live" />
                     </div>
                   ) : (
                     <></>
@@ -280,9 +135,7 @@ const Page: NextPage = () => {
                 </MobileContainer>
               }
             </div>
-          ) : (
-            <></>
-          )}
+          )} 
         </div>
       </section>
     </main>

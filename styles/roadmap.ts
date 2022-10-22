@@ -33,20 +33,29 @@ export const navBar = css({
   backgroundColor: "#373F68",
   width: "100%",
   height: "100%",
-  borderRadius: "0rem",
+  borderRadius: "0",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   color: "white",
-  padding: "2rem",
-  flexDirection: "column",
-  gap: "2rem",
+  padding: "1.5rem",
+  gap: "0rem",
   "@xs": {
+    padding: '2rem',
+  },
+  "@md": {
     borderRadius: "0.625rem",
-    flexDirection: "row",
-    gap: "0rem",
   },
 });
+
+export const AddFeedback = css({
+  '&:before': {
+    content: '+',
+    "@xs": {
+      content: '+ Add Feedback'
+    }
+  }
+})
 
 export const navWrapper = css({
   display: "flex",
@@ -96,13 +105,14 @@ export const MobileButton = styled("button", {
   backgroundColor: "transparent",
   border: "none",
   fontFamily: "jost",
-  fontSize: "$h3",
+  fontSize: "$body1",
   color: "$grey600",
   fontWeight: "bold",
   height: "4rem",
   borderBottom: ".2rem solid transparent",
   width: "100%",
   opacity: "0.4",
+  cursor: 'pointer',
   "@xs": {
     height: "inherit",
   },
@@ -110,19 +120,16 @@ export const MobileButton = styled("button", {
 
 export const PlannedSelected: CSS<typeof config> = {
   borderBottom: ".2rem solid #F49F85",
-  color: "black",
   opacity: "1",
 };
 
 export const ProgressSelected: CSS<typeof config> = {
   borderBottom: ".2rem solid #AD1FEA",
-  color: "black",
   opacity: "1",
 };
 
 export const LiveSelected: CSS<typeof config> = {
   borderBottom: ".2rem solid #62BCFA",
-  color: "black",
   opacity: "1",
 };
 
