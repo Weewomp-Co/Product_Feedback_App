@@ -19,14 +19,17 @@ const PUT: NextApiHandler<any> = async (req, res) => {
     return res.json(resultGet);
   }
 
-  if (HasSessionCreatedFeedback(resultGet, req, res, "update")) return;
+  if (req.session.user?.role === "USER" && HasSessionCreatedFeedback(resultGet, req, res, "update")) return;
   const parsedBody = ValidateFeedbackBody.partial().safeParse(req.body);
   if (parsedBody.success) {
     const resultUpdate = await client.feedback.update({
       where: {
         id: resultGet.id,
       },
-      data: parsedBody.data,
+      data: {
+        ...parsedBody.data,
+        status: req.session?.user?.role === "USER" ? undefined : parsedBody.data?.status
+      },
       include: {
         user: {
           select: {
