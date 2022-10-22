@@ -1,12 +1,10 @@
 import { NextPage } from "next";
-import { styled, css } from "stitches.config";
 import Button from "@/components/shared/buttons";
 import { BackArrow } from "@/assets/backArrow";
 import RoadmapPageCard from '@/components/roadmap/roadmap-page-card'
 import { useQuery } from "@tanstack/react-query";
 import { GetFeedbackPost } from "@/lib/feedback.module";
-import {useState, useEffect} from 'react'
-import feedback from "pages/api/feedback";
+import {useState} from 'react'
 import {useRouter} from 'next/router'
 import {userAtom} from '@/lib/stores'
 import {useAtom} from 'jotai'

@@ -1,12 +1,10 @@
-import { useAtom, atom } from "jotai";
-import { styled, css } from "stitches.config";
+import { useAtom} from "jotai";
 import React from "react";
 import {Dot, RoadmapPageCardContainer, Container, Type, Title, Desc, Category, LinkStyle, StyledVotes , VotesSection, CommentsWrapper, ContentWrapper} from './styles'
 import Votes from '@/components/shared/votes/Votes'
 import {Comments} from '@/assets/comments'
 import Link from 'next/link'
 import { queryClientAtom } from "jotai/query";
-import { Dispatch } from "react";
 import {userAtom} from '@/lib/stores'
 
 type RoadmapPageCardProps = {
@@ -30,7 +28,6 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
   uuid,
   active
 }) => {
-  const [user] = useAtom(userAtom)
   const [queryClient] = useAtom(queryClientAtom)
   const [_, dispatch] = useAtom(userAtom)
 
@@ -46,7 +43,6 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
     })
 
     queryClient.invalidateQueries(['feedbacks'])
-    queryClient.invalidateQueries(['feedbackPost'])
     dispatch({ type: 'refetch' })
   }
 

@@ -1,8 +1,5 @@
-import { styled, css } from "stitches.config";
-
-export const TitleSection = css({
-  
-})
+import { styled, css, config } from "stitches.config";
+import { CSS } from "@stitches/react";
 
 export const Container = css({
   maxWidth: '100vw',
@@ -111,19 +108,19 @@ export const MobileButton = styled('button', {
   }
 })
 
-export const PlannedSelected = {
+export const PlannedSelected: CSS<typeof config> = {
   borderBottom: '.2rem solid #F49F85',
   color: 'black',
   opacity: '1'
 }
 
-export const ProgressSelected = {
+export const ProgressSelected: CSS<typeof config> = {
   borderBottom: '.2rem solid #AD1FEA',
   color: 'black',
   opacity: '1'
 }
 
-export const LiveSelected = {
+export const LiveSelected: CSS<typeof config> = {
   borderBottom: '.2rem solid #62BCFA',
   color: 'black',
   opacity: '1'
