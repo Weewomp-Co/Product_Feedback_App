@@ -17,7 +17,7 @@ export const sanitizeUser = (
   };
 };
 
-type CreateUser = Omit<User, "id" | "role">;
+type CreateUser = Omit<User, "id" | "role" | "active">;
 export const createUser = async (user: CreateUser) => {
   return client.user.create({
     data: {

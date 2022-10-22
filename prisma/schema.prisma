@@ -25,6 +25,7 @@ model User {
   votes Vote[]
   comments Comment[]
   replys Comment[] @relation("replyTo")
+  active Boolean @default(false)
 }
 
 enum Status {
