@@ -27,7 +27,8 @@ const Validation = z
   .object({
     title: z.string().min(1).max(32),
     details: z.string().min(1),
-    category: z.string()
+    category: z.string(),
+		status: z.string()
   })
 
 type PageProps = {
@@ -63,9 +64,12 @@ const Page: NextPage<PageProps> = ({ id }) => {
     setIds({
       title: v4(),
       details: v4(),
-      category: v4()
+      category: v4(),
+			status: v4()
     });
   }, []);
+
+	
 
   const InputWrapper = css({
     	padding: '0.8125em 1.5em 0.8125em 1.5em',
@@ -192,7 +196,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
       alignItems: 'end'
     }
   })
-  
+
   return (
     
     <div className={Container()}>
