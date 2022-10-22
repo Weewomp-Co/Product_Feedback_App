@@ -143,7 +143,7 @@ const Page: NextPage = () => {
 
   return (
     <main className={Container()}>
-      <div className={ContentContainer()}> 
+      <section className={ContentContainer()}> 
         <div className={navBar()}>
           <div className={navWrapper()}>
             <Button color={"five"} css={{
@@ -202,7 +202,7 @@ const Page: NextPage = () => {
             </div> : (<></>)
             }
         </div>
-      </div>
+      </section>
     </main>
   )
 }

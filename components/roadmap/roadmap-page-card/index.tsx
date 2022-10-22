@@ -10,7 +10,7 @@ import { Dispatch } from "react";
 import {userAtom} from '@/lib/stores'
 
 type RoadmapPageCardProps = {
-  status?: string;
+  status: string;
   title?: string;
   desc?: string;
   category?: string;
@@ -20,21 +20,7 @@ type RoadmapPageCardProps = {
   active: boolean
 }
 
-function getDotByType(status: string | undefined){
-  switch(status){
-    case 'Planned':
-    return "#F49F85"
-      break;
-    case 'Progress':
-    return "#AD1FEA"
-      break;
-    case 'Live':
-    return "#62BCFA"
-      break;
-  }
 
-  return 'transparent'
-}
 
 const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
   status,
@@ -51,6 +37,14 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
   const [queryClient] = useAtom(queryClientAtom)
   const [_, dispatch] = useAtom(userAtom)
 
+
+  
+  const StatusToColor: Record<string, string> = {
+    'Planned': '#F49F85',
+    'Progress': '#AD1FEA',
+    'Live': '#62BCFA'
+  }
+
   const onVote = async () => {
     await fetch(`/api/feedback/${uuid}/votes`, {
       method: 'POST'
@@ -63,13 +57,13 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
 
   return (
     <RoadmapPageCardContainer css={{
-      borderTop: `0.375rem solid ${getDotByType(status)}`,
+      borderTop: `0.375rem solid ${StatusToColor[status] ?? 'transparent'}`,
     }}>
       
       <div>
         <Container>
           <Dot css={{
-            backgroundColor: `${getDotByType(status)}`
+            backgroundColor: `${StatusToColor[status] ?? 'transparent'}`
           }}/>
           <div className={Type()}>{status}</div>
         </Container>
