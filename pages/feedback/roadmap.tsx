@@ -10,31 +10,17 @@ import feedback from "pages/api/feedback";
 import {useRouter} from 'next/router'
 import {userAtom} from '@/lib/stores'
 import {useAtom} from 'jotai'
-import {Container, ContentContainer, navBar, navWrapper, navTitle, FeedbackSection, DesktopContainer, MobileContainer, MobileButton, PlannedSelected, ProgressSelected, LiveSelected, MobileNavWrapper, PostsWrapper} from '@/styles/roadmap'
+import {Container, ContentContainer, navBar, navWrapper, navTitle, FeedbackSection, DesktopContainer, MobileContainer, MobileButton, PlannedSelected, ProgressSelected, LiveSelected, MobileNavWrapper, PostsWrapper, LabelStyle, ColumnContainer} from '@/styles/roadmap'
 
 type ShowProps = {
   posts: GetFeedbackPost[]
 }
 
-
 const ShowPlanned: React.FC<ShowProps> = ({
   posts
 }) => {
-  const LabelStyle = css({
-    flexDirection: 'column',
-    display: 'none',
-    '@md': {
-      display: 'flex'
-    }
-  })
   const [user] = useAtom(userAtom)
-  return<div style={{
-    maxWidth: '21.875rem',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem'
-  }}>
+  return<div className={ColumnContainer()}>
     <div className={LabelStyle()}>
       <h3 style={{
         padding: '0',
@@ -55,21 +41,8 @@ const ShowPlanned: React.FC<ShowProps> = ({
 const ShowInProgress: React.FC<ShowProps> = ({
   posts
 }) => {
-  const LabelStyle = css({
-    flexDirection: 'column',
-    display: 'none',
-    '@md': {
-      display: 'flex'
-    }
-  })
   const [user] = useAtom(userAtom)
-  return<div style={{
-    maxWidth: '21.875rem',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem'
-  }}>
+  return<div className={ColumnContainer()}>
     <div className={LabelStyle()}>
       <h3 style={{
         padding: '0',
@@ -90,21 +63,8 @@ const ShowInProgress: React.FC<ShowProps> = ({
 const ShowLive: React.FC<ShowProps> = ({
   posts
 }) => {
-  const LabelStyle = css({
-    flexDirection: 'column',
-    display: 'none',
-    '@md': {
-      display: 'flex'
-    }
-  })
   const [user] = useAtom(userAtom)
-  return<div style={{
-    maxWidth: '21.875rem',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem'
-  }}>
+  return<div className={ColumnContainer()}>
     <div className={LabelStyle()}>
       <h3 style={{
         padding: '0',
@@ -122,13 +82,9 @@ const ShowLive: React.FC<ShowProps> = ({
   </div>
 }
 
-
 const Page: NextPage = () => {
-
   const [selected, setSelected] = useState("Planned")
-
   const router = useRouter();
-
   const feedbacks = useQuery<GetFeedbackPost[]>(
     ["feedbacks"],
     async () => {
@@ -157,11 +113,13 @@ const Page: NextPage = () => {
             }} onClick={() => {
               router.back();
             }}><BackArrow />Go Back</Button>
-            <h1 className={navTitle()}>Roadmap</h1>
+            <h2 className={navTitle()}>Roadmap</h2>
           </div>
 
           <div>
-            <Button color={"one"}>+ Add Feedback</Button>
+            <Button color={"one"} onClick={
+              () => {router.push('/feedback/create')}
+            }>+ Add Feedback</Button>
           </div>
         </div>
 

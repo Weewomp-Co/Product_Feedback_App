@@ -1,7 +1,7 @@
 import { useAtom, atom } from "jotai";
 import { styled, css } from "stitches.config";
 import React from "react";
-import {Dot, RoadmapPageCardContainer, Container, Type, Title, Desc, Category, LinkStyle, StyledVotes} from './styles'
+import {Dot, RoadmapPageCardContainer, Container, Type, Title, Desc, Category, LinkStyle, StyledVotes , VotesSection, CommentsWrapper, ContentWrapper} from './styles'
 import Votes from '@/components/shared/votes/Votes'
 import {Comments} from '@/assets/comments'
 import Link from 'next/link'
@@ -20,8 +20,6 @@ type RoadmapPageCardProps = {
   active: boolean
 }
 
-
-
 const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
   status,
   title,
@@ -33,12 +31,9 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
   active
 }) => {
   const [user] = useAtom(userAtom)
-
   const [queryClient] = useAtom(queryClientAtom)
   const [_, dispatch] = useAtom(userAtom)
 
-
-  
   const StatusToColor: Record<string, string> = {
     'Planned': '#F49F85',
     'Progress': '#AD1FEA',
@@ -72,33 +67,16 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
         </div>
         <p className={Desc()}>{desc}</p>
       </div>
-      <div style={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1rem'
-      }}>
+      <div className={VotesSection()}>
         <Category>{category}</Category>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          height: 'min-content'
-        }}>
-        <Votes votes={votes} active={active} css={StyledVotes} onClick={onVote}/>
-        <div style={{
-          display: 'flex',
-          justifyContent:'center',
-          alignItems: 'center',
-          width: 'min-content',
-          gap: '1rem',
-          height:'min-content'
-        }}>
-        <Comments />
-        <h4 style={{
-          margin: '0'
-        }}>{commentsNumber}</h4>
-        </div>
+        <div className={ContentWrapper()}>
+          <Votes votes={votes} active={active} css={StyledVotes} onClick={onVote}/>
+          <div className={CommentsWrapper()}>
+            <Comments />
+            <h4 style={{
+              margin: '0'
+            }}>{commentsNumber}</h4>
+          </div>
         </div>
       </div>
     </RoadmapPageCardContainer>

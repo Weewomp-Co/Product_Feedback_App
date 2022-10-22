@@ -159,3 +159,19 @@ export const PostsWrapper = css({
   flexDirection: 'column',
   margin: '0rem'
 })
+
+export const LabelStyle = css({
+  flexDirection: 'column',
+  display: 'none',
+  '@md': {
+    display: 'flex'
+  }
+})
+
+export const ColumnContainer = css({
+  maxWidth: '21.875rem',
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.5rem'
+})

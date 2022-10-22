@@ -92,3 +92,26 @@ export const StyledVotes = {
   height: 'min-content',
   zIndex: '5'
 }
+
+export const VotesSection = css({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem'
+})
+
+export const CommentsWrapper = css({
+  display: 'flex',
+  justifyContent:'center',
+  alignItems: 'center',
+  width: 'min-content',
+  gap: '1rem',
+  height:'min-content'
+})
+
+export const ContentWrapper = css({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  height: 'min-content'
+})
