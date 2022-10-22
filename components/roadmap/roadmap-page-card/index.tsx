@@ -1,7 +1,7 @@
 import { useAtom, atom } from "jotai";
 import { styled, css } from "stitches.config";
 import React from "react";
-import {Dot} from './styles'
+import {Dot, RoadmapPageCardContainer, Container, Type, Title, Desc, Category, LinkStyle, StyledVotes} from './styles'
 import Votes from '@/components/shared/votes/Votes'
 import {Comments} from '@/assets/comments'
 import Link from 'next/link'
@@ -34,92 +34,6 @@ function getDotByType(status: string | undefined){
   }
 
   return 'transparent'
-}
-
-const RoadmapPageCardContainer = styled('div', {
-  minHeight: '17rem',
-  height: 'min-content',
-  maxWidth: '21.875rem',
-  width: '100%',
-  backgroundColor: 'white',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'start',
-  borderRadius: '.3rem',
-  padding: '2rem',
-  flexDirection: 'column',
-  fontFamily: 'jost',
-  gap: '1rem',
-  position: 'relative',
-})
-
-const Container = styled('div', {
-  display: 'flex',
-  justifyContent: 'start',
-  alignItems: 'center',
-  gap: '1rem'
-})
-
-const Type = css({
-  color: '$grey300',
-})
-
-const Title = css({
-  fontFamily: 'jost',
-  fontSize: '$h3',  
-  color: '$grey600',
-  fontWeight: 'bold',
-  marginTop: '.5rem'
-})
-const Desc = css({
-  fontSize: '$h3',
-  color: '$grey300',
-  fontWeight: '',
-  minHeight: '3.25rem',
-  wordBreak: 'break-word',
-  margin: '.2rem 0rem'
-})
-
-const Category = styled('div', {
-  backgroundColor: '$white600',
-  width: 'min-content',
-  fontSize: '0.8125rem',
-  fontFamily: '$jost',
-  padding: '.375rem 1rem',
-  borderRadius: '10px',
-  border: 'none',
-  fontWeight: '$semibold',
-  color: '$grey900',
-  variants: {
-    active: {
-      true: {
-        background: '$grey900',
-        color: 'white'
-      }
-    }
-  }
-})
-
-const LinkStyle = css({
-  "&::after": {
-    position: "absolute",
-    inset: "0",
-    content: "",
-    display: "block",
-  },
-  '&:active': {
-    color: '$grey900'
-  },
-  '&:hover': {
-    color: '$grey900'
-  }
-})
-
-const StyledVotes = {
-  flexDirection: 'row',
-  margin: '0',
-  height: 'min-content',
-  zIndex: '5'
 }
 
 const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
