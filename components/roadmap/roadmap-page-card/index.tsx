@@ -1,18 +1,23 @@
+import { useAtom, atom } from "jotai";
 import { styled, css } from "stitches.config";
 import React from "react";
 import {Dot} from './styles'
 import Votes from '@/components/shared/votes/Votes'
 import {Comments} from '@/assets/comments'
 import Link from 'next/link'
+import { queryClientAtom } from "jotai/query";
+import { Dispatch } from "react";
+import {userAtom} from '@/lib/stores'
 
 type RoadmapPageCardProps = {
   status?: string;
   title?: string;
   desc?: string;
   category?: string;
-  votes?: number;
+  votes: number;
   commentsNumber?: number;
   uuid?: string
+  active: boolean
 }
 
 function getDotByType(status: string | undefined){
@@ -45,7 +50,7 @@ const RoadmapPageCardContainer = styled('div', {
   flexDirection: 'column',
   fontFamily: 'jost',
   gap: '1rem',
-  position: 'relative'
+  position: 'relative',
 })
 
 const Container = styled('div', {
@@ -124,24 +129,40 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
   category,
   votes,
   commentsNumber,
-  uuid
+  uuid,
+  active
 }) => {
+  const [user] = useAtom(userAtom)
+
+  const [queryClient] = useAtom(queryClientAtom)
+  const [_, dispatch] = useAtom(userAtom)
+
+  const onVote = async () => {
+    await fetch(`/api/feedback/${uuid}/votes`, {
+      method: 'POST'
+    })
+
+    queryClient.invalidateQueries(['feedbacks'])
+    queryClient.invalidateQueries(['feedbackPost'])
+    dispatch({ type: 'refetch' })
+  }
+
   return (
     <RoadmapPageCardContainer css={{
       borderTop: `0.375rem solid ${getDotByType(status)}`,
     }}>
       
       <div>
-      <Container>
-        <Dot css={{
-          backgroundColor: `${getDotByType(status)}`
-        }}/>
-        <div className={Type()}>{status}</div>
-      </Container>
-      <div className={Title()}>
-        <Link href={`/feedback/${uuid}`}><a className={LinkStyle()}>{title}</a></Link>
-      </div>
-      <p className={Desc()}>{desc}</p>
+        <Container>
+          <Dot css={{
+            backgroundColor: `${getDotByType(status)}`
+          }}/>
+          <div className={Type()}>{status}</div>
+        </Container>
+        <div className={Title()}>
+          <Link href={`/feedback/${uuid}`}><a className={LinkStyle()}>{title}</a></Link>
+        </div>
+        <p className={Desc()}>{desc}</p>
       </div>
       <div style={{
         width: '100%',
@@ -156,7 +177,7 @@ const RoadmapPageCard: React.FC<RoadmapPageCardProps> = ({
           alignItems: 'center',
           height: 'min-content'
         }}>
-        <Votes votes={1} active={false} css={StyledVotes}/>
+        <Votes votes={votes} active={active} css={StyledVotes} onClick={onVote}/>
         <div style={{
           display: 'flex',
           justifyContent:'center',

@@ -8,15 +8,25 @@ import { GetFeedbackPost } from "@/lib/feedback.module";
 import {useState, useEffect} from 'react'
 import feedback from "pages/api/feedback";
 import {useRouter} from 'next/router'
+import {userAtom} from '@/lib/stores'
+import {useAtom} from 'jotai'
 
 type ShowProps = {
   posts: GetFeedbackPost[]
 }
 
+
 const ShowPlanned: React.FC<ShowProps> = ({
   posts
 }) => {
-  
+  const LabelStyle = css({
+    flexDirection: 'column',
+    display: 'none',
+    '@md': {
+      display: 'flex'
+    }
+  })
+  const [user] = useAtom(userAtom)
   return<div style={{
     maxWidth: '21.875rem',
     width: '100%',
@@ -24,10 +34,7 @@ const ShowPlanned: React.FC<ShowProps> = ({
     flexDirection: 'column',
     gap: '1.5rem'
   }}>
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
+    <div className={LabelStyle()}>
       <h3 style={{
         padding: '0',
         margin: '0'
@@ -39,7 +46,7 @@ const ShowPlanned: React.FC<ShowProps> = ({
     </div>
     {
     posts.filter(item => item.status === "Planned").map(item =>
-      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={item.id} uuid={item.id}/> )
+      <RoadmapPageCard votes={item._count.votes} title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={item.id} uuid={item.id} active={user.votes.some(({ feedbackId }) => item.id === feedbackId)}/> )
   }
   </div>
 }
@@ -47,7 +54,14 @@ const ShowPlanned: React.FC<ShowProps> = ({
 const ShowInProgress: React.FC<ShowProps> = ({
   posts
 }) => {
-  
+  const LabelStyle = css({
+    flexDirection: 'column',
+    display: 'none',
+    '@md': {
+      display: 'flex'
+    }
+  })
+  const [user] = useAtom(userAtom)
   return<div style={{
     maxWidth: '21.875rem',
     width: '100%',
@@ -55,10 +69,7 @@ const ShowInProgress: React.FC<ShowProps> = ({
     flexDirection: 'column',
     gap: '1.5rem'
   }}>
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
+    <div className={LabelStyle()}>
       <h3 style={{
         padding: '0',
         margin: '0'
@@ -70,7 +81,7 @@ const ShowInProgress: React.FC<ShowProps> = ({
     </div>
     {
     posts.filter(item => item.status === "Progress").map(item =>
-      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={item.id} uuid={item.id}/> )
+      <RoadmapPageCard votes={item._count.votes} title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={item.id} uuid={item.id} active={user.votes.some(({ feedbackId }) => item.id === feedbackId)}/> )
   }
   </div>
 }
@@ -78,7 +89,14 @@ const ShowInProgress: React.FC<ShowProps> = ({
 const ShowLive: React.FC<ShowProps> = ({
   posts
 }) => {
-  
+  const LabelStyle = css({
+    flexDirection: 'column',
+    display: 'none',
+    '@md': {
+      display: 'flex'
+    }
+  })
+  const [user] = useAtom(userAtom)
   return<div style={{
     maxWidth: '21.875rem',
     width: '100%',
@@ -86,10 +104,7 @@ const ShowLive: React.FC<ShowProps> = ({
     flexDirection: 'column',
     gap: '1.5rem'
   }}>
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
+    <div className={LabelStyle()}>
       <h3 style={{
         padding: '0',
         margin: '0'
@@ -101,7 +116,7 @@ const ShowLive: React.FC<ShowProps> = ({
     </div>
     {
     posts.filter(item => item.status === "Live").map(item =>
-      <RoadmapPageCard title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={item.id} uuid={item.id}/> )
+      <RoadmapPageCard votes={item._count.votes} title={item.title} status={item.status} desc={item.details} category={item.category} commentsNumber={item.comments.length} key={item.id} uuid={item.id} active={user.votes.some(({ feedbackId }) => item.id === feedbackId)}/> )
   }
   </div>
 }
@@ -155,7 +170,6 @@ const Page: NextPage = () => {
 
   const navBar = css({
     backgroundColor: '#373F68',
-    maxHeight: '7rem',
     width: '100%',
     height: '100%',
     borderRadius: '0rem',
@@ -164,9 +178,13 @@ const Page: NextPage = () => {
     alignItems: 'center',
     color: 'white',
     padding: '2rem',
-    '@md': {
-      borderRadius: '0.625rem'
-    }
+    flexDirection: 'column',
+    gap: '2rem',
+    '@xs': {
+      borderRadius: '0.625rem',
+      flexDirection: 'row',
+      gap: '0rem'
+    },
   })
 
   const navWrapper = css({
@@ -220,10 +238,13 @@ const Page: NextPage = () => {
     fontSize: '$h3',
     color: '$grey600',
     fontWeight: 'bold',
-    height: 'inherit',
+    height: '4rem',
     borderBottom: '.2rem solid transparent',
     width: '100%',
-    opacity: '0.4'
+    opacity: '0.4',
+    '@xs': {
+      height: 'inherit'
+    }
   })
 
   const PlannedSelected = {
@@ -243,7 +264,37 @@ const Page: NextPage = () => {
     color: 'black',
     opacity: '1'
   }
+
+  const MobileNavWrapper = css({
+    display: 'flex',
+    width: '100%',
+    height: 'unset',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderBottom: '1px solid #8C92B319',
+    marginBottom: '1.5rem',
+    position: 'relative',
+    flexDirection: 'column',
+    '@xs': {
+      flexDirection: 'row',
+      minHeight: '3.75rem',
+      height: '3.75rem'
+    }
+  })
   
+  const PostsWrapper = css({
+    height: '100%',
+    width: '100%',
+    padding: '2rem',
+    '@xs': {
+      padding: '0rem'
+    },
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    margin: '0rem'
+  })
 
   return (
     <main className={Container()}>
@@ -270,9 +321,6 @@ const Page: NextPage = () => {
         </div>
 
         <div className={FeedbackSection()}>
-            {/* <RoadmapPageCard status={"Planned"} title={"Mock title"} desc={"Mock desc here"} category={"Feature"} votes={2} commentsNumber={3} id={'1asdfasdf'}/>
-            <RoadmapPageCard status={"In-Progress"} title={"Mock title"} desc={"It would be great to see a more detailed breakdown of solutions."} category={"Feature"} votes={2} commentsNumber={3} id={'1asdfasdf'}/> */}
-            
             {
               (feedbacks.data) ?
             <div style={{
@@ -286,16 +334,7 @@ const Page: NextPage = () => {
               {
               <MobileContainer>
                 
-                  <div style={{
-                    display: 'flex',
-                    width: '100%',
-                    height: '3.75rem',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    borderBottom: '1px solid #8C92B319',
-                    marginBottom: '1.5rem',
-                    position: 'relative'
-                  }}>
+                  <div className={MobileNavWrapper()}>
                     <MobileButton onClick={() => {
                       setSelected("Planned")
                     }} css={(selected === "Planned") ? (PlannedSelected) : ({})}>Planned ({feedbacks?.data?.filter(item => item.status === "Planned").length})</MobileButton>
@@ -308,8 +347,10 @@ const Page: NextPage = () => {
                   </div>
                   {
                   (selected === "Planned") ? (
-                    <ShowPlanned posts={feedbacks.data}/>
-                  ) : (selected === "Progress") ? (<ShowInProgress posts={feedbacks.data}/>) : (selected ==="Live") ? (<ShowLive posts={feedbacks.data}/>) : (<></>)
+                    <div className={PostsWrapper()}>
+                      <ShowPlanned posts={feedbacks.data}/>
+                    </div>
+                  ) : (selected === "Progress") ? (<div className={PostsWrapper()}><ShowInProgress posts={feedbacks.data}/></div>) : (selected ==="Live") ? (<div className={PostsWrapper()}><ShowLive posts={feedbacks.data}/></div>) : (<></>)
                   }
               </MobileContainer>
               }
