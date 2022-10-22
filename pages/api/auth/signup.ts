@@ -23,7 +23,12 @@ const POST: NextApiHandler<any> = async (req, res) => {
     try {
       const user = await createUser(valBody.data)
       const host = process.env.NEXT_PUBLIC_HOSTNAME ?? 'http://localhost:3000' 
-      const token = await box.encrypt(user.id)
+      const token = await box.encrypt(
+        JSON.stringify({ 
+          message: user.id, 
+          expires: Date.now() + 600000 
+        })
+      )
 
       emailClient.sendEmail({
         "From": "reach@yofou.dev",
