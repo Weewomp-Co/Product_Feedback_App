@@ -51,7 +51,9 @@ const Page: NextPage<PageProps> = ({ id }) => {
           </Buttons>
 
           {isOwner && (
-            <Buttons color="two">Edit Feedback</Buttons>
+            <Buttons color="two" onClick={() => {
+              router.push(`/feedback/${id}/edit`)
+            }}>Edit Feedback</Buttons>
           )}
         </TopNavContainer>
 

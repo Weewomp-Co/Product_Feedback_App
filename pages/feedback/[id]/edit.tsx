@@ -1,9 +1,335 @@
-import type { NextPage } from "next";
+import React from 'react'
+import Button from '@/components/shared/buttons/index'
+import {Container, Section0, PlusButton, Section1, CreateContainer} from '@/styles/edit'
+import { BackArrow } from '@/assets/backArrow'
+import Image from 'next/image'
+import {PenIcon}  from '@/assets/PenIcon'
+import Input from '@/components/shared/input/Input'
+import { InputLabel } from '@/styles/signup'
+import { inputStyle } from "@/styles/signup"
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { v4 } from "uuid";
+import { useEffect, useState } from "react";
+import { useRouter } from 'next/router'
+import { withSessionSsr } from "@/lib/withSession.module";
+import { NextPage } from 'next'
+import { styled, css } from 'stitches.config'
+import {Dropdown} from '@/components/shared/dropdown'
+import { atom, useAtom, PrimitiveAtom, useAtomValue } from "jotai";
+import { client } from '@/prisma/client'
+import { isContext } from 'vm'
+import { useQuery } from '@tanstack/react-query'
+import { GetFeedbackPost } from '@/lib/feedback.module'
 
-const Page: NextPage = () => {
-	return <div>
-		<h1>Hello world</h1>
-	</div>;
-};
+const Validation = z
+  .object({
+    title: z.string().min(1).max(32),
+    details: z.string().min(1),
+    category: z.string()
+  })
 
-export default Page;
+type PageProps = {
+	id: string
+}
+
+
+const Page: NextPage<PageProps> = ({ id }) => {
+  const resolver = zodResolver(Validation);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    setValue,
+    getValues,
+    getFieldState
+  } = useForm<z.infer<typeof Validation>>({
+    resolver,
+  });
+
+	const post = useQuery<GetFeedbackPost>(["feedbackPost", id], async () => {
+    const response = await fetch(`/api/feedback/${id}`).then((res) =>
+      res.json()
+    );
+
+    if (response._errors) router.push("/feedback");
+    return response;
+  });
+
+  const [ids, setIds] = useState<Partial<z.infer<typeof Validation>>>({});
+  useEffect(() => {
+    setIds({
+      title: v4(),
+      details: v4(),
+      category: v4()
+    });
+  }, []);
+
+  const InputWrapper = css({
+    	padding: '0.8125em 1.5em 0.8125em 1.5em',
+	fontFamily: '$jost', 
+	fontSize: '$body2',
+  backgroundColor: "$white300",
+  border: "none",
+  minHeight: "2.9725em",
+  borderRadius: "0.3125em",
+  color: "$grey600",
+  '&:focus': {
+    outline: "1px solid $grey900"
+  },
+
+  variants : {
+    isError: {
+      true: {
+        border: "1px solid $red"
+      },
+      
+      false: {
+        border: "none"
+      }
+    }
+  }
+  })
+
+  const items = ["Suggestion", "Planned", "In-Progress", "Live"]
+  const categoryItems = ["UI", "UX", "Enhancement", "Bug", "Feature"]
+  type Items = (typeof items)[number]
+  const selected = atom<Items>(items[0])
+  const dropdownSelected = atom<Items>(categoryItems[0])
+
+  const logValue = (value: string) => {
+    console.log(value)
+  }
+
+  const router = useRouter()
+
+  const BackArrowStyle = css({
+    padding: '0rem',
+    margin: '0rem',
+    width: 'min-content'
+  })
+  const SortByContainerCSS = css({
+    "$dropdown-space": '42px'
+  })
+
+  const onValid = handleSubmit(
+    // on valid
+    async (data) => {
+      console.log(data)
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        body: JSON.stringify({ ...data }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (response.ok) {
+        console.log(response)
+        router.push("/feedback")
+      } 
+      
+      const result = await response.json()
+      if (result?.title?._errors)
+        setError("title", { message: result.title._errors?.[0] });
+      if (result?.details?._errors)
+        setError("details", { message: result.details._errors?.[0] });
+    }
+  );
+
+  const subTitle = css({
+    fontSize: '14px',
+    color: '$grey300',
+    padding: '0rem',
+    margin: '0'
+  })
+
+  const Title = css({
+    margin: '0rem',
+    padding: '0rem'
+  })
+
+  const MainTitle = css({
+    fontSize: '$h1',
+    padding: '0rem',
+    margin: '0rem'
+  })
+
+  const FormStyle = css({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem'
+  })
+
+  const ButtonsWrapper = css({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    gap: '1rem',
+    '@md' : {
+      flexDirection: 'row',
+      justifyContent: 'start',
+      alignItems: 'start',
+    },
+    marginTop: '1rem'
+  })
+
+  const buttonsContainer = css({
+    display:'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center',
+    gap: '1rem',
+    marginLeft: 'auto',
+    width: '100%',
+    '@md' : {
+      flexDirection: 'row',
+      justifyContent: 'end',
+      alignItems: 'end'
+    }
+  })
+  
+  return (
+    
+    <div className={Container()}>
+      <div className={CreateContainer()}>
+        <div className={Section0()}>
+          <Button color={'five'} css={{
+            display:'flex',
+            justifyContent:'center',
+            alignItems: 'center',
+            gap: '1rem',
+            padding: '0rem'
+          }} onClick={() => {
+            router.back()
+          }}>
+          <BackArrow/>Go Back
+          </Button>
+          <PenIcon className={PlusButton()}/>
+        </div>  
+        <div className={Section1()}>
+          <h2 className={MainTitle()}>Editing ‘{}’</h2>
+
+          <form onSubmit={onValid} className={FormStyle()}>
+
+            <div>
+            <InputLabel className={Title()}>Feedback Title</InputLabel>
+            <p className={subTitle()}>Add a short, descriptive headline</p>
+            </div>
+
+            <Input
+              id={ids.title}
+              isError={!!errors.title}
+              errorMessage={errors.title?.message ?? ""}
+              type={"text"}
+              css={inputStyle}
+              register={register("title")}
+            />
+
+            <div>
+            <InputLabel className={Title()}>Category</InputLabel>
+            <p className={subTitle()}>Choose a category for your feedback</p>
+            </div>
+
+            <Dropdown items={categoryItems} selected={dropdownSelected} getKey={(value) => value as string}/>
+
+            <div>
+            <InputLabel className={Title()}>Update Status</InputLabel>
+            <p className={subTitle()}>Change feedback state</p>
+            </div>
+            
+            <Dropdown items={items} selected={selected} getKey={(value) => value as string}/>
+
+            <div>
+            <InputLabel className={Title()}>Feedback Detail</InputLabel>
+            <p className={subTitle()}>Include any specific comments on what should be improved, added, etc.</p>
+            </div>
+
+            <div>
+            <Input
+            as={"textarea"}
+            id={ids.title}
+            isError={!!errors.title}
+            errorMessage={errors.details?.message ?? ""}
+            type={"text"}
+            css={{
+              minWidth: '100%',
+              maxWidth: '100%'
+            }}
+            register={register("details")}
+            />
+            </div>
+
+            <div className={ButtonsWrapper()}>
+              <Button color={"four"} css={{
+                color: 'white',
+                width: '100%',
+                '@md': {
+                width: 'unset'
+                }
+              }} onClick={() => {
+              }}>
+                Delete
+              </Button>
+              <div className={buttonsContainer()}>
+                <Button color={"three"} css={{
+                  color: 'white',
+                  width: '100%',
+                  '@md': {
+                  width: 'unset'
+                  }
+                }} onClick={() => {
+                  router.back()
+                }}>Cancel</Button>
+                <Button color={"one"} css={{
+                  color: 'white',
+                  width: '100%',
+                  '@md': {
+                    width: 'unset'
+                  }
+                }} type="submit">Save Changes</Button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const getServerSideProps = withSessionSsr(async ({ req, params }) => {
+  if (!req.session.user) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: '/auth/signin'
+      }
+    }
+  }
+	
+	const post = await client?.feedback.findFirst({
+		where: {
+			id: params?.id as string
+		}
+	})
+
+	if (post?.userId !== req.session.user.id || post === undefined){
+		return {
+			redirect: {
+				permanent: true,
+				destination: '/feedback'
+			}
+		}
+	}
+
+	
+  return {
+    props: {id: params?.id as string}
+  }
+})
+
+export default Page
