@@ -13,7 +13,6 @@ export const GetOneFeedback = async (req: NextApiRequest) => {
       user: {
         select: {
           id: true,
-          email: true,
           username: true
         }
       },
@@ -66,7 +65,6 @@ export const feedbackPostQuery = Prisma.validator<Prisma.FeedbackArgs>()({
       user: {
         select: {
           username: true,
-          email: true,
           id: true,
         },
       },
@@ -81,14 +79,12 @@ export const feedbackPostQuery = Prisma.validator<Prisma.FeedbackArgs>()({
                 select: {
                   id: true,
                   username: true,
-                  email: true,
                 },
               },
               replyTo: {
                 select: {
                   id: true,
                   username: true,
-                  email: true
                 }
               }
             },
@@ -97,7 +93,6 @@ export const feedbackPostQuery = Prisma.validator<Prisma.FeedbackArgs>()({
             select: {
               id: true,
               username: true,
-              email: true,
             },
           },
         },
