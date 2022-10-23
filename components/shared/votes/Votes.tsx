@@ -1,19 +1,23 @@
 import React, { useCallback, useState } from "react";
 import { VotesButton } from "./VotesStyle";
 import { UpArrow } from "@/assets/upArrow"
+import {CSS} from '@stitches/react'
+import {config, css} from 'stitches.config'
 
 type VotesProps = {
   votes: number;
   active: boolean;
   onClick?: (vote: number) => void
   className?: string
+  css?: CSS<typeof config>
 };
 
 const Votes: React.FC<VotesProps> = ({
   votes,
   active,
   onClick,
-  className
+  className,
+  css
 }) => {
   const [_active, setActive] = useState(active)
   const formatedVotes = new Intl.NumberFormat("en-US", {
@@ -31,7 +35,7 @@ const Votes: React.FC<VotesProps> = ({
     
   }, [votes, _active, setActive, onClick]);
 
-  return <VotesButton active={_active} onClick={onVoteClick} className={className}>
+  return <VotesButton active={_active} onClick={onVoteClick} className={className} css={css}>
     <UpArrow />
     <div>{formatedVotes}</div>
   </VotesButton>
