@@ -48,10 +48,10 @@ export const handlePrismaUserError = (err: PrismaClientKnownRequestError) => {
   }
 };
 
-export const updateUserSession = async (req: NextApiRequest) => {
+export const updateUserSession = async (req: NextApiRequest, defaultId?: string) => {
   const user = await client.user.findFirst({
     where: {
-      id: req.session?.user?.id,
+      id: req.session?.user?.id ?? defaultId,
     },
     select: {
       id: true,
@@ -70,6 +70,7 @@ export const updateUserSession = async (req: NextApiRequest) => {
     req.session.destroy();
     return
   };
+
   req.session.user = { ...user, session_updated: Date.now() };
   await req.session.save();
 };

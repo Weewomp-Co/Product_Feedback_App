@@ -1,4 +1,5 @@
 import buttons from "@/components/shared/buttons";
+import { ErrorMessage } from "@/components/shared/input/InputStyle";
 import { css, styled } from "stitches.config";
 
 export const InnerContainer = css({
@@ -29,7 +30,24 @@ export const SubHeading = styled('p', {
   maxWidth: '450px',
 })
 
+export const ResendContainer = styled('div', {
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginTop: '2rem',
+  flexDirection: 'column-reverse',
+  gap: '.5rem',
+  "@xs": {
+    flexDirection: 'row',
+    alignItems: 'center',
+  }
+})
+
 export const VerifyButton = styled(buttons, {
   justifySelf: 'end',
-  marginTop: '2rem'
+})
+
+export const ResendError = styled(ErrorMessage, {
+  justifySelf: 'start',
+  textAlign: 'start',
 })

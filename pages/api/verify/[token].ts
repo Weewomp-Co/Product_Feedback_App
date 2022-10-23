@@ -15,7 +15,6 @@ const GET: NextApiHandler = async (req, res) => {
   const key = JSON.parse(message.toString()) as NonNullable<IronSessionData["verify"]>
 
   const duration = Date.now() - key.expires
-  // 600000 = 10 minutes
   if (duration >= VERIFICATION_DURATION) {
     req.session.verify = key
     await req.session.save()
@@ -36,7 +35,7 @@ const GET: NextApiHandler = async (req, res) => {
   }
 
   req.session.verify = undefined
-  await updateUserSession(req)
+  await updateUserSession(req, key.message)
   return res.redirect('/feedback')
 }
 
