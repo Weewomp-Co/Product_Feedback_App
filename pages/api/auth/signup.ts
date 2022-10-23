@@ -1,5 +1,5 @@
 import { createUser, handlePrismaUserError, sanitizeUser } from "@/lib/user.module";
-import { withSessionRoute } from "@/lib/withSession.module";
+import { VERIFICATION_DURATION, withSessionRoute } from "@/lib/withSession.module";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler } from "next";
 import { z } from "zod"
@@ -26,7 +26,7 @@ const POST: NextApiHandler<any> = async (req, res) => {
       const token = await box.encrypt(
         JSON.stringify({ 
           message: user.id, 
-          expires: Date.now() + 600000 
+          expires: Date.now() + VERIFICATION_DURATION 
         })
       )
 

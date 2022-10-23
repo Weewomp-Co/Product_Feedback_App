@@ -1,8 +1,9 @@
+import buttons from "@/components/shared/buttons";
 import { css, styled } from "stitches.config";
 
 export const InnerContainer = css({
-  display: 'flex',
-  flexDirection: 'column',
+  display: 'grid',
+  gridAutoFlow: 'row',
   alignItems: 'center',
   textAlign: 'center'
 })
@@ -26,4 +27,9 @@ export const SubHeading = styled('p', {
   padding: 0,
   marginTop: '.5rem',
   maxWidth: '450px',
+})
+
+export const VerifyButton = styled(buttons, {
+  justifySelf: 'end',
+  marginTop: '2rem'
 })

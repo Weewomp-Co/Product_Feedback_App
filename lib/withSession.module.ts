@@ -5,6 +5,10 @@ import { sanitizeUser } from "@/lib/user.module";
 declare module "iron-session" {
   interface IronSessionData {
     user?: ReturnType<typeof sanitizeUser>;
+    verify?: {
+      message: string,
+      expires: number
+    }
   }
 }
 
@@ -28,3 +32,6 @@ export function withSessionSsr<
   ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>,) {
   return withIronSessionSsr(handler, sessionOptions);
 }
+
+/* 10 Minutes **/
+export const VERIFICATION_DURATION = 600000
