@@ -51,7 +51,6 @@ export const CommentsInnerJonn = {
       user: {
         select: {
           id: true,
-          email: true,
           username: true,
         },
       },
@@ -59,7 +58,6 @@ export const CommentsInnerJonn = {
         select: {
           id: true,
           username: true,
-          email: true
         }
       }
     },
@@ -67,7 +65,6 @@ export const CommentsInnerJonn = {
   user: {
     select: {
       id: true,
-      email: true,
       username: true,
     },
   },
