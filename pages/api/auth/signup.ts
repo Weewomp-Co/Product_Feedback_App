@@ -1,8 +1,10 @@
 import { createUser, handlePrismaUserError, sanitizeUser } from "@/lib/user.module";
-import { withSessionRoute } from "@/lib/withSession.module";
+import { VERIFICATION_DURATION, withSessionRoute } from "@/lib/withSession.module";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { NextApiHandler } from "next";
 import { z } from "zod"
+import { emailClient } from "@/lib/postmark.module"
+import { box } from "@/lib/soya.module";
 
 const ValidatePostInput = z.object({
   username: z.string().trim().min(1).max(8),
@@ -20,10 +22,22 @@ const POST: NextApiHandler<any> = async (req, res) => {
   if (valBody.success) {
     try {
       const user = await createUser(valBody.data)
-      req.session.user = sanitizeUser(user)
-      await req.session.save()
+      const host = process.env.NEXT_PUBLIC_HOSTNAME ?? 'http://localhost:3000' 
+      const token = await box.encrypt(
+        JSON.stringify({ 
+          message: user.id, 
+          expires: Date.now() + VERIFICATION_DURATION 
+        })
+      )
 
-      return res.json(req.session.user)
+      emailClient.sendEmail({
+        "From": "reach@yofou.dev",
+        "To": user.email,
+        "Subject": "Frontend Mentor Feedback app",
+        "TextBody": `click here to verify email. ${host}/api/verify/${encodeURIComponent(token.toString('base64'))}`
+      });
+
+      return res.json(sanitizeUser(user))
     } catch(err) {
       if (err instanceof PrismaClientKnownRequestError) {
         return res.status(400).json(handlePrismaUserError(err))

@@ -57,7 +57,7 @@ const Page: NextPage = () => {
       })
 
       if (response.ok) {
-        router.push("/feedback")
+        router.push("/verify")
       } 
 
       const result = await response.json()

@@ -9,6 +9,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 * React Hook Forms (Client side form validation)
 * Jotai (Global state management)
 * Zod (Validation)
+* Soya-sauce (Lib sodium encryption wrapper)
+* PostMark (Emailing sdk)
 * Prisma (Data-layer)
 * Postgres (Data-layer)
 * Docker (Containerisation)
