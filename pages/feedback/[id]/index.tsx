@@ -17,6 +17,7 @@ import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Link from 'next/link'
 
 type PageProps = { id: string };
 const Page: NextPage<PageProps> = ({ id }) => {
@@ -51,9 +52,9 @@ const Page: NextPage<PageProps> = ({ id }) => {
           </Buttons>
 
           {isOwner && (
-            <Buttons color="two" onClick={() => {
-              router.push(`/feedback/${id}/edit`)
-            }}>Edit Feedback</Buttons>
+            <Link href={`/feedback/${id}/edit`}>
+            <Buttons color="two" as={"a"}>Edit Feedback</Buttons>
+            </Link>
           )}
         </TopNavContainer>
 
