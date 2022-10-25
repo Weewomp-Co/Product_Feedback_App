@@ -33,9 +33,9 @@ type Category = typeof categories[number];
 const categorySelectAtom = atom<Category>(categories[0]);
 
 const Validation = z.object({
-    title: z.string().min(5, "Can't be empty").max(25, "Title too long"),
+    title: z.string().min(1, "Can't be empty").min(5, "Minimum 5 characters").max(25, "Title too long"),
     category: z.string().optional(),
-    details: z.string().trim().min(25, "Can't be empty").max(256, "Details too long"),
+    details: z.string().trim().min(1, "Can't be empty").min(25, "Minimum 25 characters").max(256, "Details too long"),
   })
 
 const Page: NextPage = () => {
