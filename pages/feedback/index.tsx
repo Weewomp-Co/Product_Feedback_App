@@ -18,7 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { Status } from "@prisma/client";
-import { roadmapAtom } from "@/lib/stores";
+import { roadmapAtom, userAtom } from "@/lib/stores";
 import { useEffect, useMemo } from "react";
 import {
   BadgeSearch,
@@ -29,6 +29,7 @@ import Link from "next/link";
 const Page: NextPage = () => {
   const [sortBy] = useAtom(sortBySelected);
   const [filterByCategory] = useAtom(badgeSearchAtom);
+  const [_, dispatch] = useAtom(userAtom)
   const feedbacks = useQuery<GetFeedbackPost[]>(
     ["feedbacks", sortBy, filterByCategory],
     async () => {
@@ -57,6 +58,7 @@ const Page: NextPage = () => {
     () => ({ Planned: 0, InProgress: 0, Live: 0 }),
     []
   );
+
   const RoadmapResults = useMemo(() => {
     return feedbacks.data?.reduce(
       (total, curr) => {
@@ -72,12 +74,13 @@ const Page: NextPage = () => {
   const RoadmapProps = RoadmapResults ? RoadmapResults : RoadmapResultDefault;
   const [roadmapAtomResult, setRoadmapAtomResult] = useAtom(roadmapAtom);
   useEffect(() => {
+    dispatch({ type: 'refetch' })
     if (
       RoadmapResults &&
       JSON.stringify(RoadmapResults) !== JSON.stringify(roadmapAtomResult)
     )
       setRoadmapAtomResult(RoadmapResults);
-  }, [RoadmapResults, roadmapAtomResult, setRoadmapAtomResult]);
+  }, [RoadmapResults, roadmapAtomResult, setRoadmapAtomResult, dispatch]);
 
   return (
     <main className={Container()}>
