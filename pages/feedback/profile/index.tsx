@@ -20,7 +20,6 @@ export const Page: React.FC = () => {
 }
 
 export default Page
-
 export const getServerSideProps = withSessionSsr(({ req }) => {
   if (!req.session?.user?.id) return {
     redirect: {

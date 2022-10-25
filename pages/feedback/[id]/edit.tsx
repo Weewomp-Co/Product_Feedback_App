@@ -44,7 +44,7 @@ type PageProps = {
 };
 
 const items = ["Suggestion", "Planned", "In-Progress", "Live"];
-const categoryItems = ["UI", "UX", "Enchancement", "Bug", "Feature"];
+const categoryItems = ["UI", "UX", "Enhancement", "Bug", "Feature"];
 type Items = typeof items[number];
 const selectedAtom = atom<Items>(items[0]);
 const categorySelectedAtom = atom<Items>(categoryItems[0]);
