@@ -74,13 +74,16 @@ const Page: NextPage = () => {
   const RoadmapProps = RoadmapResults ? RoadmapResults : RoadmapResultDefault;
   const [roadmapAtomResult, setRoadmapAtomResult] = useAtom(roadmapAtom);
   useEffect(() => {
-    dispatch({ type: 'refetch' })
     if (
       RoadmapResults &&
       JSON.stringify(RoadmapResults) !== JSON.stringify(roadmapAtomResult)
     )
       setRoadmapAtomResult(RoadmapResults);
   }, [RoadmapResults, roadmapAtomResult, setRoadmapAtomResult, dispatch]);
+
+  useEffect(() => {
+    dispatch({ type: 'refetch' })
+  }, [dispatch])
 
   return (
     <main className={Container()}>
