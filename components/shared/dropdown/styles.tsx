@@ -76,7 +76,7 @@ export const DropdownButton = styled("button", {
       true: {
         color: "$purple",
         "&::after": {
-          opacity: '1' 
+          opacity: '1'
         },
         "&:focus": {
           color: "$grey900"

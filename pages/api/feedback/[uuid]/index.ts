@@ -53,7 +53,7 @@ const PUT: NextApiHandler<any> = async (req, res) => {
 
     return res.json(resultUpdate);
   } else {
-    return res.json(parsedBody.error.format());
+    return res.status(400).json(parsedBody.error.format());
   }
 };
 

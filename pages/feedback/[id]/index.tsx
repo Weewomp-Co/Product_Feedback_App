@@ -17,6 +17,7 @@ import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Link from 'next/link'
 
 type PageProps = { id: string };
 const Page: NextPage<PageProps> = ({ id }) => {
@@ -31,10 +32,6 @@ const Page: NextPage<PageProps> = ({ id }) => {
     return response;
   });
 
-  const onGoBack = () => {
-    router.back();
-  };
-
   const [isOwner, setIsOwner] = useState(false)
   useEffect(() => {
     if (!user || !user?.id) return
@@ -45,13 +42,17 @@ const Page: NextPage<PageProps> = ({ id }) => {
     <FeedbackIDMain>
       <FeedbackIDInnerContainer>
         <TopNavContainer>
-          <Buttons onClick={onGoBack} className={GoBack()} css={{ padding: '12px 0' }} color="five">
+          <Link href="/feedback">
+          <Buttons as="a" className={GoBack()} css={{ padding: '12px 0' }} color="five">
             <BackArrow />
             Go Back
           </Buttons>
+          </Link>
 
           {isOwner && (
-            <Buttons color="two">Edit Feedback</Buttons>
+            <Link href={`/feedback/${id}/edit`}>
+            <Buttons color="two" as={"a"}>Edit Feedback</Buttons>
+            </Link>
           )}
         </TopNavContainer>
 

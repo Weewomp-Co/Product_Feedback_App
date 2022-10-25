@@ -11,7 +11,7 @@ export const Container = css({
   alignItems: 'center',
   backgroundColor: '$white300',
   fontFamily: 'jost',
-  justifyContent: 'center',
+  justifyContent: 'start',
 })
 
 export const ButtonsWrapper = css({
@@ -67,6 +67,7 @@ export const Section = css({
 })
 
 export const CreateContainer = css({
+  marginTop: '3rem',
   maxWidth: '39.75rem',
   width: '100%',
   minHeight: '10rem',
