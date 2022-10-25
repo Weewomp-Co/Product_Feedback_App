@@ -19,7 +19,6 @@ const POST: NextApiHandler<any> = async (req, res) => {
         user: {
           select: {
             id: true,
-            email: true,
             username: true,
           },
         },

@@ -9,7 +9,6 @@ export const sanitizeUser = (
 ) => {
   return {
     id: user.id,
-    email: user.email,
     username: user.username,
     role: user.role,
     votes: user.votes,
@@ -17,7 +16,7 @@ export const sanitizeUser = (
   };
 };
 
-type CreateUser = Omit<User, "id" | "role">;
+type CreateUser = Omit<User, "id" | "role" | "active">;
 export const createUser = async (user: CreateUser) => {
   return client.user.create({
     data: {
@@ -48,14 +47,13 @@ export const handlePrismaUserError = (err: PrismaClientKnownRequestError) => {
   }
 };
 
-export const updateUserSession = async (req: NextApiRequest) => {
+export const updateUserSession = async (req: NextApiRequest, defaultId?: string) => {
   const user = await client.user.findFirst({
     where: {
-      id: req.session?.user?.id,
+      id: req.session?.user?.id ?? defaultId,
     },
     select: {
       id: true,
-      email: true,
       username: true,
       role: true,
       votes: {
@@ -70,6 +68,7 @@ export const updateUserSession = async (req: NextApiRequest) => {
     req.session.destroy();
     return
   };
+
   req.session.user = { ...user, session_updated: Date.now() };
   await req.session.save();
 };

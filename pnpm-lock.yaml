@@ -18,12 +18,14 @@ specifiers:
   jotai: ^1.8.5
   lefthook: ^1.1.1
   next: 12.3.1
+  postmark: ^3.0.14
   prisma: ^4.4.0
   react: 18.2.0
   react-accessible-dropdown-menu-hook: ^3.2.0
   react-cool-onclickoutside: ^1.7.0
   react-dom: 18.2.0
   react-hook-form: ^7.37.0
+  soya-sauce: 0.2.1
   typescript: 4.8.4
   uuid: ^9.0.0
   zod: ^3.19.1
@@ -40,12 +42,14 @@ dependencies:
   iron-session: 6.2.1_next@12.3.1
   jotai: 1.8.5_3nrletennzxzg4ez6h5fbnqg54
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+  postmark: 3.0.14
   prisma: 4.4.0
   react: 18.2.0
   react-accessible-dropdown-menu-hook: 3.2.0
   react-cool-onclickoutside: 1.7.0_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.37.0_react@18.2.0
+  soya-sauce: 0.2.1
   uuid: 9.0.0
   zod: 3.19.1
 
@@ -688,6 +692,14 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /axios/0.25.0:
+    resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
+    dependencies:
+      follow-redirects: 1.15.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
     dev: true
@@ -1269,6 +1281,16 @@ packages:
   /flatted/3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
+
+  /follow-redirects/1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
 
   /fs-minipass/2.1.0:
     resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
@@ -1915,6 +1937,11 @@ packages:
       whatwg-url: 5.0.0
     dev: false
 
+  /node-gyp-build/4.5.0:
+    resolution: {integrity: sha512-2iGbaQBV+ITgCz76ZEjmhUKAKVf7xfY1sRl4UiKQspfZMH2h06SyhNsnSVy50cwkFQDGLyif6m/6uFXHkOZ6rg==}
+    hasBin: true
+    dev: false
+
   /nopt/5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}
     engines: {node: '>=6'}
@@ -2066,6 +2093,14 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: false
+
+  /postmark/3.0.14:
+    resolution: {integrity: sha512-Bkt6msv+I4Z3Y/jwt2owTNVmahOOyJlS1aQLiWsFAz5fzeJPfEqIUMSPPQTk7lYyJvYnLXQuzhFNG7M8yxqPhA==}
+    dependencies:
+      axios: 0.25.0
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /prelude-ls/1.2.1:
@@ -2281,9 +2316,22 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /sodium-native/3.4.1:
+    resolution: {integrity: sha512-PaNN/roiFWzVVTL6OqjzYct38NSXewdl2wz8SRB51Br/MLIJPrbM3XexhVWkq7D3UWMysfrhKVf1v1phZq6MeQ==}
+    requiresBuild: true
+    dependencies:
+      node-gyp-build: 4.5.0
+    dev: false
+
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /soya-sauce/0.2.1:
+    resolution: {integrity: sha512-Nmv9b+eA169k1/Qfte2SR9+j8TmwWp6KZ2a9oF8zIJMJKzHf+zuSjFKI853XSIspq17CZ7uwD0pSiSP6t9H4Eg==}
+    dependencies:
+      sodium-native: 3.4.1
     dev: false
 
   /string-width/4.2.3:
