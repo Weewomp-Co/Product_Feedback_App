@@ -222,8 +222,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
                 errorMessage={errors.details?.message ?? ""}
                 type={"text"}
                 css={{
-                  minWidth: "100%",
-                  maxWidth: "100%",
+                  width: '100%',
                   minHeight: "96px",
                 }}
                 register={register("details")}
