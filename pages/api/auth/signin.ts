@@ -11,7 +11,8 @@ const ValidatePostInput = z.object({
 }).transform(async (input, ctx) => {
   const user = await client.user.findFirst({
     where: {
-      email: input.email
+      email: input.email,
+      active: true,
     },
     include: {
       votes: {
