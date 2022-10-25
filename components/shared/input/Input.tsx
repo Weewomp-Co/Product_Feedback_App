@@ -12,8 +12,7 @@ type InputProp = {
   placeHolder?: string
   as?: 'input' | 'textarea'
   css?: CSS<typeof config>,
-  register?: UseFormRegisterReturn<any>,
-  value?: string
+  register?: UseFormRegisterReturn<any>
 }
 
 const Input: React.FC<InputProp> = ({
@@ -25,7 +24,6 @@ const Input: React.FC<InputProp> = ({
   placeHolder="",
   as='input',
   css={},
-  value,
 }) => {
   return (
     <div>
@@ -37,7 +35,6 @@ const Input: React.FC<InputProp> = ({
         isError={isError}
         css={css}
         {...register}
-        value={value}
       />
       {isError && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>
