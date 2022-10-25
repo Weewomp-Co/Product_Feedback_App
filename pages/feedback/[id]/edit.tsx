@@ -97,7 +97,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
     }
     if (response._errors) router.push("/feedback");
     return response;
-  });
+  }, { refetchOnWindowFocus: false });
   const router = useRouter();
   const onValid = handleSubmit(async (data) => {
     const response = await fetch(`/api/feedback/${id}`, {
