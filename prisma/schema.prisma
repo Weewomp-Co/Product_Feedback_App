@@ -39,7 +39,7 @@ enum Category {
   Feature
   UI
   UX
-  Enchancement
+  Enhancement
   Bug
 }
 

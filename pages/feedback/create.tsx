@@ -28,7 +28,7 @@ import { atom, useAtom } from "jotai";
 import { ErrorMessage } from "@/components/shared/input/InputStyle"
 import { withSessionSsr } from "@/lib/withSession.module";
 
-const categories = ['UI', 'UX', 'Bug', 'Feature', 'Enchancement'];
+const categories = ['UI', 'UX', 'Bug', 'Feature', 'Enhancement'];
 type Category = typeof categories[number];
 const categorySelectAtom = atom<Category>(categories[0]);
 
