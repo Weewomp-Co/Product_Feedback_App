@@ -60,8 +60,6 @@ const Page: NextPage<PageProps> = ({ id }) => {
     formState: { errors },
     setError,
     setValue,
-    getValues,
-    getFieldState,
   } = useForm<z.infer<typeof Validation>>({
     resolver,
   });
@@ -94,7 +92,8 @@ const Page: NextPage<PageProps> = ({ id }) => {
       setValue("category", post?.data?.category);
     }
     if (post?.data?.status) {
-      setValue("status", post?.data?.status);
+      setValue("status", post?.data?.status?.replace("Progress", 'In-Progress'));
+      setSelected(post?.data?.status?.replace("Progress", 'In-Progress'));
     }
     if (response._errors) router.push("/feedback");
     return response;
@@ -106,7 +105,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
       body: JSON.stringify({
         ...data,
         category: categorySelected,
-        status: selected,
+        status: selected.replace("In-Progress", 'Progress'),
       }),
       headers: {
         "Content-Type": "application/json",
@@ -114,8 +113,9 @@ const Page: NextPage<PageProps> = ({ id }) => {
     });
 
     if (response.ok) {
-      router.push("/feedback");
+      router.push(`/feedback/${id}`);
     }
+
     const result = await response.json();
     if (result?.title?._errors)
       setError("title", { message: result.title._errors?.[0] });
@@ -132,6 +132,15 @@ const Page: NextPage<PageProps> = ({ id }) => {
       router.push("/feedback");
     }
   };
+
+  const [isReady, setIsReady] = useState(false)
+  useEffect(() => {
+    if (user) {
+      setIsReady(true) 
+    }
+  }, [user])
+
+  if (!isReady) return <></>
 
   return (
     <main className={Container()}>
@@ -248,6 +257,7 @@ const Page: NextPage<PageProps> = ({ id }) => {
 
               <Button
                 color={"three"}
+                onClick={() => router.push(`/feedback/${id}`)}
                 css={{
                   marginLeft: "0",
                   width: "100%",

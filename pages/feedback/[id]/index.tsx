@@ -32,10 +32,6 @@ const Page: NextPage<PageProps> = ({ id }) => {
     return response;
   });
 
-  const onGoBack = () => {
-    router.back();
-  };
-
   const [isOwner, setIsOwner] = useState(false)
   useEffect(() => {
     if (!user || !user?.id) return
@@ -46,10 +42,12 @@ const Page: NextPage<PageProps> = ({ id }) => {
     <FeedbackIDMain>
       <FeedbackIDInnerContainer>
         <TopNavContainer>
-          <Buttons onClick={onGoBack} className={GoBack()} css={{ padding: '12px 0' }} color="five">
+          <Link href="/feedback">
+          <Buttons as="a" className={GoBack()} css={{ padding: '12px 0' }} color="five">
             <BackArrow />
             Go Back
           </Buttons>
+          </Link>
 
           {isOwner && (
             <Link href={`/feedback/${id}/edit`}>
