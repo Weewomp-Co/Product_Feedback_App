@@ -13,7 +13,7 @@ declare module "iron-session" {
 }
 
 const sessionOptions = {
-  password: "25@SNC6dLvmCJkIl%&2lY116P*NwwRv!",
+  password: process.env.PRIVATE_TOKEN ?? "25@SNC6dLvmCJkIl%&2lY116P*NwwRv!",
   cookieName: "token",
   // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
   cookieOptions: {
